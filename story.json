@@ -1,121 +1,118 @@
 {
   "brand": "",
-  "export_folder": "bagad_billa_duck_hindi",
-  "file_prefix": "bagad_billa_duck_hindi",
-  "title": "बगड़ बिल्ला और दो बत्तख (The Cursed Bed)",
+  "export_folder": "seal_love_story",
+  "file_prefix": "seal_love_story",
+  "title": "सीलों की अनोखी लव स्टोरी (Seal Love Story)",
   "language": "hi",
   "kind": "comic animal 2d animation",
-  "source_note": "बगड़ बिल्ले को भगाने के लिए दो बत्तखों की सरापित बेड की फनी नौटंकी।",
-  "duration": 35.83,
+  "source_note": "पानी में खड़े दो सील दोस्तों की मजेदार प्रपोजल बातचीत और आई लव यू का फनी सीन।",
+  "duration": 58.80,
   "voice": "assets/voice.wav",
   "captions": true,
   "music": false,
   "scenes": [
     {
       "start": 0.0,
-      "end": 5.0,
-      "title": "सरापित बेड",
-      "narration": "यह बेड सरापित था... और साथ में ही सरापित था!",
-      "setting": "living_room",
-      "action": "duck_warning"
+      "end": 8.0,
+      "title": "कितनी खूबसूरत लड़की है यार!",
+      "narration": "कितनी खूबसूरत लड़की है यार... जाके 'आई लव यू' बोल दे ना यार!",
+      "setting": "aquarium_pool",
+      "action": "shy_proposal_talk"
     },
     {
-      "start": 5.0,
-      "end": 8.5,
-      "title": "काला बिल्ला",
-      "narration": "देख नहीं रहा है बिल्ला धीरे-धीरे काला होते जा रहा है...",
-      "setting": "living_room",
-      "action": "cat_watching_nervous"
+      "start": 8.0,
+      "end": 18.0,
+      "title": "हमको डर लग रहा है!",
+      "narration": "अभी नहीं बोल सकता यार... हमको डर लग रहा है!",
+      "setting": "aquarium_pool",
+      "action": "scared_hero_seal"
     },
     {
-      "start": 8.5,
-      "end": 11.5,
-      "title": "काली आँखें",
-      "narration": "और अब धीरे-धीरे आँख भी काली हो जाएगी...",
-      "setting": "living_room",
-      "action": "cat_shivering_scared"
+      "start": 18.0,
+      "end": 28.0,
+      "title": "अरे जा भाई, डर मत!",
+      "narration": "अरे जा भाई, कोई गड़बड़ नहीं होगी! पब्लिक भी देख रही है!",
+      "setting": "aquarium_pool",
+      "action": "friend_pushing"
     },
     {
-      "start": 11.5,
-      "end": 15.0,
-      "title": "बिल्ला खत्म!",
-      "narration": "फिर यहाँ खो जाएगा... फिर बिल्ला खत्म!",
-      "setting": "living_room",
-      "action": "cat_panicking"
+      "start": 28.0,
+      "end": 40.0,
+      "title": "सामने जाके देख!",
+      "narration": "देख वो सामने ही खड़ी है! जाके बोल दे क्या बोलता है!",
+      "setting": "aquarium_pool",
+      "action": "moving_forward"
     },
     {
-      "start": 15.0,
-      "end": 20.0,
-      "title": "अरे हट यहाँ से!",
-      "narration": "अरे हट यहाँ से! तू बिल्ला है तो क्या हुआ, हम बत्तख हैं!",
-      "setting": "living_room",
-      "action": "ducks_intimidate"
+      "start": 40.0,
+      "end": 51.5,
+      "title": "इस बार बिना बोले मत आइयो!",
+      "narration": "अरे जा ना! इस बार बिना बोले मत आइयो!",
+      "setting": "aquarium_pool",
+      "action": "final_push"
     },
     {
-      "start": 20.0,
-      "end": 25.0,
-      "title": "बाप रे बाप! भागो!",
-      "narration": "बाप रे बाप! भागो रे! बिल्ला रॉकेट बन गया! 💨",
-      "setting": "living_room",
-      "action": "cat_flees_rocket"
+      "start": 51.5,
+      "end": 55.4,
+      "title": "आई लव यू! (I LOVE YOU!)",
+      "narration": "आई लव यू! (I LOVE YOU! 💖)",
+      "setting": "aquarium_pool",
+      "action": "proposal_climax"
     },
     {
-      "start": 25.0,
-      "end": 30.5,
-      "title": "बेड पर कब्जा!",
-      "narration": "चल अब ये पूरा बेड हमारा है! हाहाहा!",
-      "setting": "living_room",
-      "action": "ducks_hop_in_bed"
-    },
-    {
-      "start": 30.5,
-      "end": 35.83,
-      "title": "SIUUUUU! सेलिब्रेशन!",
-      "narration": "हाहाहाहा! SIUUUUU! 😂🔥",
-      "setting": "living_room",
-      "action": "ducks_victory_siuuu"
+      "start": 55.4,
+      "end": 58.80,
+      "title": "मजेदार पंचलाइन!",
+      "narration": "हाहाहाहा! पत्ता गोभी... किसी और का बब्लू! 😂💥",
+      "setting": "aquarium_pool",
+      "action": "funny_punchline"
     }
   ],
   "cues": [
     {
       "start": 0.0,
-      "end": 4.8,
-      "text": "यह बेड सरापित था... और साथ में ही सरापित था!"
+      "end": 4.0,
+      "text": "कितनी खूबसूरत लड़की है यार... जाके बोल दे ना यार!"
     },
     {
-      "start": 5.0,
-      "end": 8.4,
-      "text": "देख नहीं रहा है बिल्ला धीरे-धीरे काला होते जा रहा है..."
+      "start": 4.1,
+      "end": 7.5,
+      "text": "अभी नहीं बोल सकता यार... हमको डर लग रहा है!"
     },
     {
-      "start": 8.5,
-      "end": 11.4,
-      "text": "और अब धीरे-धीरे आँख भी काली हो जाएगी..."
+      "start": 7.6,
+      "end": 13.5,
+      "text": "अरे जा भाई, डर मत! कोई गड़बड़ नहीं होगी!"
     },
     {
-      "start": 11.5,
-      "end": 14.8,
-      "text": "फिर यहाँ खो जाएगा... फिर बिल्ला खत्म!"
+      "start": 13.6,
+      "end": 20.0,
+      "text": "देख वो भी देख रही है... पीछे मत हट!"
     },
     {
-      "start": 15.0,
-      "end": 19.8,
-      "text": "अरे हट यहाँ से! तू बिल्ला है तो क्या हुआ, हम बत्तख हैं!"
+      "start": 20.1,
+      "end": 27.5,
+      "text": "पब्लिक देख रही है भाई... जाके तो देख!"
     },
     {
-      "start": 20.0,
-      "end": 24.8,
-      "text": "बाप रे बाप! भागो रे! 😂💨"
+      "start": 27.6,
+      "end": 39.5,
+      "text": "देख वो सामने ही खड़ी है! हिम्मत कर भाई!"
     },
     {
-      "start": 25.0,
-      "end": 30.4,
-      "text": "चल अब ये पूरा बेड हमारा है! हाहाहा! 🦆🛏️"
+      "start": 39.6,
+      "end": 51.4,
+      "text": "अरे जा ना! इस बार बिना बोले मत आइयो!"
     },
     {
-      "start": 30.5,
-      "end": 35.83,
-      "text": "हाहाहाहा! SIUUUUU! 😂💥"
+      "start": 51.5,
+      "end": 55.3,
+      "text": "आई लव यू! (I LOVE YOU! 💖)"
+    },
+    {
+      "start": 55.4,
+      "end": 58.8,
+      "text": "हाहाहाहा! 😂💥 मार गिराया किसी और का बब्लू!"
     }
   ]
 }
