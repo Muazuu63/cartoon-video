@@ -1,0 +1,119 @@
+{
+  "brand": "",
+  "title": "ক্লাস থ্রির দেবদাস ও ন্যাড়া মাথার গার্লফ্রেন্ড",
+  "language": "bn",
+  "kind": "comic short animation",
+  "source_note": "মজার পারিবারিক ও বন্ধু আড্ডার রম্য গল্প; ক্লাস থ্রির ব্রেকআপ ও ন্যাড়া মাথার কৌতুক।",
+  "duration": 21.26,
+  "voice": "assets/voice.wav",
+  "captions": true,
+  "music": false,
+  "scenes": [
+    {
+      "start": 0.0,
+      "end": 3.0,
+      "title": "ক্লাস থ্রির ছেলে",
+      "narration": "ভাই... আমার ছেলে ক্লাস থ্রিতে পড়ে, বুঝছেন?",
+      "setting": "tea_stall",
+      "action": "tea_stall_talk"
+    },
+    {
+      "start": 3.0,
+      "end": 6.8,
+      "title": "গার্লফ্রেন্ড ও ব্রেকআপ",
+      "narration": "আচ্ছা... তার নাকি একটা গার্লফ্রেন্ড আছে। তার সাথে আবার ব্রেকআপও হইছে।",
+      "setting": "tea_stall",
+      "action": "thought_bubble_devdas"
+    },
+    {
+      "start": 6.8,
+      "end": 9.2,
+      "title": "ক্লাস কিসে পড়ে?!",
+      "narration": "ক্লাস কিসে পড়ে? থ্রিতে। হায় হায়...",
+      "setting": "tea_stall",
+      "action": "shock_chokh_chorokgach"
+    },
+    {
+      "start": 9.2,
+      "end": 12.2,
+      "title": "ব্রেকআপের কারণ",
+      "narration": "তো ওরে জিজ্ঞেস করলাম, কি বাবা ব্রেকআপ করছো কেন?",
+      "setting": "home_flashback",
+      "action": "flashback_father_son"
+    },
+    {
+      "start": 12.2,
+      "end": 14.0,
+      "title": "আর বইলো না...",
+      "narration": "কয় বাবা আর বইলো না...",
+      "setting": "home_flashback",
+      "action": "kid_deep_sigh"
+    },
+    {
+      "start": 14.0,
+      "end": 17.0,
+      "title": "ন্যাড়া মাথার গার্লফ্রেন্ড!",
+      "narration": "আমার গার্লফ্রেন্ড আমারে না জানাইয়া ন্যাড়া মাথা করছে!",
+      "setting": "school_reveal",
+      "action": "bald_girlfriend_reveal"
+    },
+    {
+      "start": 17.0,
+      "end": 19.5,
+      "title": "হাসির রোল",
+      "narration": "কিরে? হাহাহা...",
+      "setting": "tea_stall",
+      "action": "burst_laughter"
+    },
+    {
+      "start": 19.5,
+      "end": 21.26,
+      "title": "গোপাল ভাঁড়ের হাসি",
+      "narration": "ন্যাড়া ন্যাড়া... গোপাল গোপাল...",
+      "setting": "meme_zoom",
+      "action": "gopal_meme_zoom"
+    }
+  ],
+  "cues": [
+    {
+      "start": 0.0,
+      "end": 3.0,
+      "text": "ভাই... আমার ছেলে ক্লাস থ্রিতে পড়ে, বুঝছেন?"
+    },
+    {
+      "start": 3.0,
+      "end": 6.8,
+      "text": "আচ্ছা... তার নাকি একটা গার্লফ্রেন্ড আছে। তার সাথে আবার ব্রেকআপও হইছে।"
+    },
+    {
+      "start": 6.8,
+      "end": 9.2,
+      "text": "ক্লাস কিসে পড়ে? থ্রিতে। হায় হায়..."
+    },
+    {
+      "start": 9.2,
+      "end": 12.2,
+      "text": "তো ওরে জিজ্ঞেস করলাম, কি বাবা ব্রেকআপ করছো কেন?"
+    },
+    {
+      "start": 12.2,
+      "end": 14.0,
+      "text": "কয় বাবা আর বইলো না..."
+    },
+    {
+      "start": 14.0,
+      "end": 17.0,
+      "text": "আমার গার্লফ্রেন্ড আমারে না জানাইয়া ন্যাড়া মাথা করছে!"
+    },
+    {
+      "start": 17.0,
+      "end": 19.5,
+      "text": "কিরে? হাহাহা..."
+    },
+    {
+      "start": 19.5,
+      "end": 21.26,
+      "text": "ন্যাড়া ন্যাড়া... গোপাল গোপাল..."
+    }
+  ]
+}

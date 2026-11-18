@@ -1,0 +1,1 @@
+Read AGENTS.md and ANTIGRAVITY.md in this project root. They define the user's Bengali audio-only video workflow. The only user assets needed are this kit and their narration audio. Create and render both aspect ratios according to those instructions. All story text must be Bengali. Do not mistake the sample family story for the user's narration.
