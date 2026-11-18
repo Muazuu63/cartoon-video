@@ -1,10 +1,11 @@
 {
   "brand": "",
   "export_folder": "obhishopto_bichana",
-  "title": "অভিশপ্ত বিছানা ও চালাক চাচা",
+  "file_prefix": "obhishopto_bichana_duck_cat",
+  "title": "অভিশপ্ত বিছানা ও চতুর দুই হাঁস",
   "language": "bn",
-  "kind": "comic horror animation",
-  "source_note": "মজার ভূতুড়ে ও হাস্যরসাত্মক গল্প; বেড়াল তাড়াতে চাচার অভিশপ্ত বিছানার নাটক।",
+  "kind": "comic animal 2d animation",
+  "source_note": "কালো বিড়াল তাড়াতে দুই চতুর হাঁসের অভিশপ্ত বিছানার নাটক ও বিছানা দখল।",
   "duration": 30.04,
   "voice": "assets/voice.wav",
   "captions": true,
@@ -15,72 +16,72 @@
       "end": 3.0,
       "title": "অভিশপ্ত বিছানা",
       "narration": "এই বিছানাটা অভিশপ্ত। সত্যি?",
-      "setting": "bedroom",
-      "action": "spooky_warning"
+      "setting": "living_room",
+      "action": "duck_warning"
     },
     {
       "start": 3.0,
       "end": 6.25,
       "title": "সত্যিই অভিশপ্ত?!",
       "narration": "হ্যাঁ, আঁখি। সত্যি সত্যি অভিশপ্ত। কীভাবে?",
-      "setting": "bedroom",
-      "action": "curious_question"
+      "setting": "living_room",
+      "action": "akhi_curious"
     },
     {
       "start": 6.25,
       "end": 11.0,
       "title": "কালো বেড়ালের রহস্য",
       "narration": "দেখতে পাচ্ছিস না? বেড়ালটা আস্তে আস্তে কেমন কালো হয়ে যাচ্ছে। হ্যাঁ।",
-      "setting": "bedroom",
-      "action": "cat_turning_black"
+      "setting": "living_room",
+      "action": "cat_watching_nervous"
     },
     {
       "start": 11.0,
       "end": 15.0,
       "title": "ভয়ংকর চোখ",
       "narration": "এবার ওর চোখ দুটোও আস্তে আস্তে পুরো কালো হয়ে যাবে। তারপর?",
-      "setting": "bedroom",
-      "action": "cat_creepy_eyes"
+      "setting": "living_room",
+      "action": "cat_shivering_scared"
     },
     {
       "start": 15.0,
       "end": 17.5,
       "title": "অন্ধকারে বিলীন",
       "narration": "তারপর ও অন্ধকারের মধ্যে হারিয়ে যাবে। তারপর?",
-      "setting": "bedroom",
-      "action": "darkness_vanishing"
+      "setting": "living_room",
+      "action": "cat_panicking"
     },
     {
       "start": 17.5,
       "end": 20.5,
-      "title": "ব্যাটা শেষ! মাগো বাঁচাও!",
+      "title": "মাগো বাঁচাও!",
       "narration": "তারপর ব্যাটা শেষ! হাহাহা! মাগো বাঁচাও!",
-      "setting": "bedroom",
-      "action": "cat_flees_scared"
+      "setting": "living_room",
+      "action": "cat_flees_rocket"
     },
     {
       "start": 20.5,
       "end": 24.0,
-      "title": "বিছানায় বসা",
+      "title": "বিছানায় যাওয়া",
       "narration": "চল আয়, এবার বিছানায় বসা যাক। আরে কিন্তু বিছানাটা তো অভিশপ্ত, তাই না?",
-      "setting": "bedroom",
-      "action": "sit_on_bed"
+      "setting": "living_room",
+      "action": "ducks_approach_bed"
     },
     {
       "start": 24.0,
       "end": 26.5,
-      "title": "চাচার ফন্দি ফাঁস!",
+      "title": "হাঁসের ফন্দি ফাঁস!",
       "narration": "আরে বোকা, ও তো বেড়ালটাকে তাড়ানোর জন্য মিথ্যে বলেছিলাম! হাহাহা!",
-      "setting": "bedroom",
-      "action": "uncle_reveals_trick"
+      "setting": "living_room",
+      "action": "ducks_hop_in_bed"
     },
     {
       "start": 26.5,
       "end": 30.04,
-      "title": "দারুণ বুদ্ধি চাচা!",
-      "narration": "দারুণ বুদ্ধি তো চাচা! এভাবে তো আমরা ওকে বাড়ি থেকেও তাড়িয়ে দিতে পারি!",
-      "setting": "bedroom",
-      "action": "clever_idea_finish"
+      "title": "দারুণ বুদ্ধি দোস্ত!",
+      "narration": "দারুণ বুদ্ধি তো তোর! এভাবে তো আমরা ওকে বাড়ি থেকেও তাড়িয়ে দিতে পারি!",
+      "setting": "living_room",
+      "action": "ducks_victory_cozy"
     }
   ],
   "cues": [
@@ -127,7 +128,7 @@
     {
       "start": 26.5,
       "end": 30.04,
-      "text": "দারুণ বুদ্ধি তো চাচা! এভাবে তো আমরা ওকে বাড়ি থেকেও তাড়িয়ে দিতে পারি!"
+      "text": "দারুণ বুদ্ধি তো তোর! এভাবে তো আমরা ওকে বাড়ি থেকেও তাড়িয়ে দিতে পারি!"
     }
   ]
 }

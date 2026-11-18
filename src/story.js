@@ -1,5 +1,5 @@
 
-// Full-Color 2D Cartoon Animation Engine - The Cursed Bed & The Clever Uncle
+// Full-Color 2D Cartoon Animation Engine - The Cursed Bed (Two Ducks vs Black Cat)
 const DURATION = CONFIG.duration;
 const BEATS = CONFIG.scenes;
 
@@ -23,527 +23,626 @@ function drawRoundRect(ctx, x, y, w, h, rad, fill, stroke, lw = 3) {
   strokeFill(ctx, fill, stroke, lw);
 }
 
+function wrap(ctx, text, width) {
+  const words = text.split(/\s+/);
+  const out = [];
+  let s = '';
+  for (const w of words) {
+    const n = s ? s + ' ' + w : w;
+    if (ctx.measureText(n).width > width && s) {
+      out.push(s);
+      s = w;
+    } else {
+      s = n;
+    }
+  }
+  if (s) out.push(s);
+  return out;
+}
+
 // ----------------------------------------------------
-// Bedroom & Cursed Bed Background
+// Living Room Background (Directly Inspired by Reference)
 // ----------------------------------------------------
-function drawBedroomBG(ctx, W, H, t, floorY, isSpooky, spookyProgress) {
-  // Wall color shifts to eerie twilight if spooky
+function drawLivingRoomBG(ctx, W, H, t, floorY, isSpooky, spookyProgress) {
+  // 1. Off-white / light cream Wall
   const wallGrad = ctx.createLinearGradient(0, 0, 0, floorY);
   if (isSpooky) {
-    const sDark = Math.min(1, spookyProgress);
-    wallGrad.addColorStop(0, `rgb(${Math.round(230 - sDark * 120)}, ${Math.round(240 - sDark * 130)}, ${Math.round(250 - sDark * 100)})`);
-    wallGrad.addColorStop(1, `rgb(${Math.round(180 - sDark * 110)}, ${Math.round(200 - sDark * 120)}, ${Math.round(220 - sDark * 90)})`);
+    const s = Math.min(1, spookyProgress);
+    wallGrad.addColorStop(0, `rgb(${Math.round(245 - s * 55)}, ${Math.round(242 - s * 65)}, ${Math.round(235 - s * 45)})`);
+    wallGrad.addColorStop(1, `rgb(${Math.round(235 - s * 70)}, ${Math.round(230 - s * 80)}, ${Math.round(220 - s * 60)})`);
   } else {
-    wallGrad.addColorStop(0, '#fef9e7');
-    wallGrad.addColorStop(1, '#fdebd0');
+    wallGrad.addColorStop(0, '#faf8f5');
+    wallGrad.addColorStop(1, '#f0eae1');
   }
   ctx.fillStyle = wallGrad;
-  ctx.fillRect(0, 0, W, H);
+  ctx.fillRect(0, 0, W, floorY);
 
-  // Floor
+  // 2. Light Wooden Plank Flooring
   const floorGrad = ctx.createLinearGradient(0, floorY, 0, H);
-  floorGrad.addColorStop(0, '#a0522d');
-  floorGrad.addColorStop(1, '#6e2c00');
+  floorGrad.addColorStop(0, '#e8d7c3');
+  floorGrad.addColorStop(1, '#d1bc9f');
   ctx.fillStyle = floorGrad;
   ctx.fillRect(0, floorY, W, H - floorY);
 
-  // Wooden baseboard
-  drawRoundRect(ctx, 0, floorY - 14, W, 14, 0, '#ffffff', '#2c3e50', 2.5);
+  // Baseboard
+  drawRoundRect(ctx, 0, floorY - 14, W, 14, 0, '#ffffff', '#b0a495', 2);
 
-  // Bedroom Window (Moonlight or daylight)
-  const winW = W > H ? 240 : 180;
-  const winH = W > H ? 280 : 300;
-  const winX = W > H ? 100 : 30;
-  const winY = W > H ? 80 : 220;
-
-  drawRoundRect(ctx, winX - 8, winY - 8, winW + 16, winH + 16, 6, '#ffffff', '#2c3e50', 3.5);
-  ctx.save();
-  ctx.beginPath(); ctx.rect(winX, winY, winW, winH); ctx.clip();
-  const skyGrad = ctx.createLinearGradient(winX, winY, winX, winY + winH);
-  if (isSpooky) {
-    skyGrad.addColorStop(0, '#1a252f');
-    skyGrad.addColorStop(1, '#2c3e50');
-    ctx.fillStyle = skyGrad;
-    ctx.fillRect(winX, winY, winW, winH);
-    // Glowing Moon
-    drawCircle(ctx, winX + winW - 50, winY + 60, 26, '#f9e79f', '#f1c40f', 2);
-  } else {
-    skyGrad.addColorStop(0, '#5dade2');
-    skyGrad.addColorStop(1, '#aed6f1');
-    ctx.fillStyle = skyGrad;
-    ctx.fillRect(winX, winY, winW, winH);
-    drawCircle(ctx, winX + winW - 50, winY + 60, 24, '#f39c12', null);
+  // Floor plank lines (perspective)
+  ctx.strokeStyle = 'rgba(168, 142, 114, 0.45)';
+  ctx.lineWidth = 2;
+  const plankSpacing = W / 9;
+  for (let px = 0; px <= W; px += plankSpacing) {
+    ctx.beginPath();
+    ctx.moveTo(px, floorY);
+    ctx.lineTo(px - W * 0.08, H);
+    ctx.stroke();
   }
-  ctx.restore();
-  // Window frame cross
-  ctx.strokeStyle = '#2c3e50'; ctx.lineWidth = 3;
+
+  // 3. Fiddle Leaf Fig Plant in Woven Basket (Corner Background)
+  const plantX = W > H ? W * 0.38 : W * 0.32;
+  const plantY = floorY - 15;
+
+  // Basket Planter
+  drawRoundRect(ctx, plantX - 42, plantY - 70, 84, 70, 8, '#c89666', '#8d5b2d', 3.5);
+  // Basket texture weave lines
+  ctx.strokeStyle = '#a6723e'; ctx.lineWidth = 2;
+  for (let by = plantY - 60; by < plantY - 10; by += 12) {
+    ctx.beginPath(); ctx.moveTo(plantX - 38, by); ctx.lineTo(plantX + 38, by); ctx.stroke();
+  }
+
+  // Tall Plant Trunk
+  ctx.strokeStyle = '#5d4037'; ctx.lineWidth = 14; ctx.lineCap = 'round';
   ctx.beginPath();
-  ctx.moveTo(winX + winW / 2, winY); ctx.lineTo(winX + winW / 2, winY + winH);
-  ctx.moveTo(winX, winY + winH * 0.45); ctx.lineTo(winX + winW, winY + winH * 0.45);
+  ctx.moveTo(plantX, plantY - 70);
+  ctx.quadraticCurveTo(plantX - 10, plantY - 260, plantX + 5, plantY - 440);
   ctx.stroke();
 
-  // Curtains
-  ctx.fillStyle = '#9b59b6'; ctx.strokeStyle = '#6c3483'; ctx.lineWidth = 3;
-  ctx.beginPath();
-  ctx.moveTo(winX - 12, winY - 10); ctx.lineTo(winX + 35, winY - 10);
-  ctx.quadraticCurveTo(winX + 15, winY + winH * 0.5, winX + 40, winY + winH + 10);
-  ctx.lineTo(winX - 18, winY + winH + 10);
-  ctx.closePath(); ctx.fill(); ctx.stroke();
+  // Lush Fiddle Leaves (Layered)
+  const leaves = [
+    { dx: -35, dy: -140, r: 42, rot: -0.3 },
+    { dx: 38, dy: -180, r: 46, rot: 0.35 },
+    { dx: -45, dy: -240, r: 52, rot: -0.4 },
+    { dx: 42, dy: -290, r: 54, rot: 0.3 },
+    { dx: -30, dy: -350, r: 58, rot: -0.25 },
+    { dx: 35, dy: -390, r: 52, rot: 0.28 },
+    { dx: 0, dy: -450, r: 62, rot: 0 }
+  ];
 
-  ctx.beginPath();
-  ctx.moveTo(winX + winW + 12, winY - 10); ctx.lineTo(winX + winW - 35, winY - 10);
-  ctx.quadraticCurveTo(winX + winW - 15, winY + winH * 0.5, winX + winW - 40, winY + winH + 10);
-  ctx.lineTo(winX + winW + 18, winY + winH + 10);
-  ctx.closePath(); ctx.fill(); ctx.stroke();
+  leaves.forEach(l => {
+    ctx.save();
+    ctx.translate(plantX + l.dx, plantY + l.dy);
+    ctx.rotate(l.rot);
+    // Leaf shape
+    ctx.beginPath();
+    ctx.ellipse(0, 0, l.r, l.r * 0.65, 0, 0, Math.PI * 2);
+    strokeFill(ctx, '#2d6a4f', '#1b4332', 3);
+    // Leaf center vein
+    ctx.strokeStyle = '#52b788'; ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(-l.r * 0.8, 0); ctx.lineTo(l.r * 0.8, 0); ctx.stroke();
+    ctx.restore();
+  });
 
-  // Spooky eerie mist/shadow vignette
+  // 4. Modern Armchair (Left Side)
+  const chairX = W > H ? W * 0.08 : W * -0.05;
+  const chairY = floorY;
+  // Seat cushion
+  drawRoundRect(ctx, chairX - 20, chairY - 180, 160, 150, 24, '#c7bca9', '#8a7d6b', 4);
+  // Armrest
+  drawRoundRect(ctx, chairX + 70, chairY - 230, 75, 200, 28, '#b8ab97', '#7d705f', 4);
+  // Backrest
+  drawRoundRect(ctx, chairX - 40, chairY - 380, 120, 240, 30, '#b0a28e', '#756958', 4);
+
+  // 5. Side Table with Lamp (Right Side)
+  const tableX = W > H ? W * 0.92 : W * 0.98;
+  const tableY = floorY;
+  // Table top
+  drawRoundRect(ctx, tableX - 70, tableY - 140, 140, 24, 6, '#8d6e63', '#4e342e', 3.5);
+  // Table legs
+  drawRoundRect(ctx, tableX - 55, tableY - 116, 14, 116, 4, '#6d4c41', '#3e2723', 3);
+  drawRoundRect(ctx, tableX + 41, tableY - 116, 14, 116, 4, '#6d4c41', '#3e2723', 3);
+
+  // Table Lamp
+  drawCircle(ctx, tableX, tableY - 140, 14, '#2c3e50', '#1a252f', 3);
+  ctx.strokeStyle = '#2c3e50'; ctx.lineWidth = 6;
+  ctx.beginPath(); ctx.moveTo(tableX, tableY - 140); ctx.lineTo(tableX, tableY - 260); ctx.stroke();
+  // Lampshade
+  ctx.fillStyle = '#fff3e0'; ctx.strokeStyle = '#d7ccc8'; ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(tableX - 28, tableY - 260);
+  ctx.lineTo(tableX + 28, tableY - 260);
+  ctx.lineTo(tableX + 48, tableY - 330);
+  ctx.lineTo(tableX - 48, tableY - 330);
+  ctx.closePath();
+  ctx.fill(); ctx.stroke();
+
+  // Spooky / Dramatic Vignette during storytelling
   if (isSpooky && spookyProgress > 0) {
-    const mistAlpha = Math.min(0.45, spookyProgress * 0.45);
-    ctx.fillStyle = `rgba(38, 14, 56, ${mistAlpha})`;
+    const mist = Math.min(0.4, spookyProgress * 0.4);
+    ctx.fillStyle = `rgba(35, 15, 45, ${mist})`;
     ctx.fillRect(0, 0, W, H);
   }
 }
 
 // ----------------------------------------------------
-// The Bed (বিছানা)
+// The Pink Pet Bed (Inspired by Reference)
 // ----------------------------------------------------
-function drawBed(ctx, bedX, bedY, bedW, isSpooky, spookyProgress) {
+function drawPinkPetBed(ctx, bedX, bedY, bedW, bedH) {
   ctx.save();
-  // Bed Headboard (Left side)
-  drawRoundRect(ctx, bedX - 16, bedY - 140, 24, 160, 6, '#6e2c00', '#3e1b00', 4);
-  drawCircle(ctx, bedX - 4, bedY - 150, 12, '#873600', '#3e1b00', 3);
+  // Soft drop shadow
+  ctx.fillStyle = 'rgba(60, 40, 30, 0.22)';
+  ctx.beginPath();
+  ctx.ellipse(bedX, bedY + 8, bedW * 0.54, bedH * 0.32, 0, 0, Math.PI * 2);
+  ctx.fill();
 
-  // Footboard (Right side)
-  drawRoundRect(ctx, bedX + bedW - 8, bedY - 90, 20, 110, 6, '#6e2c00', '#3e1b00', 4);
-  drawCircle(ctx, bedX + bedW + 2, bedY - 98, 10, '#873600', '#3e1b00', 3);
+  // Outer Bolster Ring (Cozy Dusty Pink)
+  ctx.beginPath();
+  ctx.ellipse(bedX, bedY, bedW * 0.52, bedH * 0.48, 0, 0, Math.PI * 2);
+  strokeFill(ctx, '#e899aa', '#b85d73', 4.5);
 
-  // Bed Base / Frame
-  drawRoundRect(ctx, bedX, bedY - 25, bedW, 35, 6, '#7e3805', '#3e1b00', 4);
+  // Rim Highlight
+  ctx.strokeStyle = '#f5b5c4';
+  ctx.lineWidth = 5;
+  ctx.beginPath();
+  ctx.ellipse(bedX, bedY - 14, bedW * 0.46, bedH * 0.38, 0, Math.PI * 0.8, Math.PI * 2.2);
+  ctx.stroke();
 
-  // Bed Legs
-  drawRoundRect(ctx, bedX + 10, bedY + 8, 16, 25, 4, '#542403', '#2c3e50', 2.5);
-  drawRoundRect(ctx, bedX + bedW - 26, bedY + 8, 16, 25, 4, '#542403', '#2c3e50', 2.5);
+  // Inner Soft Cushion (Ivory / Warm Cream)
+  ctx.beginPath();
+  ctx.ellipse(bedX, bedY + 5, bedW * 0.38, bedH * 0.32, 0, 0, Math.PI * 2);
+  strokeFill(ctx, '#fff6ed', '#e3a896', 3.5);
 
-  // Mattress
-  const matY = bedY - 55;
-  drawRoundRect(ctx, bedX + 4, matY, bedW - 8, 34, 8, '#ffffff', '#2c3e50', 3.5);
-
-  // Colorful Bedsheet / Blanket (Red & Gold / Spooky tinted)
-  const sheetColor = isSpooky ? `rgb(${Math.round(231 - spookyProgress * 100)}, 76, 60)` : '#e74c3c';
-  drawRoundRect(ctx, bedX + 25, matY - 4, bedW - 35, 34, 6, sheetColor, '#922b21', 3.5);
-  // Sheet floral / diamond pattern
-  ctx.strokeStyle = '#f1c40f'; ctx.lineWidth = 2;
-  for (let sx = bedX + 60; sx < bedX + bedW - 40; sx += 45) {
-    ctx.strokeRect(sx, matY + 4, 18, 18);
-  }
-
-  // Soft Fluffy Pillow
-  drawRoundRect(ctx, bedX + 14, matY - 26, 75, 36, 12, '#fcf3cf', '#b7950b', 3);
+  // Soft Tufting Quilt Dimples
+  ctx.fillStyle = '#dab5a5';
+  [-bedW * 0.16, 0, bedW * 0.16].forEach(dx => {
+    drawCircle(ctx, bedX + dx, bedY + 6, 3, '#dab5a5', null);
+  });
 
   ctx.restore();
 }
 
 // ----------------------------------------------------
-// The Cat on the Bed (বেড়াল)
+// The Black Cat (বিল্লু)
 // ----------------------------------------------------
-function drawCat(ctx, x, y, s, t, stage, progress) {
+function drawBlackCat(ctx, x, y, s, t, state, progress) {
   ctx.save();
   ctx.translate(x, y);
   ctx.scale(s, s);
 
-  const outline = '#1f1a17';
+  const furColor = '#1e1e24';
+  const furHighlight = '#32323d';
+  const outline = '#0a0a0f';
 
-  // If cat flees (Stage: 'flees')
-  if (stage === 'flees') {
-    // Leaping off bed in wild panic!
-    const jumpProgress = Math.min(1, progress);
-    ctx.translate(jumpProgress * 320, -Math.sin(jumpProgress * Math.PI) * 120 + jumpProgress * 80);
-    ctx.rotate(0.35);
+  // State: 'rocket_flee' (17.5s - 20.5s)
+  if (state === 'rocket_flee') {
+    const jump = Math.min(1.5, progress);
+    const flyX = jump * 580;
+    const flyY = -Math.sin(jump * Math.PI * 0.8) * 260 + jump * 110;
 
-    // Completely black panicking cat
-    drawCircle(ctx, 0, -25, 22, '#1a1a1a', outline, 3.5); // Body
-    drawCircle(ctx, 22, -40, 18, '#1a1a1a', outline, 3.5); // Head
-    // Ears standing straight up
-    ctx.fillStyle = '#1a1a1a'; ctx.strokeStyle = outline; ctx.lineWidth = 3;
-    ctx.beginPath(); ctx.moveTo(15, -55); ctx.lineTo(22, -72); ctx.lineTo(28, -52); ctx.closePath(); ctx.fill(); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(27, -50); ctx.lineTo(36, -68); ctx.lineTo(39, -48); ctx.closePath(); ctx.fill(); ctx.stroke();
-    // Huge terror white eyes
-    drawCircle(ctx, 24, -42, 6, '#ffffff', outline, 2);
-    drawCircle(ctx, 33, -42, 6, '#ffffff', outline, 2);
-    drawCircle(ctx, 25, -42, 2, '#1f1a17', null);
-    drawCircle(ctx, 34, -42, 2, '#1f1a17', null);
-    // Open screaming meow mouth
-    ctx.fillStyle = '#ff7675';
-    ctx.beginPath(); ctx.arc(32, -32, 5, 0, Math.PI); ctx.fill(); ctx.stroke();
-    // Paws outstretched
-    drawRoundRect(ctx, 20, -15, 26, 10, 4, '#1a1a1a', outline, 2.5);
-    drawRoundRect(ctx, -20, -10, 22, 10, 4, '#1a1a1a', outline, 2.5);
-    // Fluffed panic tail
-    ctx.strokeStyle = '#1a1a1a'; ctx.lineWidth = 9;
-    ctx.beginPath(); ctx.moveTo(-18, -25); ctx.quadraticCurveTo(-45, -55, -35, -75); ctx.stroke();
+    // Comic Speed Lines
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
+    ctx.lineWidth = 4;
+    for (let li = 0; li < 4; li++) {
+      ctx.beginPath();
+      ctx.moveTo(-60 - li * 25, -20 + li * 15);
+      ctx.lineTo(-140 - li * 35, -20 + li * 15);
+      ctx.stroke();
+    }
+
+    // Comic Smoke Puff at launch site
+    if (jump < 0.6) {
+      const p = jump / 0.6;
+      ctx.fillStyle = `rgba(240, 240, 245, ${1 - p})`;
+      drawCircle(ctx, 0, 0, 35 * (1 + p), null, null);
+      drawCircle(ctx, -20, -10, 25 * (1 + p), null, null);
+      drawCircle(ctx, 20, -5, 22 * (1 + p), null, null);
+    }
+
+    ctx.translate(flyX, flyY);
+    ctx.rotate(0.45);
+
+    // Stretched Panic Cat Body
+    ctx.beginPath();
+    ctx.ellipse(0, -25, 45, 18, 0.2, 0, Math.PI * 2);
+    strokeFill(ctx, furColor, outline, 4);
+
+    // Head
+    drawCircle(ctx, 42, -38, 20, furColor, outline, 4);
+
+    // Ears Pinned Back in Pure Panic
+    ctx.fillStyle = furColor; ctx.strokeStyle = outline; ctx.lineWidth = 3.5;
+    ctx.beginPath(); ctx.moveTo(35, -55); ctx.lineTo(25, -75); ctx.lineTo(45, -58); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(48, -55); ctx.lineTo(55, -78); ctx.lineTo(58, -52); ctx.closePath(); ctx.fill(); ctx.stroke();
+
+    // Giant Shock Eyes (White Discs with Tiny Black Dots)
+    drawCircle(ctx, 40, -42, 9, '#ffffff', outline, 2.5);
+    drawCircle(ctx, 54, -40, 9, '#ffffff', outline, 2.5);
+    drawCircle(ctx, 42, -42, 2.5, '#000000', null);
+    drawCircle(ctx, 56, -40, 2.5, '#000000', null);
+
+    // Open Screaming Mouth
+    ctx.fillStyle = '#ff6b81';
+    ctx.beginPath(); ctx.arc(48, -26, 7, 0, Math.PI); ctx.fill(); ctx.stroke();
+
+    // Outstretched Paws
+    drawRoundRect(ctx, 45, -18, 30, 10, 4, furColor, outline, 3);
+    drawRoundRect(ctx, -40, -15, 30, 10, 4, furColor, outline, 3);
+
+    // Puffed Tail
+    ctx.strokeStyle = furColor; ctx.lineWidth = 14;
+    ctx.beginPath(); ctx.moveTo(-35, -20); ctx.quadraticCurveTo(-75, -55, -60, -85); ctx.stroke();
+    ctx.strokeStyle = outline; ctx.lineWidth = 3; ctx.stroke();
+
+    // "মাগো বাঁচাও!" Comic Bubble
+    ctx.save();
+    ctx.translate(20, -100);
+    drawRoundRect(ctx, -60, -32, 120, 36, 12, '#fffa65', '#ff3838', 3);
+    ctx.font = 'bold 20px "Noto Sans Bengali", sans-serif';
+    ctx.fillStyle = '#c0392b';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('মাগো বাঁচাও!', 0, -14);
+    ctx.restore();
 
     ctx.restore();
     return;
   }
 
-  // Fur color darkens from ginger orange to deep black!
-  const darkVal = Math.min(1, Math.max(0, progress));
-  const rFur = Math.round(230 - darkVal * 195);
-  const gFur = Math.round(126 - darkVal * 95);
-  const bFur = Math.round(34 - darkVal * 5);
-  const furColor = `rgb(${rFur}, ${gFur}, ${bFur})`;
+  // Normal / Suspicious / Panicking resting inside bed
+  const breathe = Math.sin(t * 3.5) * 2;
+  const jitter = (state === 'panicking' || state === 'shivering') ? (Math.sin(t * 40) * 3) : 0;
 
-  // Sleeping / Lounging Cat Body
-  const breathe = Math.sin(t * 3) * 2;
+  ctx.translate(jitter, breathe);
+
+  // Cat Body (Curled Cozy in Bed)
   ctx.beginPath();
-  ctx.ellipse(0, -18 + breathe, 38, 22, 0, 0, Math.PI * 2);
-  strokeFill(ctx, furColor, outline, 3.5);
+  ctx.ellipse(0, -16, 42, 25, 0, 0, Math.PI * 2);
+  strokeFill(ctx, furColor, outline, 4);
+
+  // Cat Back Highlight
+  ctx.strokeStyle = furHighlight; ctx.lineWidth = 5;
+  ctx.beginPath();
+  ctx.arc(0, -16, 38, Math.PI * 0.9, Math.PI * 1.5);
+  ctx.stroke();
 
   // Cat Head
-  const headX = 28, headY = -32 + breathe * 0.5;
-  drawCircle(ctx, headX, headY, 18, furColor, outline, 3.5);
+  const headX = 26, headY = -34;
+  drawCircle(ctx, headX, headY, 22, furColor, outline, 4);
 
   // Cat Ears
-  ctx.fillStyle = furColor; ctx.strokeStyle = outline; ctx.lineWidth = 3;
-  ctx.beginPath(); ctx.moveTo(headX - 10, headY - 14); ctx.lineTo(headX - 14, headY - 32); ctx.lineTo(headX, headY - 16); ctx.closePath(); ctx.fill(); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(headX + 4, headY - 16); ctx.lineTo(headX + 16, headY - 30); ctx.lineTo(headX + 14, headY - 12); ctx.closePath(); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = furColor; ctx.strokeStyle = outline; ctx.lineWidth = 3.5;
+  ctx.beginPath(); ctx.moveTo(headX - 12, headY - 16); ctx.lineTo(headX - 18, headY - 38); ctx.lineTo(headX - 2, headY - 20); ctx.closePath(); ctx.fill(); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(headX + 4, headY - 20); ctx.lineTo(headX + 18, headY - 36); ctx.lineTo(headX + 16, headY - 14); ctx.closePath(); ctx.fill(); ctx.stroke();
+  // Pink Inner Ears
+  ctx.fillStyle = '#ffb8c6';
+  ctx.beginPath(); ctx.moveTo(headX - 10, headY - 18); ctx.lineTo(headX - 15, headY - 33); ctx.lineTo(headX - 4, headY - 20); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(headX + 6, headY - 20); ctx.lineTo(headX + 15, headY - 32); ctx.lineTo(headX + 13, headY - 16); ctx.closePath(); ctx.fill();
 
-  // Cat Eyes: Turn black and eerie as Uncle narrates!
-  if (stage === 'creepy_eyes') {
-    // Creepy pitch-black eyes growing!
-    const eyeSize = 5 + darkVal * 4;
-    drawCircle(ctx, headX - 6, headY - 2, eyeSize, '#1a1a1a', '#000000', 2);
-    drawCircle(ctx, headX + 8, headY - 2, eyeSize, '#1a1a1a', '#000000', 2);
-    // Eerie tiny purple pupil shine
-    drawCircle(ctx, headX - 6, headY - 3, 1.5, '#bb86fc', null);
-    drawCircle(ctx, headX + 8, headY - 3, 1.5, '#bb86fc', null);
-  } else if (darkVal > 0.4) {
-    // Suspicious squinting eyes
-    ctx.strokeStyle = outline; ctx.lineWidth = 2.5;
+  // Cat Eyes Expressions
+  if (state === 'panicking' || state === 'shivering') {
+    // Wide Terrified Yellow-Green Eyes with pinpoint pupils!
+    drawCircle(ctx, headX - 7, headY - 2, 7.5, '#d4efdf', outline, 2);
+    drawCircle(ctx, headX + 9, headY - 2, 7.5, '#d4efdf', outline, 2);
+    // Pinpoint pupils
+    drawCircle(ctx, headX - 6, headY - 2, 2.5, '#0e1111', null);
+    drawCircle(ctx, headX + 10, headY - 2, 2.5, '#0e1111', null);
+
+    // Sweat Drops flying off head! 💦
+    const swY = Math.sin(t * 8) * 8;
+    ctx.fillStyle = '#48dbfb'; ctx.strokeStyle = '#0abde3'; ctx.lineWidth = 1.5;
     ctx.beginPath();
-    ctx.moveTo(headX - 10, headY - 2); ctx.lineTo(headX - 2, headY - 4);
-    ctx.moveTo(headX + 4, headY - 4); ctx.lineTo(headX + 12, headY - 2);
-    ctx.stroke();
+    ctx.arc(headX - 22, headY - 22 + swY, 5, 0, Math.PI * 2);
+    ctx.fill(); ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(headX + 24, headY - 18 - swY, 4, 0, Math.PI * 2);
+    ctx.fill(); ctx.stroke();
+  } else if (state === 'suspicious') {
+    // Suspicious slant eyes looking towards the ducks!
+    drawCircle(ctx, headX - 7, headY - 2, 6, '#c6ef53', outline, 2);
+    drawCircle(ctx, headX + 9, headY - 2, 6, '#c6ef53', outline, 2);
+    // Slit pupils looking right at ducks
+    ctx.strokeStyle = '#000000'; ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(headX - 5, headY - 6); ctx.lineTo(headX - 5, headY + 2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(headX + 11, headY - 6); ctx.lineTo(headX + 11, headY + 2); ctx.stroke();
   } else {
-    // Normal peaceful closed cat eyes
-    ctx.strokeStyle = outline; ctx.lineWidth = 2.5;
+    // Peaceful sleepy eyes
+    ctx.strokeStyle = '#c6ef53'; ctx.lineWidth = 2.5;
     ctx.beginPath();
-    ctx.arc(headX - 6, headY - 2, 5, 0.2, Math.PI - 0.2);
-    ctx.arc(headX + 8, headY - 2, 5, 0.2, Math.PI - 0.2);
+    ctx.arc(headX - 7, headY - 2, 6, 0.2, Math.PI - 0.2);
+    ctx.arc(headX + 9, headY - 2, 6, 0.2, Math.PI - 0.2);
     ctx.stroke();
   }
 
-  // Pink nose & whiskers
-  drawCircle(ctx, headX + 1, headY + 5, 2.5, '#ff7675', null);
-  ctx.strokeStyle = outline; ctx.lineWidth = 1.5;
+  // Pink Nose
+  drawCircle(ctx, headX + 1, headY + 6, 3, '#ff7675', null);
+
+  // Cute White Whiskers
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.85)'; ctx.lineWidth = 1.5;
   ctx.beginPath();
-  ctx.moveTo(headX - 4, headY + 5); ctx.lineTo(headX - 18, headY + 3);
-  ctx.moveTo(headX - 4, headY + 7); ctx.lineTo(headX - 18, headY + 9);
-  ctx.moveTo(headX + 6, headY + 5); ctx.lineTo(headX + 20, headY + 3);
-  ctx.moveTo(headX + 6, headY + 7); ctx.lineTo(headX + 20, headY + 9);
+  ctx.moveTo(headX - 4, headY + 6); ctx.lineTo(headX - 24, headY + 3);
+  ctx.moveTo(headX - 4, headY + 8); ctx.lineTo(headX - 24, headY + 11);
+  ctx.moveTo(headX + 6, headY + 6); ctx.lineTo(headX + 26, headY + 3);
+  ctx.moveTo(headX + 6, headY + 8); ctx.lineTo(headX + 26, headY + 11);
   ctx.stroke();
 
-  // Cat curled tail
-  const tailSway = Math.sin(t * 4) * 5;
-  ctx.strokeStyle = furColor; ctx.lineWidth = 7;
+  // Paws resting over bolster
+  drawRoundRect(ctx, headX - 18, -4, 16, 12, 6, furColor, outline, 2.5);
+  drawRoundRect(ctx, headX + 2, -4, 16, 12, 6, furColor, outline, 2.5);
+
+  // Swishing Tail
+  const tailSway = Math.sin(t * 4) * 8;
+  ctx.strokeStyle = furColor; ctx.lineWidth = 8;
   ctx.beginPath();
-  ctx.moveTo(-35, -15);
-  ctx.quadraticCurveTo(-55, -25 + tailSway, -45, -45 + tailSway);
+  ctx.moveTo(-36, -14);
+  ctx.quadraticCurveTo(-65, -28 + tailSway, -55, -50 + tailSway);
   ctx.stroke();
-  ctx.strokeStyle = outline; ctx.lineWidth = 2.5;
-  ctx.stroke();
+  ctx.strokeStyle = outline; ctx.lineWidth = 2.5; ctx.stroke();
 
   ctx.restore();
 }
 
 // ----------------------------------------------------
-// Character: চাচা (Uncle / Chacha)
+// The Ducks (হাঁস ১ ও হাঁস ২ - আঁখি)
 // ----------------------------------------------------
-function drawUncle(ctx, x, y, s, t, action, local) {
+function drawDuck(ctx, x, y, s, t, isAkhi, action, isSpeaking, waddlePhase = 0) {
   ctx.save();
   ctx.translate(x, y);
   ctx.scale(s, s);
 
-  const bob = Math.sin(t * 3) * 2;
-  ctx.translate(0, bob);
+  // Waddle Physics
+  const isMoving = (action === 'duck_warning' || action === 'ducks_approach_bed');
+  const waddleRoll = isMoving ? Math.sin(t * 10 + waddlePhase) * 0.12 : Math.sin(t * 3 + waddlePhase) * 0.03;
+  const waddleBob = isMoving ? Math.abs(Math.sin(t * 10 + waddlePhase)) * 8 : Math.sin(t * 3) * 2;
 
-  const skin = '#fcd0a1';
-  const skinShadow = '#e5ab75';
-  const outline = '#1f1a17';
-  const kurtaColor = '#f39c12';
+  ctx.translate(0, -waddleBob);
+  ctx.rotate(waddleRoll);
 
-  // If sitting on bed (Scene 7, 8, 9)
-  const isSitting = (action === 'sit_on_bed' || action === 'uncle_reveals_trick' || action === 'clever_idea_finish');
+  const featherColor = isAkhi ? '#fffbf5' : '#ffffff';
+  const shadowColor = isAkhi ? '#f0e6d6' : '#e6edf2';
+  const outline = '#2d3436';
+  const beakOrange = '#ff793f';
+  const footOrange = '#ff5252';
 
-  if (isSitting) {
-    // Sitting legs folded
-    drawRoundRect(ctx, -32, -35, 64, 25, 6, '#2c3e50', outline, 3.5);
-    drawRoundRect(ctx, -38, -15, 28, 14, 5, '#ffffff', outline, 3);
-    drawRoundRect(ctx, 10, -15, 28, 14, 5, '#ffffff', outline, 3);
-  } else {
-    // Standing legs
-    drawRoundRect(ctx, -26, -45, 18, 52, 6, '#2c3e50', outline, 3.5);
-    drawRoundRect(ctx, 8, -45, 18, 52, 6, '#2c3e50', outline, 3.5);
-    drawRoundRect(ctx, -34, 0, 28, 14, 6, '#ffffff', outline, 3);
-    drawRoundRect(ctx, 6, 0, 28, 14, 6, '#ffffff', outline, 3);
-  }
+  // 1. Orange Webbed Feet
+  const legSwing1 = isMoving ? Math.sin(t * 10 + waddlePhase) * 16 : 0;
+  const legSwing2 = isMoving ? -Math.sin(t * 10 + waddlePhase) * 16 : 0;
 
-  // Torso / Mustard Kurta
+  // Left foot
+  ctx.fillStyle = footOrange; ctx.strokeStyle = outline; ctx.lineWidth = 3;
   ctx.beginPath();
-  ctx.moveTo(-36, -155); ctx.lineTo(36, -155);
-  ctx.lineTo(42, -40); ctx.lineTo(-42, -40);
-  ctx.closePath();
-  strokeFill(ctx, kurtaColor, outline, 4);
-
-  // Kurta buttons
-  drawRoundRect(ctx, -6, -150, 12, 50, 3, '#d35400', outline, 2);
-  drawCircle(ctx, 0, -136, 3, '#ffffff', null);
-  drawCircle(ctx, 0, -120, 3, '#ffffff', null);
-
-  // Neck
-  drawRoundRect(ctx, -14, -180, 28, 32, 4, skin, outline, 3.5);
-
-  // Head
-  ctx.save();
-  ctx.translate(0, -195);
-
-  // Ears
-  drawCircle(ctx, -36, 0, 11, skin, outline, 3.5);
-  drawCircle(ctx, 36, 0, 11, skin, outline, 3.5);
-
-  // Face
-  drawCircle(ctx, 0, 0, 36, skin, outline, 4);
-
-  // Hair & spectacles
-  ctx.fillStyle = '#4a5568'; ctx.strokeStyle = outline; ctx.lineWidth = 4;
-  ctx.beginPath();
-  ctx.moveTo(-36, -6);
-  ctx.quadraticCurveTo(-42, -42, 0, -45);
-  ctx.quadraticCurveTo(42, -42, 36, -6);
-  ctx.quadraticCurveTo(24, -26, -10, -25);
-  ctx.closePath();
+  ctx.moveTo(-16, -20); ctx.lineTo(-16 + legSwing1, 0); ctx.lineTo(-32 + legSwing1, 0);
+  ctx.lineTo(-14 + legSwing1, -6); ctx.lineTo(-6 + legSwing1, 0); ctx.closePath();
   ctx.fill(); ctx.stroke();
 
-  // Cool Round Spectacles (চশমা)
-  drawCircle(ctx, -15, -6, 11, 'rgba(255, 255, 255, 0.4)', outline, 3);
-  drawCircle(ctx, 15, -6, 11, 'rgba(255, 255, 255, 0.4)', outline, 3);
-  // Spectacle bridge
-  ctx.strokeStyle = outline; ctx.lineWidth = 3;
-  ctx.beginPath(); ctx.moveTo(-4, -6); ctx.lineTo(4, -6); ctx.stroke();
-
-  // Eyes behind glasses
-  drawCircle(ctx, -15, -6, 4, '#1f1a17', null);
-  drawCircle(ctx, 15, -6, 4, '#1f1a17', null);
-  drawCircle(ctx, -16, -7, 1.5, '#ffffff', null);
-  drawCircle(ctx, 14, -7, 1.5, '#ffffff', null);
-
-  // Expressions & Mouth
-  const isSpeaking = (action !== 'sit_on_bed');
-  const mouthOpen = isSpeaking ? (Math.sin(t * 18) > 0 ? 11 : 3) : 3;
-
-  if (action === 'uncle_reveals_trick') {
-    // Laughing hysterically at his prank!
-    ctx.fillStyle = '#922b21';
-    ctx.beginPath(); ctx.arc(0, 12, 14, 0, Math.PI); ctx.fill(); ctx.stroke();
-    drawCircle(ctx, 0, 20, 6, '#ff7675', null);
-  } else {
-    // Talking mouth
-    ctx.fillStyle = '#78281f';
-    ctx.beginPath(); ctx.ellipse(0, 14, 7, mouthOpen, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-    if (mouthOpen > 6) {
-      ctx.fillStyle = '#ffffff'; ctx.fillRect(-5, 14 - mouthOpen + 2, 10, 3.5);
-    }
-  }
-
-  // Neat trimmed mustache
-  ctx.fillStyle = '#2c3e50';
+  // Right foot
   ctx.beginPath();
-  ctx.moveTo(-18, 8); ctx.quadraticCurveTo(0, 4, 18, 8); ctx.quadraticCurveTo(0, 12, -18, 8);
+  ctx.moveTo(12, -20); ctx.lineTo(12 + legSwing2, 0); ctx.lineTo(-4 + legSwing2, 0);
+  ctx.lineTo(14 + legSwing2, -6); ctx.lineTo(24 + legSwing2, 0); ctx.closePath();
+  ctx.fill(); ctx.stroke();
+
+  // 2. Plump Feathered Body
+  ctx.beginPath();
+  ctx.ellipse(0, -55, 46, 34, -0.15, 0, Math.PI * 2);
+  strokeFill(ctx, featherColor, outline, 4);
+
+  // Body underside shadow
+  ctx.fillStyle = shadowColor;
+  ctx.beginPath();
+  ctx.arc(0, -55, 44, Math.PI * 0.2, Math.PI * 0.85);
   ctx.fill();
 
-  ctx.restore(); // end head
+  // Upturned Cute Duck Tail Feathers
+  ctx.fillStyle = featherColor; ctx.strokeStyle = outline; ctx.lineWidth = 3.5;
+  ctx.beginPath();
+  ctx.moveTo(-38, -62);
+  ctx.quadraticCurveTo(-65, -85, -55, -95);
+  ctx.quadraticCurveTo(-45, -78, -32, -75);
+  ctx.closePath();
+  ctx.fill(); ctx.stroke();
 
-  // Arms & Gestures
-  if (action === 'uncle_reveals_trick') {
-    // Waving hand dismissively & laughing
-    const lHand = Math.sin(t * 12) * 15;
+  // 3. SPECIAL ATTIRE: If Akhi Duck (wearing pink ribbon bow & harness diaper!)
+  if (isAkhi) {
+    // Pink Patterned Harness / Diaper around body (Reference Video!)
+    drawRoundRect(ctx, -26, -65, 52, 28, 8, '#ff80bf', '#d63384', 3);
+    // Cute diaper white dots pattern
+    ctx.fillStyle = '#ffffff';
+    drawCircle(ctx, -14, -54, 3, '#ffffff', null);
+    drawCircle(ctx, 0, -54, 3, '#ffffff', null);
+    drawCircle(ctx, 14, -54, 3, '#ffffff', null);
+
+    // Bright Pink Ribbon Bow on Back
     ctx.save();
-    ctx.translate(34, -140);
-    ctx.strokeStyle = outline; ctx.lineWidth = 14;
-    ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(35, -20); ctx.lineTo(45 + lHand, -70); ctx.stroke();
-    ctx.strokeStyle = kurtaColor; ctx.lineWidth = 9;
-    ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(35, -20); ctx.stroke();
-    drawCircle(ctx, 45 + lHand, -70, 11, skin, outline, 3);
+    ctx.translate(-12, -78);
+    ctx.fillStyle = '#ff1493'; ctx.strokeStyle = '#c71585'; ctx.lineWidth = 2.5;
+    // Left loop
+    ctx.beginPath(); ctx.ellipse(-12, -6, 12, 7, -0.4, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    // Right loop
+    ctx.beginPath(); ctx.ellipse(12, -6, 12, 7, 0.4, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    // Center knot
+    drawCircle(ctx, 0, -6, 5, '#ff69b4', '#c71585', 2);
+    // Ribbon tails
+    ctx.beginPath(); ctx.moveTo(-4, -2); ctx.lineTo(-10, 15); ctx.lineTo(-2, 12); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(4, -2); ctx.lineTo(10, 15); ctx.lineTo(2, 12); ctx.closePath(); ctx.fill();
     ctx.restore();
+  }
 
-    drawRoundRect(ctx, -48, -135, 16, 45, 8, kurtaColor, outline, 3.5);
-    drawCircle(ctx, -40, -85, 10, skin, outline, 3);
-  } else if (action === 'spooky_warning' || action === 'cat_turning_black' || action === 'cat_creepy_eyes') {
-    // Spooky storytelling gesture: pointing with dramatic spooky hand
-    ctx.save();
-    ctx.translate(-30, -140);
-    ctx.strokeStyle = outline; ctx.lineWidth = 14;
-    ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-45, 15); ctx.lineTo(-95, -10); ctx.stroke();
-    ctx.strokeStyle = kurtaColor; ctx.lineWidth = 9;
-    ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-45, 15); ctx.stroke();
-    // Hand pointing towards the bed/cat
-    drawCircle(ctx, -95, -10, 9, skin, outline, 3);
-    ctx.strokeStyle = outline; ctx.lineWidth = 5;
-    ctx.beginPath(); ctx.moveTo(-95, -10); ctx.lineTo(-118, -14); ctx.stroke();
-    ctx.restore();
+  // 4. Duck Wing
+  const wingFlap = isMoving ? Math.sin(t * 12) * 8 : (action === 'duck_warning' && !isAkhi ? -25 : 0);
+  ctx.save();
+  ctx.translate(6, -62);
+  ctx.rotate(wingFlap * Math.PI / 180);
 
-    drawRoundRect(ctx, 28, -135, 18, 45, 8, kurtaColor, outline, 3.5);
-    drawCircle(ctx, 36, -85, 10, skin, outline, 3);
+  ctx.beginPath();
+  ctx.ellipse(0, 0, 28, 18, 0.25, 0, Math.PI * 2);
+  strokeFill(ctx, featherColor, outline, 3.5);
+
+  // Feather wing detail
+  ctx.strokeStyle = shadowColor; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.arc(2, 0, 18, 0.3, Math.PI * 0.9); ctx.stroke();
+
+  ctx.restore();
+
+  // 5. Long Graceful Duck Neck
+  ctx.fillStyle = featherColor; ctx.strokeStyle = outline; ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.moveTo(14, -75);
+  ctx.quadraticCurveTo(25, -110, 24, -135);
+  ctx.lineTo(38, -135);
+  ctx.quadraticCurveTo(42, -100, 32, -70);
+  ctx.closePath();
+  ctx.fill(); ctx.stroke();
+
+  // 6. Cute Duck Head
+  const headX = 30, headY = -140;
+  drawCircle(ctx, headX, headY, 20, featherColor, outline, 4);
+
+  // 7. Beak (Orange) & Talking Quack Action
+  const quackGap = isSpeaking ? (Math.abs(Math.sin(t * 18)) * 10 + 2) : 2;
+
+  // Upper Beak
+  ctx.fillStyle = beakOrange; ctx.strokeStyle = outline; ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(headX + 12, headY - 6);
+  ctx.quadraticCurveTo(headX + 38, headY - 12, headX + 44, headY - 4);
+  ctx.lineTo(headX + 14, headY + 3);
+  ctx.closePath();
+  ctx.fill(); ctx.stroke();
+
+  // Nostril dot
+  drawCircle(ctx, headX + 22, headY - 5, 1.5, '#d35400', null);
+
+  // Lower Beak (Opens when speaking)
+  ctx.beginPath();
+  ctx.moveTo(headX + 14, headY + 3);
+  ctx.lineTo(headX + 36, headY + 4 + quackGap);
+  ctx.lineTo(headX + 12, headY + 8 + quackGap);
+  ctx.closePath();
+  ctx.fill(); ctx.stroke();
+
+  // 8. Expressive Duck Eyes
+  if (isAkhi) {
+    // Akhi: Big Cute Shiny Eyes with Eyelashes
+    drawCircle(ctx, headX + 4, headY - 4, 7, '#2d3436', outline, 2);
+    drawCircle(ctx, headX + 2, headY - 6, 2.5, '#ffffff', null);
+    drawCircle(ctx, headX + 5, headY - 3, 1.5, '#ffffff', null);
+    // Eyelashes
+    ctx.strokeStyle = outline; ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(headX + 6, headY - 11); ctx.lineTo(headX + 12, headY - 16); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(headX + 2, headY - 11); ctx.lineTo(headX + 4, headY - 17); ctx.stroke();
   } else {
-    // Relaxed pose / resting on bed
-    drawRoundRect(ctx, -46, -135, 16, 45, 8, kurtaColor, outline, 3.5);
-    drawCircle(ctx, -38, -85, 10, skin, outline, 3);
-    drawRoundRect(ctx, 30, -135, 16, 45, 8, kurtaColor, outline, 3.5);
-    drawCircle(ctx, 38, -85, 10, skin, outline, 3);
+    // Duck 1: Clever Scheming Eyebrows & Confident Eye
+    drawCircle(ctx, headX + 4, headY - 4, 6, '#2d3436', outline, 2);
+    drawCircle(ctx, headX + 2, headY - 6, 2.5, '#ffffff', null);
+    // Clever arched eyebrow
+    ctx.strokeStyle = outline; ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(headX - 4, headY - 13);
+    ctx.quadraticCurveTo(headX + 4, headY - 18, headX + 12, headY - 12);
+    ctx.stroke();
+  }
+
+  // Question Marks above Akhi when curious
+  if (isAkhi && action === 'akhi_curious') {
+    ctx.save();
+    ctx.translate(headX - 10, headY - 45);
+    ctx.font = 'bold 36px "Noto Sans Bengali", sans-serif';
+    ctx.fillStyle = '#ff3838';
+    ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 5;
+    ctx.strokeText('?', 0, 0);
+    ctx.fillText('?', 0, 0);
+    ctx.restore();
   }
 
   ctx.restore();
 }
 
 // ----------------------------------------------------
-// Character: আঁখি (Akhi - Little Girl with pigtails)
+// The Two Ducks Snuggled in the Pink Bed (Victory Scene)
 // ----------------------------------------------------
-function drawAkhi(ctx, x, y, s, t, action, local) {
+function drawDucksInBed(ctx, bedX, bedY, s, t) {
   ctx.save();
-  ctx.translate(x, y);
+  ctx.translate(bedX, bedY - 14);
   ctx.scale(s, s);
 
-  const skin = '#fcd0a1';
-  const outline = '#1f1a17';
-  const dressColor = '#e91e63';
+  const bob = Math.sin(t * 4) * 3;
 
-  // Legs & Cute Shoes
-  drawRoundRect(ctx, -18, -35, 14, 42, 5, skin, outline, 3);
-  drawRoundRect(ctx, 4, -35, 14, 42, 5, skin, outline, 3);
-  // Red Mary Jane shoes with yellow socks
-  drawRoundRect(ctx, -24, 0, 20, 12, 4, '#c0392b', outline, 2.5);
-  drawRoundRect(ctx, 4, 0, 20, 12, 4, '#c0392b', outline, 2.5);
-
-  // Pink/Magenta Frock
-  ctx.beginPath();
-  ctx.moveTo(-26, -125); ctx.lineTo(26, -125);
-  ctx.lineTo(36, -35); ctx.lineTo(-36, -35);
-  ctx.closePath();
-  strokeFill(ctx, dressColor, outline, 3.5);
-
-  // Yellow waistband & ribbon bow
-  ctx.fillStyle = '#f1c40f';
-  ctx.fillRect(-30, -75, 60, 8);
-  drawCircle(ctx, 0, -71, 5, '#f39c12', null);
-
-  // Neck
-  drawRoundRect(ctx, -10, -145, 20, 25, 4, skin, outline, 3);
-
-  // Head
+  // Duck 1 (Left - Mastermind Duck nestled in bed)
   ctx.save();
-  ctx.translate(0, -165);
+  ctx.translate(-35, -12 + bob);
 
-  // Cute Pigtails on both sides with ribbons!
-  // Left pigtail
-  ctx.fillStyle = '#2c2523'; ctx.strokeStyle = outline; ctx.lineWidth = 3.5;
+  // Plump body in bed
   ctx.beginPath();
-  ctx.arc(-36, -16, 16, 0, Math.PI * 2);
-  ctx.fill(); ctx.stroke();
-  drawCircle(ctx, -32, -18, 6, '#f1c40f', '#b7950b', 2); // yellow hair tie
-  // Right pigtail
+  ctx.ellipse(0, 5, 38, 24, -0.1, 0, Math.PI * 2);
+  strokeFill(ctx, '#ffffff', '#2d3436', 3.5);
+
+  // Wing resting on bolster rim
+  drawRoundRect(ctx, -20, 2, 36, 18, 8, '#ffffff', '#2d3436', 3);
+
+  // Neck & Head
+  drawCircle(ctx, 4, -28, 22, '#ffffff', '#2d3436', 3.5);
+
+  // Smug Happy Eyes ^_^
+  ctx.strokeStyle = '#2d3436'; ctx.lineWidth = 3.5;
+  ctx.beginPath(); ctx.arc(-4, -30, 6, Math.PI, 0); ctx.stroke();
+  ctx.beginPath(); ctx.arc(12, -30, 6, Math.PI, 0); ctx.stroke();
+
+  // Cheerful Orange Beak
+  ctx.fillStyle = '#ff793f'; ctx.strokeStyle = '#2d3436'; ctx.lineWidth = 3;
   ctx.beginPath();
-  ctx.arc(36, -16, 16, 0, Math.PI * 2);
-  ctx.fill(); ctx.stroke();
-  drawCircle(ctx, 32, -18, 6, '#f1c40f', '#b7950b', 2);
-
-  // Ears
-  drawCircle(ctx, -30, 0, 8, skin, outline, 2.5);
-  drawCircle(ctx, 30, 0, 8, skin, outline, 2.5);
-
-  // Face
-  drawCircle(ctx, 0, 0, 30, skin, outline, 3.5);
-
-  // Cute bangs hair
-  ctx.fillStyle = '#2c2523'; ctx.strokeStyle = outline; ctx.lineWidth = 3.5;
-  ctx.beginPath();
-  ctx.moveTo(-30, -4);
-  ctx.quadraticCurveTo(-34, -36, 0, -38);
-  ctx.quadraticCurveTo(34, -36, 30, -4);
-  ctx.quadraticCurveTo(15, -18, -4, -18);
+  ctx.moveTo(0, -24);
+  ctx.quadraticCurveTo(18, -28, 26, -22);
+  ctx.lineTo(2, -18);
   ctx.closePath();
   ctx.fill(); ctx.stroke();
 
-  // Face Expression depending on Horror vs Relief
-  if (action === 'cat_flees_scared') {
-    // "মাগো বাঁচাও!" - Screaming in total terror!
-    ctx.strokeStyle = outline; ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.arc(-12, -18, 8, Math.PI * 1.1, Math.PI * 1.9);
-    ctx.arc(12, -18, 8, Math.PI * 1.1, Math.PI * 1.9);
-    ctx.stroke();
+  ctx.restore();
 
-    // Giant terrified round eyes
-    drawCircle(ctx, -12, -6, 9, '#ffffff', outline, 3);
-    drawCircle(ctx, 12, -6, 9, '#ffffff', outline, 3);
-    drawCircle(ctx, -12, -6, 3, '#1f1a17', null);
-    drawCircle(ctx, 12, -6, 3, '#1f1a17', null);
+  // Duck 2 (Right - Akhi with pink bow & harness in bed)
+  ctx.save();
+  ctx.translate(35, -14 + bob);
 
-    // Wide screaming open mouth
-    ctx.fillStyle = '#922b21';
-    ctx.beginPath(); ctx.ellipse(0, 14, 8, 12, 0, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-    // Tears flying
-    drawCircle(ctx, -22, -2, 4, '#3498db', null);
-    drawCircle(ctx, 22, -2, 4, '#3498db', null);
-  } else if (action === 'clever_idea_finish') {
-    // Beaming with happy admiration!
-    drawCircle(ctx, -12, -6, 7, '#ffffff', outline, 2.5);
-    drawCircle(ctx, 12, -6, 7, '#ffffff', outline, 2.5);
-    drawCircle(ctx, -10, -6, 3.5, '#1f1a17', null);
-    drawCircle(ctx, 14, -6, 3.5, '#1f1a17', null);
-    // Rosy cheeks
-    drawCircle(ctx, -18, 4, 6, 'rgba(231, 76, 60, 0.45)', null);
-    drawCircle(ctx, 18, 4, 6, 'rgba(231, 76, 60, 0.45)', null);
-    // Big cheerful smile
-    ctx.fillStyle = '#922b21';
-    ctx.beginPath(); ctx.arc(0, 8, 10, 0, Math.PI); ctx.fill(); ctx.stroke();
-  } else {
-    // Curious / Spooked listening
-    const isAfraid = (action === 'cat_turning_black' || action === 'cat_creepy_eyes' || action === 'darkness_vanishing');
-    drawCircle(ctx, -12, -6, 7, '#ffffff', outline, 2.5);
-    drawCircle(ctx, 12, -6, 7, '#ffffff', outline, 2.5);
-    drawCircle(ctx, -14, -6, 3, '#1f1a17', null);
-    drawCircle(ctx, 10, -6, 3, '#1f1a17', null);
-    if (isAfraid) {
-      // Trembling mouth
-      ctx.strokeStyle = outline; ctx.lineWidth = 2.5;
-      ctx.beginPath(); ctx.moveTo(-6, 12); ctx.quadraticCurveTo(0, 8, 6, 12); ctx.stroke();
-    } else {
-      ctx.beginPath(); ctx.arc(0, 8, 6, 0, Math.PI); ctx.stroke();
-    }
-  }
+  // Plump body in bed
+  ctx.beginPath();
+  ctx.ellipse(0, 5, 36, 24, 0.1, 0, Math.PI * 2);
+  strokeFill(ctx, '#fffbf5', '#2d3436', 3.5);
 
-  ctx.restore(); // end head
+  // Pink Diaper visible
+  drawRoundRect(ctx, -14, 6, 28, 16, 6, '#ff80bf', '#d63384', 2.5);
 
-  // Arms & Hand Gestures
-  if (action === 'cat_flees_scared') {
-    // Both hands holding cheeks in terror!
-    drawRoundRect(ctx, -38, -140, 14, 45, 6, dressColor, outline, 3);
-    drawCircle(ctx, -24, -150, 8, skin, outline, 2.5);
-    drawRoundRect(ctx, 24, -140, 14, 45, 6, dressColor, outline, 3);
-    drawCircle(ctx, 24, -150, 8, skin, outline, 2.5);
-  } else if (action === 'clever_idea_finish') {
-    // Clapping / Thumbs up!
-    drawRoundRect(ctx, -36, -120, 14, 38, 6, dressColor, outline, 3);
-    drawCircle(ctx, -26, -85, 8, skin, outline, 2.5);
-    drawRoundRect(ctx, 22, -120, 14, 38, 6, dressColor, outline, 3);
-    drawCircle(ctx, 26, -85, 8, skin, outline, 2.5);
-  } else {
-    // Standing curiously
-    drawRoundRect(ctx, -36, -115, 12, 38, 5, dressColor, outline, 2.5);
-    drawCircle(ctx, -30, -75, 7, skin, outline, 2.5);
-    drawRoundRect(ctx, 24, -115, 12, 38, 5, dressColor, outline, 2.5);
-    drawCircle(ctx, 30, -75, 7, skin, outline, 2.5);
-  }
+  // Wing resting on bolster rim
+  drawRoundRect(ctx, -16, 2, 34, 18, 8, '#fffbf5', '#2d3436', 3);
+
+  // Neck & Head
+  drawCircle(ctx, -2, -28, 21, '#fffbf5', '#2d3436', 3.5);
+
+  // Cute Pink Ribbon Bow on top
+  ctx.fillStyle = '#ff1493'; ctx.strokeStyle = '#c71585'; ctx.lineWidth = 2.5;
+  ctx.beginPath(); ctx.ellipse(-10, -50, 10, 6, -0.3, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  ctx.beginPath(); ctx.ellipse(10, -50, 10, 6, 0.3, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+  drawCircle(ctx, 0, -50, 4.5, '#ff69b4', '#c71585', 2);
+
+  // Sweet closed happy eyes with lashes
+  ctx.strokeStyle = '#2d3436'; ctx.lineWidth = 3.5;
+  ctx.beginPath(); ctx.arc(-10, -30, 5.5, Math.PI, 0); ctx.stroke();
+  ctx.beginPath(); ctx.arc(6, -30, 5.5, Math.PI, 0); ctx.stroke();
+  // Cute lashes
+  ctx.beginPath(); ctx.moveTo(11, -34); ctx.lineTo(16, -38); ctx.stroke();
+
+  // Cute Beak
+  ctx.fillStyle = '#ff793f'; ctx.strokeStyle = '#2d3436'; ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(-6, -24);
+  ctx.quadraticCurveTo(12, -28, 20, -22);
+  ctx.lineTo(-4, -18);
+  ctx.closePath();
+  ctx.fill(); ctx.stroke();
+
+  ctx.restore();
+
+  // Floating Love Hearts & Laughing Stars
+  const hY = (t * 45) % 95;
+  ctx.font = '36px sans-serif';
+  ctx.fillText('💖', -25, -60 - hY);
+  ctx.fillText('✨', 45, -50 - (hY * 0.8));
+  ctx.fillText('😂', 5, -80 - (hY * 0.6));
 
   ctx.restore();
 }
@@ -556,65 +655,97 @@ function frame(ctx, w, h, t) {
   const scene = BEATS.find(s => t >= s.start && t < s.end) || BEATS.at(-1);
   const local = t - scene.start;
 
-  // Adaptive Floor & Scale
-  const floorY = vertical ? h * 0.70 : h * 0.78;
-  const charScale = vertical ? (w / 1080) * 2.25 : (h / 1080) * 1.55;
+  // Adaptive Floor & Scales (Fill frame beautifully in both aspect ratios)
+  const floorY = vertical ? h * 0.58 : h * 0.78;
+  const scale = vertical ? (w / 1080) * 3.0 : (h / 1080) * 1.55;
 
-  // Calculate Spooky Atmosphere Progress
+  // Calculate Spooky Storytelling Progress
   const isSpooky = (t >= 6.25 && t < 20.5);
-  const spookyProgress = isSpooky ? Math.min(1, (t - 6.25) / 6.0) : 0;
+  const spookyProgress = isSpooky ? Math.min(1, (t - 6.25) / 5.5) : 0;
 
-  // 1. Render Bedroom Background
-  drawBedroomBG(ctx, w, h, t, floorY, isSpooky, spookyProgress);
+  // 1. Render Living Room
+  drawLivingRoomBG(ctx, w, h, t, floorY, isSpooky, spookyProgress);
 
-  // 2. Render Bed in Center / Left-Center
-  const bedW = vertical ? w * 0.52 : w * 0.36;
-  const bedX = vertical ? w * 0.15 : w * 0.22;
-  const bedY = floorY;
-  drawBed(ctx, bedX, bedY, bedW, isSpooky, spookyProgress);
+  // 2. Pink Pet Bed Coordinates
+  const bedW = vertical ? w * 0.68 : w * 0.38;
+  const bedH = bedW * 0.58;
+  const bedX = vertical ? w * 0.58 : w * 0.42;
+  const bedY = floorY - bedH * 0.28;
 
-  // 3. Render Cat on Bed (unless already fled after 18s)
+  // Draw the cozy pink bed
+  drawPinkPetBed(ctx, bedX, bedY, bedW, bedH);
+
+  // 3. Render Cat or Occupied Ducks
   if (t < 20.5) {
-    let catStage = 'normal';
+    // Cat is in bed or fleeing!
+    let catState = 'normal';
     let catProgress = 0;
-    if (scene.action === 'cat_turning_black') {
-      catStage = 'darkening';
-      catProgress = (t - 6.25) / 4.75;
-    } else if (scene.action === 'cat_creepy_eyes') {
-      catStage = 'creepy_eyes';
-      catProgress = (t - 11.0) / 4.0;
-    } else if (scene.action === 'darkness_vanishing') {
-      catStage = 'creepy_eyes';
-      catProgress = 1.0;
-    } else if (scene.action === 'cat_flees_scared') {
-      catStage = 'flees';
+    if (scene.action === 'cat_watching_nervous') {
+      catState = 'suspicious';
+    } else if (scene.action === 'cat_shivering_scared') {
+      catState = 'shivering';
+    } else if (scene.action === 'cat_panicking') {
+      catState = 'panicking';
+    } else if (scene.action === 'cat_flees_rocket') {
+      catState = 'rocket_flee';
       catProgress = (t - 17.5) / 1.5;
     }
 
-    const catX = bedX + bedW * 0.55;
-    const catY = bedY - 50;
-    drawCat(ctx, catX, catY, charScale * 0.95, t, catStage, catProgress);
+    drawBlackCat(ctx, bedX, bedY - 12, scale * 0.95, t, catState, catProgress);
   }
 
-  // 4. Render Uncle & Akhi
-  const uncleX = vertical ? w * 0.74 : w * 0.68;
-  const akhiX = vertical ? w * 0.88 : w * 0.84;
+  // 4. Render Ducks
+  const inBed = (scene.action === 'ducks_hop_in_bed' || scene.action === 'ducks_victory_cozy');
 
-  if (scene.action === 'sit_on_bed' || scene.action === 'uncle_reveals_trick' || scene.action === 'clever_idea_finish') {
-    // Uncle sits on the bed!
-    const sittingUncleX = bedX + bedW * 0.5;
-    drawUncle(ctx, sittingUncleX, bedY - 35, charScale, t, scene.action, local);
-    drawAkhi(ctx, akhiX, floorY, charScale * 0.88, t, scene.action, local);
+  if (inBed) {
+    // Both ducks are snuggled in the pink pet bed!
+    drawDucksInBed(ctx, bedX, bedY, scale * 1.1, t);
   } else {
-    // Uncle and Akhi standing together looking at the bed
-    drawUncle(ctx, uncleX, floorY, charScale, t, scene.action, local);
-    drawAkhi(ctx, akhiX, floorY, charScale * 0.88, t, scene.action, local);
+    // Ducks waddling / standing in the room
+    let duck1X, duck1Y, duck2X, duck2Y;
+
+    if (scene.action === 'ducks_approach_bed') {
+      // Walking right up to the bed
+      const p = Math.min(1, local / 3.0);
+      const startX1 = vertical ? w * 0.15 : w * 0.12;
+      const targetX1 = bedX - bedW * 0.38;
+      duck1X = startX1 + (targetX1 - startX1) * p;
+      duck1Y = floorY;
+
+      const startX2 = vertical ? w * 0.02 : w * 0.02;
+      const targetX2 = bedX - bedW * 0.65;
+      duck2X = startX2 + (targetX2 - startX2) * p;
+      duck2Y = floorY;
+    } else {
+      // Standing on the left / side observing
+      duck1X = vertical ? w * 0.26 : w * 0.20;
+      duck1Y = floorY;
+      duck2X = vertical ? w * 0.10 : w * 0.09;
+      duck2Y = floorY;
+    }
+
+    // Who is speaking?
+    const isDuck1Speaking = (
+      scene.action === 'duck_warning' ||
+      scene.action === 'cat_watching_nervous' ||
+      scene.action === 'cat_shivering_scared' ||
+      scene.action === 'cat_panicking' ||
+      scene.action === 'cat_flees_rocket' ||
+      scene.action === 'ducks_approach_bed'
+    );
+    const isAkhiSpeaking = (scene.action === 'akhi_curious');
+
+    // Duck 1 (Leader / Mastermind)
+    drawDuck(ctx, duck1X, duck1Y, scale * 0.95, t, false, scene.action, isDuck1Speaking, 0);
+
+    // Duck 2 (Akhi - Pink Bow & Diaper)
+    drawDuck(ctx, duck2X, duck2Y, scale * 0.88, t, true, scene.action, isAkhiSpeaking, Math.PI * 0.5);
   }
 
-  // Smooth scene fade
+  // Smooth scene fade transitions
   const fade = Math.min(cl(local / 0.2), cl((scene.end - t) / 0.2));
   if (fade < 1) {
-    ctx.fillStyle = `rgba(0, 0, 0, ${(1 - fade) * 0.35})`;
+    ctx.fillStyle = `rgba(0, 0, 0, ${(1 - fade) * 0.3})`;
     ctx.fillRect(0, 0, w, h);
   }
 
@@ -660,22 +791,8 @@ function frame(ctx, w, h, t) {
     }
   }
 
-  // Zero brand watermark drawn on video (Per user request)
+  // Zero watermark per user instruction!
 }
 
-function wrap(ctx, text, width) {
-  const words = text.split(/\s+/);
-  const out = [];
-  let s = '';
-  for (const w of words) {
-    const n = s ? s + ' ' + w : w;
-    if (ctx.measureText(n).width > width && s) {
-      out.push(s);
-      s = w;
-    } else {
-      s = n;
-    }
-  }
-  if (s) out.push(s);
-  return out;
-}
+// Global hook
+window.frame = frame;
