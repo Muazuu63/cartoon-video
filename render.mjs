@@ -7,7 +7,8 @@ const require=createRequire(import.meta.url);
 let chromium;try{({chromium}=require('playwright'));}catch{({chromium}=require(require.resolve('playwright',{paths:[process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES||'']})));}
 const root=path.dirname(fileURLToPath(import.meta.url)),test=process.argv.includes('--test');
 const config=JSON.parse(fs.readFileSync(path.join(root,'story.json'),'utf8'));
-const out=path.join(root,'exports');fs.mkdirSync(out,{recursive:true});
+const folderName=config.export_folder || (config.title ? config.title.trim().replace(/[\s\/:*?"<>|\\]+/g,'_') : 'video_output');
+const out=path.join(root,'exports',folderName);fs.mkdirSync(out,{recursive:true});
 function command(args){const r=spawnSync('ffmpeg',['-hide_banner','-loglevel','error','-y',...args],{stdio:'inherit'});if(r.status!==0)throw Error('FFmpeg failed');}
 const browser=await chromium.launch({headless:true,...(process.env.CHROME_PATH?{executablePath:process.env.CHROME_PATH}:{}),args:process.env.NO_SANDBOX==='1'?['--no-sandbox']:[]});
 try{
