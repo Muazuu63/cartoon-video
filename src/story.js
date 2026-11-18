@@ -521,7 +521,7 @@ function frame(ctx, w, h, t) {
 
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  const font = '"Nirmala UI", "Noto Sans Bengali", Arial, sans-serif';
+  const font = '"Noto Sans Bengali", "Nirmala UI", Arial, sans-serif';
 
   // Scene Title Banner (Top)
   const titleSize = vertical ? 52 : 36;
