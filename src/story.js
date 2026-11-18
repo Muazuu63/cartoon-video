@@ -1,4 +1,4 @@
-// Full-Color 2D Cartoon Animation Engine - Blind Man Bus Prank (Full Concept)
+// Full-Color 2D Cartoon Animation Engine - Real Madrid Friend Restaurant Twist
 const DURATION = CONFIG.duration;
 const BEATS = CONFIG.scenes;
 
@@ -40,300 +40,80 @@ function wrap(ctx, text, width) {
 }
 
 // ----------------------------------------------------
-// Environments: Garden Lawn & The Concrete Bridge
+// Outdoor Field & Village Background
 // ----------------------------------------------------
-function drawGardenBG(ctx, W, H, t, vertical) {
-  // Overcast sky with soft cinematic lighting
+function drawOutdoorBG(ctx, W, H, t, vertical) {
+  // Sunny warm sky gradient
   const skyGrad = ctx.createLinearGradient(0, 0, 0, H * 0.65);
-  skyGrad.addColorStop(0, '#78909c');
-  skyGrad.addColorStop(0.4, '#90a4ae');
-  skyGrad.addColorStop(0.75, '#b0bec5');
-  skyGrad.addColorStop(1, '#cfd8dc');
+  skyGrad.addColorStop(0, '#64b5f6');
+  skyGrad.addColorStop(0.4, '#90caf9');
+  skyGrad.addColorStop(0.75, '#e3f2fd');
+  skyGrad.addColorStop(1, '#fff9c4');
   ctx.fillStyle = skyGrad;
   ctx.fillRect(0, 0, W, H);
 
   // Soft moving clouds
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.55)';
   for (let c = 0; c < 5; c++) {
-    const cx = (W * 0.15 + c * (W * 0.25) + t * 4) % (W + 200) - 100;
+    const cx = (W * 0.15 + c * (W * 0.28) + t * 4) % (W + 200) - 100;
     const cy = H * 0.12 + (c % 2) * (H * 0.08);
     ctx.beginPath();
-    ctx.ellipse(cx, cy, 140, 45, 0, 0, Math.PI * 2);
-    ctx.ellipse(cx + 60, cy - 15, 90, 40, 0, 0, Math.PI * 2);
-    ctx.ellipse(cx - 50, cy - 10, 80, 35, 0, 0, Math.PI * 2);
+    ctx.ellipse(cx, cy, 130, 40, 0, 0, Math.PI * 2);
+    ctx.ellipse(cx + 50, cy - 12, 80, 35, 0, 0, Math.PI * 2);
+    ctx.ellipse(cx - 45, cy - 8, 75, 30, 0, 0, Math.PI * 2);
     ctx.fill();
   }
 
-  // Green Security Fence Panels (Background)
-  const fenceY = H * 0.38;
-  const fenceH = H * 0.28;
-  ctx.fillStyle = '#2e7d32';
-  ctx.fillRect(0, fenceY, W, fenceH);
-
-  // Fence vertical slats
-  ctx.strokeStyle = '#1b5e20';
-  ctx.lineWidth = 4;
-  for (let fx = 0; fx <= W; fx += (vertical ? 60 : 80)) {
-    ctx.beginPath();
-    ctx.moveTo(fx, fenceY);
-    ctx.lineTo(fx, fenceY + fenceH);
-    ctx.stroke();
-  }
-
-  // Lush Green Grass Lawn
-  const lawnY = fenceY + fenceH;
-  const lawnGrad = ctx.createLinearGradient(0, lawnY, 0, H);
-  lawnGrad.addColorStop(0, '#43a047');
-  lawnGrad.addColorStop(0.5, '#4caf50');
-  lawnGrad.addColorStop(1, '#388e3c');
-  ctx.fillStyle = lawnGrad;
-  ctx.fillRect(0, lawnY, W, H - lawnY);
-
-  // Concrete driveway / path on right
-  const pathGrad = ctx.createLinearGradient(0, lawnY, 0, H);
-  pathGrad.addColorStop(0, '#b0bec5');
-  pathGrad.addColorStop(0.5, '#cfd8dc');
-  pathGrad.addColorStop(1, '#90a4ae');
-  ctx.fillStyle = pathGrad;
-
-  const pathLeft = W * (vertical ? 0.42 : 0.48);
+  // Distant green tree line / palm trees
+  ctx.fillStyle = '#388e3c';
   ctx.beginPath();
-  ctx.moveTo(pathLeft, lawnY);
-  ctx.lineTo(W, lawnY);
-  ctx.lineTo(W, H);
-  ctx.lineTo(pathLeft - (vertical ? 75 : 110), H);
-  ctx.closePath();
-  ctx.fill();
-
-  // Brick Curb / Ledge separating lawn and path (where friends sit!)
-  ctx.fillStyle = '#b71c1c';
-  ctx.strokeStyle = '#5d4037';
-  ctx.lineWidth = 3;
-  ctx.beginPath();
-  ctx.moveTo(pathLeft - 20, lawnY);
-  ctx.lineTo(pathLeft + 25, lawnY);
-  ctx.lineTo(pathLeft - (vertical ? 55 : 90), H);
-  ctx.lineTo(pathLeft - (vertical ? 95 : 130), H);
-  ctx.closePath();
-  ctx.fill(); ctx.stroke();
-
-  // Red clay brick pattern
-  for (let b = 0; b < 18; b++) {
-    const by = lawnY + b * ((H - lawnY) / 18);
-    const bx = pathLeft - (b * (vertical ? 4.5 : 6.5));
-    ctx.beginPath();
-    ctx.moveTo(bx - 15, by);
-    ctx.lineTo(bx + 20, by);
-    ctx.stroke();
-  }
-
-  // Ornamental shrubs / bushes on lawn
-  const shrubs = [
-    { x: 0.12, y: 0.70, r: 45 },
-    { x: 0.28, y: 0.74, r: 55 },
-    { x: 0.18, y: 0.88, r: 60 }
-  ];
-  shrubs.forEach(sh => {
-    drawCircle(ctx, W * sh.x, H * sh.y, sh.r, '#2e7d32', '#1b5e20', 3);
-    drawCircle(ctx, W * sh.x + 15, H * sh.y - 10, sh.r * 0.75, '#388e3c', null, 0);
-  });
-}
-
-function drawBridgeBG(ctx, W, H, t, vertical) {
-  // Overcast sky with gloomy atmosphere
-  const skyGrad = ctx.createLinearGradient(0, 0, 0, H * 0.55);
-  skyGrad.addColorStop(0, '#607d8b');
-  skyGrad.addColorStop(0.5, '#78909c');
-  skyGrad.addColorStop(1, '#b0bec5');
-  ctx.fillStyle = skyGrad;
-  ctx.fillRect(0, 0, W, H);
-
-  // Distant Village Trees & Bamboo on Left/Back
-  ctx.fillStyle = '#2e7d32';
-  ctx.beginPath();
-  ctx.moveTo(0, H * 0.45);
-  for (let x = 0; x <= W * 0.65; x += 40) {
-    const ty = H * 0.42 + Math.sin(x * 0.02) * 20;
+  ctx.moveTo(0, H * 0.48);
+  for (let x = 0; x <= W; x += 40) {
+    const ty = H * 0.45 + Math.sin(x * 0.015) * 18 + Math.cos(x * 0.03) * 10;
     ctx.lineTo(x, ty);
   }
-  ctx.lineTo(W * 0.65, H * 0.55);
-  ctx.lineTo(0, H * 0.55);
+  ctx.lineTo(W, H * 0.58);
+  ctx.lineTo(0, H * 0.58);
   ctx.closePath();
   ctx.fill();
 
-  // Deep Canal with Lush Green Water Hyacinths (কচুরিপানা)
-  const canalW = W * (vertical ? 0.52 : 0.48);
-  const hyacinthGrad = ctx.createLinearGradient(0, H * 0.5, 0, H);
-  hyacinthGrad.addColorStop(0, '#2e7d32');
-  hyacinthGrad.addColorStop(0.4, '#388e3c');
-  hyacinthGrad.addColorStop(0.8, '#43a047');
-  hyacinthGrad.addColorStop(1, '#1b5e20');
-  ctx.fillStyle = hyacinthGrad;
-  ctx.fillRect(0, H * 0.5, canalW, H * 0.5);
-
-  // Hyacinth leaf clusters & cute purple blossoms
-  for (let i = 0; i < 75; i++) {
-    const hx = ((i * 37) % canalW);
-    const hy = H * 0.52 + ((i * 53) % (H * 0.46));
-    ctx.fillStyle = (i % 2 === 0) ? '#4caf50' : '#388e3c';
+  // Banana tree fronds / lush foliage
+  for (let b = 0; b < 6; b++) {
+    const bx = (b * (W / 5) + 30) % W;
+    const by = H * 0.46;
+    ctx.fillStyle = '#4caf50';
     ctx.beginPath();
-    ctx.ellipse(hx, hy, 20, 13, (i * 0.5), 0, Math.PI * 2);
+    ctx.ellipse(bx - 30, by - 15, 45, 14, -0.4, 0, Math.PI * 2);
     ctx.fill();
-
-    // Occasional purple hyacinth flower
-    if (i % 5 === 0) {
-      drawCircle(ctx, hx, hy - 6, 4.5, '#ab47bc', '#7b1fa2', 1.5);
-      drawCircle(ctx, hx, hy - 6, 1.8, '#ffeb3b', null, 0);
-    }
-  }
-
-  // Concrete Bridge Roadway (Right side)
-  const roadGrad = ctx.createLinearGradient(canalW, 0, W, 0);
-  roadGrad.addColorStop(0, '#78909c');
-  roadGrad.addColorStop(0.3, '#90a4ae');
-  roadGrad.addColorStop(1, '#607d8b');
-  ctx.fillStyle = roadGrad;
-  ctx.fillRect(canalW, H * 0.45, W - canalW, H * 0.55);
-
-  // Concrete Bridge Railing (The Narrow Ledge!)
-  const railTopY = H * (vertical ? 0.62 : 0.58);
-  const railW = vertical ? 60 : 75;
-  const railX = canalW - railW * 0.5;
-
-  // Railing main pillar wall
-  ctx.fillStyle = '#90a4ae';
-  ctx.fillRect(railX + 5, railTopY + 24, railW - 10, H - (railTopY + 24));
-  ctx.strokeStyle = '#37474f'; ctx.lineWidth = 4;
-  ctx.strokeRect(railX + 5, railTopY + 24, railW - 10, H - (railTopY + 24));
-
-  // Concrete posts under the rail
-  for (let p = 0; p < 4; p++) {
-    const py = railTopY + 28 + p * (H * 0.11);
     ctx.beginPath();
-    ctx.roundRect(railX - 2, py, railW + 4, 38, 4);
-    strokeFill(ctx, '#b0bec5', '#37474f', 3);
+    ctx.ellipse(bx + 30, by - 15, 45, 14, 0.4, 0, Math.PI * 2);
+    ctx.fill();
   }
 
-  // Top Railing Beam (Where the blind man balances!)
-  ctx.beginPath();
-  ctx.roundRect(railX - 16, railTopY, railW + 32, 28, 6);
-  strokeFill(ctx, '#eceff1', '#37474f', 4);
+  // Warm sandy earth / ground
+  const groundGrad = ctx.createLinearGradient(0, H * 0.55, 0, H);
+  groundGrad.addColorStop(0, '#c8b79b');
+  groundGrad.addColorStop(0.3, '#d7ccc8');
+  groundGrad.addColorStop(0.7, '#bcaaa4');
+  groundGrad.addColorStop(1, '#a1887f');
+  ctx.fillStyle = groundGrad;
+  ctx.fillRect(0, H * 0.54, W, H * 0.46);
+
+  // Soft dirt trail texture
+  ctx.fillStyle = 'rgba(141, 110, 99, 0.25)';
+  for (let i = 0; i < 25; i++) {
+    const sx = ((i * 73) % W);
+    const sy = H * 0.58 + ((i * 47) % (H * 0.4));
+    ctx.beginPath();
+    ctx.ellipse(sx, sy, 22, 6, 0, 0, Math.PI * 2);
+    ctx.fill();
+  }
 }
 
 // ----------------------------------------------------
-// Bottle & Cups (The Catalyst for the Prank!)
+// Character 1: Green Sweater Friend (The Orator)
 // ----------------------------------------------------
-function drawBottleAndCups(ctx, x, y, spilled, t) {
-  ctx.save();
-  ctx.translate(x, y);
-
-  if (!spilled) {
-    // Standing bottle
-    // Shadow
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
-    ctx.beginPath();
-    ctx.ellipse(0, 32, 16, 6, 0, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Glass bottle body
-    ctx.fillStyle = 'rgba(255, 236, 179, 0.85)';
-    ctx.beginPath();
-    ctx.roundRect(-12, -15, 24, 45, 4);
-    ctx.fill();
-    ctx.strokeStyle = '#5d4037'; ctx.lineWidth = 2.5; ctx.stroke();
-
-    // Amber liquor inside
-    ctx.fillStyle = '#e65100';
-    ctx.fillRect(-10, 0, 20, 28);
-
-    // Label on bottle
-    ctx.fillStyle = '#3f51b5';
-    ctx.fillRect(-10, 5, 20, 14);
-    ctx.fillStyle = '#ffd700';
-    drawCircle(ctx, 0, 12, 4, '#ffd700', null, 0);
-
-    // Bottle neck & cap
-    ctx.fillStyle = 'rgba(255, 236, 179, 0.85)';
-    ctx.fillRect(-5, -28, 10, 15);
-    ctx.strokeRect(-5, -28, 10, 15);
-    // Gold cap
-    ctx.fillStyle = '#ffd700';
-    ctx.fillRect(-6, -32, 12, 6);
-
-    // Plastic Cups
-    ctx.fillStyle = '#ffffff';
-    ctx.strokeStyle = '#bdbdbd'; ctx.lineWidth = 1.5;
-    // Cup 1
-    ctx.beginPath();
-    ctx.moveTo(18, 15); ctx.lineTo(28, 15); ctx.lineTo(26, 32); ctx.lineTo(20, 32);
-    ctx.closePath(); ctx.fill(); ctx.stroke();
-    // Cup 2
-    ctx.beginPath();
-    ctx.moveTo(-28, 15); ctx.lineTo(-18, 15); ctx.lineTo(-20, 32); ctx.lineTo(-26, 32);
-    ctx.closePath(); ctx.fill(); ctx.stroke();
-
-  } else {
-    // Spilled / knocked down bottle!
-    // Spilled amber liquid puddle
-    ctx.fillStyle = 'rgba(230, 81, 0, 0.8)';
-    ctx.beginPath();
-    ctx.ellipse(5, 25, 40, 14, -0.1, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Splashing droplets!
-    const splash = Math.sin(t * 12) * 5;
-    ctx.fillStyle = '#e65100';
-    drawCircle(ctx, -20, 15 - splash, 4, '#e65100', null, 0);
-    drawCircle(ctx, 35, 18 - splash, 5, '#e65100', null, 0);
-    drawCircle(ctx, 15, 8 - splash * 1.5, 4.5, '#e65100', null, 0);
-
-    // Bottle lying horizontally on its side
-    ctx.save();
-    ctx.translate(-5, 20);
-    ctx.rotate(Math.PI * 0.48);
-
-    ctx.fillStyle = 'rgba(255, 236, 179, 0.85)';
-    ctx.beginPath();
-    ctx.roundRect(-12, -15, 24, 45, 4);
-    ctx.fill();
-    ctx.strokeStyle = '#5d4037'; ctx.lineWidth = 2.5; ctx.stroke();
-
-    // Partial empty liquor
-    ctx.fillStyle = '#e65100';
-    ctx.fillRect(-10, 15, 20, 12);
-
-    // Neck & cap
-    ctx.fillStyle = 'rgba(255, 236, 179, 0.85)';
-    ctx.fillRect(-5, -28, 10, 15);
-    ctx.strokeRect(-5, -28, 10, 15);
-    ctx.fillStyle = '#ffd700';
-    ctx.fillRect(-6, -32, 12, 6);
-    ctx.restore();
-
-    // Knocked over cups
-    ctx.fillStyle = '#ffffff';
-    ctx.beginPath();
-    ctx.ellipse(32, 28, 8, 5, 0.4, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.beginPath();
-    ctx.ellipse(-32, 26, 8, 5, -0.3, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Big dramatic SPLASH text!
-    ctx.font = 'bold 28px sans-serif';
-    ctx.fillStyle = '#ff1744';
-    ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 3;
-    ctx.strokeText('💥 SPLASH!', 0, -10);
-    ctx.fillText('💥 SPLASH!', 0, -10);
-  }
-
-  ctx.restore();
-}
-
-// ----------------------------------------------------
-// Character 1: Blind Man (With Cane, Shades & Iconic Bus Wave)
-// ----------------------------------------------------
-function drawBlindMan(ctx, x, y, scale, pose, t) {
+function drawGreenSweaterGuy(ctx, x, y, scale, pose, t) {
   ctx.save();
   ctx.translate(x, y);
   ctx.scale(scale, scale);
@@ -344,55 +124,46 @@ function drawBlindMan(ctx, x, y, scale, pose, t) {
   ctx.ellipse(0, 115, 34, 11, 0, 0, Math.PI * 2);
   ctx.fill();
 
-  // Legs & Jeans
-  const legSwing = (pose === 'walking') ? Math.sin(t * 7) * 0.3 : 0;
-  
-  // Left leg (Blue jeans)
-  ctx.save();
-  ctx.translate(-13, 45);
-  ctx.rotate(-legSwing);
-  ctx.fillStyle = '#1565c0';
+  // Cyan / Teal Jeans
+  ctx.fillStyle = '#26a69a';
   ctx.beginPath();
-  ctx.roundRect(-8, 0, 16, 65, 6);
+  ctx.roundRect(-20, 45, 17, 65, 6);
+  ctx.roundRect(3, 45, 17, 65, 6);
   ctx.fill();
-  ctx.strokeStyle = '#0d47a1'; ctx.lineWidth = 2.5; ctx.stroke();
-  // White slide / sandal
+  ctx.strokeStyle = '#00796b'; ctx.lineWidth = 2.5; ctx.stroke();
+
+  // White shoes
   ctx.fillStyle = '#ffffff';
   ctx.beginPath();
-  ctx.roundRect(-10, 60, 22, 12, 5);
+  ctx.roundRect(-22, 105, 20, 11, 5);
+  ctx.roundRect(3, 105, 20, 11, 5);
   ctx.fill();
-  ctx.restore();
 
-  // Right leg
-  ctx.save();
-  ctx.translate(13, 45);
-  ctx.rotate(legSwing);
-  ctx.fillStyle = '#1976d2';
+  // Torso: Olive / Sage Green Sweatshirt
+  ctx.fillStyle = '#81c784';
   ctx.beginPath();
-  ctx.roundRect(-8, 0, 16, 65, 6);
+  ctx.roundRect(-25, -25, 50, 75, 10);
   ctx.fill();
-  ctx.strokeStyle = '#0d47a1'; ctx.lineWidth = 2.5; ctx.stroke();
-  // White slide
-  ctx.fillStyle = '#ffffff';
-  ctx.beginPath();
-  ctx.roundRect(-10, 60, 22, 12, 5);
-  ctx.fill();
-  ctx.restore();
+  ctx.strokeStyle = '#388e3c'; ctx.lineWidth = 3; ctx.stroke();
 
-  // Torso & Grey Polo Shirt
-  ctx.fillStyle = '#78909c';
+  // Black sleeve utility pocket on right arm
+  ctx.fillStyle = '#212121';
   ctx.beginPath();
-  ctx.roundRect(-24, -25, 48, 75, 10);
+  ctx.roundRect(16, -10, 12, 24, 3);
   ctx.fill();
-  ctx.strokeStyle = '#37474f'; ctx.lineWidth = 3; ctx.stroke();
+  ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.5; ctx.stroke();
+
+  // "RISE" badge on left chest
+  ctx.fillStyle = '#212121';
+  ctx.beginPath();
+  ctx.roundRect(-18, -12, 16, 8, 2);
+  ctx.fill();
 
   // Collar
-  ctx.fillStyle = '#546e7a';
+  ctx.strokeStyle = '#66bb6a'; ctx.lineWidth = 4;
   ctx.beginPath();
-  ctx.moveTo(-16, -25); ctx.lineTo(0, -10); ctx.lineTo(16, -25);
-  ctx.lineTo(10, -28); ctx.lineTo(-10, -28);
-  ctx.closePath();
-  ctx.fill(); ctx.stroke();
+  ctx.arc(0, -25, 12, 0, Math.PI);
+  ctx.stroke();
 
   // Neck
   ctx.fillStyle = '#d7ccc8';
@@ -401,284 +172,128 @@ function drawBlindMan(ctx, x, y, scale, pose, t) {
   // Head
   ctx.fillStyle = '#bcaaa4';
   ctx.beginPath();
-  ctx.ellipse(0, -55, 20, 24, 0, 0, Math.PI * 2);
+  ctx.ellipse(0, -52, 19, 22, 0, 0, Math.PI * 2);
   ctx.fill();
   ctx.strokeStyle = '#5d4037'; ctx.lineWidth = 2.5; ctx.stroke();
 
-  // Hair & Beard
-  ctx.fillStyle = '#212121';
-  ctx.beginPath();
-  ctx.arc(0, -62, 21, Math.PI * 0.9, Math.PI * 2.1);
-  ctx.fill();
-  // Neat beard
-  ctx.fillStyle = '#424242';
-  ctx.beginPath();
-  ctx.ellipse(0, -42, 12, 8, 0, 0, Math.PI);
-  ctx.fill();
-
-  // Iconic Dark Sunglasses (Shades)
-  ctx.fillStyle = '#121212';
-  ctx.strokeStyle = '#000000';
-  ctx.lineWidth = 2;
-  // Left lens
-  ctx.beginPath();
-  ctx.roundRect(-17, -60, 15, 12, 3);
-  ctx.fill(); ctx.stroke();
-  // Right lens
-  ctx.beginPath();
-  ctx.roundRect(2, -60, 15, 12, 3);
-  ctx.fill(); ctx.stroke();
-  // Bridge
-  ctx.beginPath();
-  ctx.moveTo(-2, -55); ctx.lineTo(2, -55);
-  ctx.stroke();
-
-  // Cheerful innocent open-mouthed expression!
-  if (pose === 'calling_bus') {
-    // Shouting "এই বাস থামান!"
-    ctx.fillStyle = '#b71c1c';
-    ctx.beginPath();
-    ctx.ellipse(0, -43, 8, 10, 0, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.strokeStyle = '#3e2723'; ctx.lineWidth = 2; ctx.stroke();
-    // White upper teeth
-    ctx.fillStyle = '#ffffff';
-    ctx.beginPath();
-    ctx.roundRect(-6, -49, 12, 5, 2);
-    ctx.fill();
-  } else {
-    // Friendly smile
-    ctx.strokeStyle = '#3e2723';
-    ctx.lineWidth = 2.5;
-    ctx.beginPath();
-    ctx.arc(0, -44, 7, 0.2, Math.PI - 0.2);
-    ctx.stroke();
-  }
-
-  // Arms & Walking Stick
-  if (pose === 'calling_bus') {
-    // Left hand holding cane pointing downwards into the hyacinth abyss!
-    ctx.strokeStyle = '#78909c';
-    ctx.lineWidth = 10;
-    ctx.beginPath();
-    ctx.moveTo(-22, -15);
-    ctx.lineTo(-42, 15);
-    ctx.stroke();
-
-    // Walking stick dipping down over the edge
-    ctx.strokeStyle = '#b0bec5';
-    ctx.lineWidth = 5;
-    ctx.beginPath();
-    ctx.moveTo(-42, 15);
-    ctx.lineTo(-48, 140);
-    ctx.stroke();
-    // Cane red tip
-    ctx.fillStyle = '#ff1744';
-    ctx.beginPath();
-    ctx.roundRect(-50, 130, 5, 10, 2);
-    ctx.fill();
-
-    // RIGHT ARM RAISED STRAIGHT UP TO THE SKY (Iconic bus stop pose!)
-    const armWave = Math.sin(t * 8) * 10;
-    ctx.strokeStyle = '#78909c';
-    ctx.lineWidth = 10;
-    ctx.beginPath();
-    ctx.moveTo(22, -15);
-    ctx.lineTo(28, -75 + armWave);
-    ctx.stroke();
-
-    // Open hand waving to the oncoming "bus"
-    ctx.fillStyle = '#bcaaa4';
-    drawCircle(ctx, 29, -84 + armWave, 10, '#bcaaa4', '#5d4037', 2);
-    // Five fingers spread out waving
-    for (let f = 0; f < 5; f++) {
-      const fAngle = -Math.PI * 0.5 + (f - 2) * 0.35;
-      ctx.beginPath();
-      ctx.moveTo(29 + Math.cos(fAngle) * 8, -84 + armWave + Math.sin(fAngle) * 8);
-      ctx.lineTo(29 + Math.cos(fAngle) * 17, -84 + armWave + Math.sin(fAngle) * 17);
-      ctx.stroke();
-    }
-
-  } else if (pose === 'cane_clink') {
-    // Stick forcefully tapping forward knocking the bottle!
-    ctx.strokeStyle = '#78909c';
-    ctx.lineWidth = 10;
-    ctx.beginPath();
-    ctx.moveTo(20, -15);
-    ctx.lineTo(48, 5);
-    ctx.stroke();
-
-    // Metal cane hitting the brick
-    ctx.strokeStyle = '#b0bec5';
-    ctx.lineWidth = 5.5;
-    ctx.beginPath();
-    ctx.moveTo(48, 5);
-    ctx.lineTo(82, 115);
-    ctx.stroke();
-
-    // Clink impact sparks!
-    ctx.strokeStyle = '#ffd700'; ctx.lineWidth = 2.5;
-    for (let s = 0; s < 4; s++) {
-      const sAng = s * (Math.PI * 0.5);
-      ctx.beginPath();
-      ctx.moveTo(82, 115);
-      ctx.lineTo(82 + Math.cos(sAng) * 15, 115 + Math.sin(sAng) * 15);
-      ctx.stroke();
-    }
-
-  } else {
-    // Normal walking cane
-    const tap = Math.sin(t * 6) * 12;
-    ctx.strokeStyle = '#78909c';
-    ctx.lineWidth = 10;
-    ctx.beginPath();
-    ctx.moveTo(20, -15);
-    ctx.lineTo(35, 15);
-    ctx.stroke();
-
-    // Stick
-    ctx.strokeStyle = '#b0bec5';
-    ctx.lineWidth = 5;
-    ctx.beginPath();
-    ctx.moveTo(35, 15);
-    ctx.lineTo(55 + tap, 112);
-    ctx.stroke();
-
-    // Left arm
-    ctx.strokeStyle = '#78909c';
-    ctx.lineWidth = 10;
-    ctx.beginPath();
-    ctx.moveTo(-20, -15);
-    ctx.lineTo(-30, 25);
-    ctx.stroke();
-  }
-
-  ctx.restore();
-}
-
-// ----------------------------------------------------
-// Character 2: Friend 1 (Striped Shirt - Mischief Master)
-// ----------------------------------------------------
-function drawFriend1(ctx, x, y, scale, pose, t) {
-  ctx.save();
-  ctx.translate(x, y);
-  ctx.scale(scale, scale);
-
-  // Shadow
-  ctx.fillStyle = 'rgba(20, 30, 20, 0.35)';
-  ctx.beginPath();
-  ctx.ellipse(0, 115, 34, 11, 0, 0, Math.PI * 2);
-  ctx.fill();
-
-  // Dark brown pants
-  ctx.fillStyle = '#4e342e';
-  ctx.beginPath();
-  ctx.roundRect(-20, 45, 17, 65, 6);
-  ctx.roundRect(3, 45, 17, 65, 6);
-  ctx.fill();
-
-  // White slides
-  ctx.fillStyle = '#f5f5f5';
-  ctx.beginPath();
-  ctx.roundRect(-22, 105, 20, 11, 5);
-  ctx.roundRect(3, 105, 20, 11, 5);
-  ctx.fill();
-
-  // Torso: Vertical Black & White Striped Shirt
-  ctx.fillStyle = '#212121';
-  ctx.beginPath();
-  ctx.roundRect(-24, -25, 48, 75, 10);
-  ctx.fill();
-  ctx.strokeStyle = '#000000'; ctx.lineWidth = 2; ctx.stroke();
-
-  // White vertical stripes
-  ctx.strokeStyle = '#ffffff';
-  ctx.lineWidth = 4;
-  for (let s = -18; s <= 18; s += 9) {
-    ctx.beginPath();
-    ctx.moveTo(s, -25);
-    ctx.lineTo(s, 50);
-    ctx.stroke();
-  }
-
-  // Head
-  ctx.fillStyle = '#a1887f';
-  ctx.beginPath();
-  ctx.ellipse(0, -52, 19, 22, 0, 0, Math.PI * 2);
-  ctx.fill();
-
-  // Hair
+  // Hair & Stubble
   ctx.fillStyle = '#1e1e1e';
   ctx.beginPath();
   ctx.arc(0, -58, 20, Math.PI * 0.9, Math.PI * 2.1);
   ctx.fill();
+  // Neat chin beard
+  ctx.fillStyle = '#424242';
+  ctx.beginPath();
+  ctx.ellipse(0, -38, 10, 6, 0, 0, Math.PI);
+  ctx.fill();
 
-  // Facial Expression depending on pose
-  if (pose === 'shocked_angry') {
-    // Eyes wide open in horror looking at spilled bottle!
+  // Facial Expressions
+  if (pose === 'angry_speech') {
+    // Angry intense eyes looking at camera
     ctx.fillStyle = '#ffffff';
-    drawCircle(ctx, -7, -54, 7, '#ffffff', '#212121', 2);
-    drawCircle(ctx, 7, -54, 7, '#ffffff', '#212121', 2);
-    // Pupils looking down in shock
-    ctx.fillStyle = '#d50000';
-    drawCircle(ctx, -7, -51, 3.5, '#d50000', null, 0);
-    drawCircle(ctx, 7, -51, 3.5, '#d50000', null, 0);
+    drawCircle(ctx, -7, -54, 6, '#ffffff', '#212121', 2);
+    drawCircle(ctx, 7, -54, 6, '#ffffff', '#212121', 2);
+    ctx.fillStyle = '#212121';
+    drawCircle(ctx, -7, -54, 3, '#212121', null, 0);
+    drawCircle(ctx, 7, -54, 3, '#212121', null, 0);
 
-    // Mouth wide open in angry shock (NOOO!)
+    // Slanted angry eyebrows
+    ctx.strokeStyle = '#212121'; ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(-13, -62); ctx.lineTo(-2, -58);
+    ctx.moveTo(13, -62); ctx.lineTo(2, -58);
+    ctx.stroke();
+
+    // Shouting mouth
     ctx.fillStyle = '#b71c1c';
     ctx.beginPath();
-    ctx.roundRect(-8, -42, 16, 12, 3);
+    ctx.ellipse(0, -42, 8, 7, 0, 0, Math.PI * 2);
     ctx.fill();
+    ctx.strokeStyle = '#3e2723'; ctx.lineWidth = 2; ctx.stroke();
 
-  } else if (pose === 'laughing_uncontrollably') {
-    // Squeezed laughing eyes with tears!
-    ctx.strokeStyle = '#212121';
-    ctx.lineWidth = 3;
+  } else if (pose === 'shocked_hearing') {
+    // Big wide eyes hearing restaurant news!
+    ctx.fillStyle = '#ffffff';
+    drawCircle(ctx, -7, -54, 8, '#ffffff', '#212121', 2);
+    drawCircle(ctx, 7, -54, 8, '#ffffff', '#212121', 2);
+    // Looking right towards the Real Madrid friend
+    ctx.fillStyle = '#0d47a1';
+    drawCircle(ctx, -5, -54, 4, '#0d47a1', null, 0);
+    drawCircle(ctx, 9, -54, 4, '#0d47a1', null, 0);
+
+    // Raised surprised eyebrows
+    ctx.strokeStyle = '#212121'; ctx.lineWidth = 3;
     ctx.beginPath();
-    ctx.moveTo(-12, -54); ctx.lineTo(-4, -50); ctx.lineTo(-12, -46);
-    ctx.moveTo(12, -54); ctx.lineTo(4, -50); ctx.lineTo(12, -46);
+    ctx.arc(-7, -62, 7, Math.PI * 1.1, Math.PI * 1.9);
+    ctx.arc(7, -62, 7, Math.PI * 1.1, Math.PI * 1.9);
     ctx.stroke();
 
-    // Huge wide open laughing grin!
+    // Small surprised mouth 'O'
+    ctx.fillStyle = '#b71c1c';
+    drawCircle(ctx, 0, -42, 5, '#b71c1c', '#3e2723', 2);
+
+  } else if (pose === 'brother_hug') {
+    // Giant happy face (^ ^) with cheeks blushing!
+    ctx.strokeStyle = '#1b5e20'; ctx.lineWidth = 3.5;
+    ctx.beginPath();
+    ctx.arc(-7, -54, 6, Math.PI * 1.1, Math.PI * 1.9);
+    ctx.arc(7, -54, 6, Math.PI * 1.1, Math.PI * 1.9);
+    ctx.stroke();
+
+    // Giant wide open happy smile!
     ctx.fillStyle = '#b71c1c';
     ctx.beginPath();
-    ctx.arc(0, -38, 11, 0, Math.PI);
+    ctx.arc(0, -42, 10, 0, Math.PI);
+    ctx.fill();
+    // White teeth
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.roundRect(-8, -42, 16, 5, 2);
     ctx.fill();
 
-    // Tears flying!
-    ctx.fillStyle = '#29b6f6';
-    drawCircle(ctx, -18, -48, 4, '#29b6f6', null, 0);
-    drawCircle(ctx, 18, -48, 4, '#29b6f6', null, 0);
-
-  } else {
-    // Sneaky plotting grin
-    ctx.strokeStyle = '#212121';
-    ctx.lineWidth = 2.5;
-    ctx.beginPath();
-    ctx.arc(-7, -52, 4, 0.1, Math.PI * 1.1);
-    ctx.arc(7, -52, 4, 0.1, Math.PI * 1.1);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.arc(3, -40, 8, 0.2, Math.PI * 0.9);
-    ctx.stroke();
+    // Cheerful blush
+    ctx.fillStyle = 'rgba(255, 64, 129, 0.4)';
+    drawCircle(ctx, -14, -46, 5, 'rgba(255, 64, 129, 0.4)', null, 0);
+    drawCircle(ctx, 14, -46, 5, 'rgba(255, 64, 129, 0.4)', null, 0);
   }
 
   // Arms
-  if (pose === 'helping') {
-    ctx.strokeStyle = '#212121';
-    ctx.lineWidth = 9;
+  if (pose === 'angry_speech') {
+    // Pointing left hand angrily at the Real Madrid friend!
+    ctx.strokeStyle = '#81c784'; ctx.lineWidth = 9;
     ctx.beginPath();
-    ctx.moveTo(-20, -10);
-    ctx.lineTo(-45, 10);
+    ctx.moveTo(-20, -10); ctx.lineTo(-48, -15);
     ctx.stroke();
-  } else if (pose === 'laughing_uncontrollably') {
-    // Holding stomach laughing
-    ctx.strokeStyle = '#212121';
-    ctx.lineWidth = 9;
+    // Pointing finger
+    ctx.fillStyle = '#bcaaa4';
+    drawCircle(ctx, -52, -15, 6, '#bcaaa4', null, 0);
+
+    // Right arm behind back or gesturing
     ctx.beginPath();
-    ctx.moveTo(-20, -10); ctx.lineTo(-5, 15);
-    ctx.moveTo(20, -10); ctx.lineTo(5, 15);
+    ctx.moveTo(20, -10); ctx.lineTo(35, 15);
+    ctx.stroke();
+
+  } else if (pose === 'brother_hug') {
+    // Arm extended over friend's shoulder!
+    ctx.strokeStyle = '#81c784'; ctx.lineWidth = 10;
+    ctx.beginPath();
+    ctx.moveTo(-20, -10); ctx.lineTo(-65, -15);
+    ctx.stroke();
+    drawCircle(ctx, -70, -15, 7, '#bcaaa4', null, 0);
+
+    // Thumbs up on right hand!
+    ctx.beginPath();
+    ctx.moveTo(20, -10); ctx.lineTo(42, -5);
+    ctx.stroke();
+    ctx.fillStyle = '#ffd700';
+    drawCircle(ctx, 46, -7, 6, '#ffd700', null, 0);
+
+  } else {
+    // Normal relaxed arms behind back
+    ctx.strokeStyle = '#81c784'; ctx.lineWidth = 9;
+    ctx.beginPath();
+    ctx.moveTo(-20, -10); ctx.lineTo(-10, 20);
+    ctx.moveTo(20, -10); ctx.lineTo(10, 20);
     ctx.stroke();
   }
 
@@ -686,9 +301,9 @@ function drawFriend1(ctx, x, y, scale, pose, t) {
 }
 
 // ----------------------------------------------------
-// Character 3: Friend 2 (Two-Tone Sporty Shirt)
+// Character 2: White Real Madrid Jersey Friend (The Lover)
 // ----------------------------------------------------
-function drawFriend2(ctx, x, y, scale, pose, t) {
+function drawRealMadridGuy(ctx, x, y, scale, pose, t) {
   ctx.save();
   ctx.translate(x, y);
   ctx.scale(scale, scale);
@@ -699,45 +314,53 @@ function drawFriend2(ctx, x, y, scale, pose, t) {
   ctx.ellipse(0, 115, 34, 11, 0, 0, Math.PI * 2);
   ctx.fill();
 
-  // Black track pants with red stripe
-  ctx.fillStyle = '#212121';
+  // Dark Grey / Black track pants
+  ctx.fillStyle = '#263238';
   ctx.beginPath();
   ctx.roundRect(-20, 45, 17, 65, 6);
   ctx.roundRect(3, 45, 17, 65, 6);
   ctx.fill();
+  ctx.strokeStyle = '#102027'; ctx.lineWidth = 2.5; ctx.stroke();
 
-  ctx.strokeStyle = '#e53935';
-  ctx.lineWidth = 3;
-  ctx.beginPath();
-  ctx.moveTo(-19, 45); ctx.lineTo(-19, 108);
-  ctx.moveTo(19, 45); ctx.lineTo(19, 108);
-  ctx.stroke();
-
-  // Slides
-  ctx.fillStyle = '#757575';
+  // White sneakers
+  ctx.fillStyle = '#ffffff';
   ctx.beginPath();
   ctx.roundRect(-22, 105, 20, 11, 5);
   ctx.roundRect(3, 105, 20, 11, 5);
   ctx.fill();
 
-  // Torso: Two-tone shirt (White upper chest, dark black lower)
-  ctx.fillStyle = '#212121';
+  // Torso: Crisp White Real Madrid Jersey (Long Sleeve)
+  ctx.fillStyle = '#ffffff';
   ctx.beginPath();
-  ctx.roundRect(-24, -25, 48, 75, 10);
+  ctx.roundRect(-25, -25, 50, 75, 10);
   ctx.fill();
-  ctx.strokeStyle = '#000000'; ctx.lineWidth = 2; ctx.stroke();
+  ctx.strokeStyle = '#cfd8dc'; ctx.lineWidth = 3; ctx.stroke();
 
-  // Upper white panel
-  ctx.fillStyle = '#e0e0e0';
+  // Real Madrid Golden Crest on left chest
+  ctx.fillStyle = '#ffd700';
+  drawCircle(ctx, -12, -10, 6, '#ffd700', '#002b80', 1.5);
+  ctx.fillStyle = '#002b80';
+  ctx.fillRect(-14, -11, 5, 2);
+
+  // "Fly Emirates" logo across chest
+  ctx.fillStyle = '#002b80';
+  ctx.font = 'bold 9px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Fly Emirates', 0, 12);
+
+  // Three blue stripes on shoulders
+  ctx.strokeStyle = '#1e88e5'; ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.roundRect(-24, -25, 48, 35, { topLeft: 10, topRight: 10, bottomLeft: 0, bottomRight: 0 });
-  ctx.fill();
+  ctx.moveTo(-24, -25); ctx.lineTo(-12, -25);
+  ctx.moveTo(24, -25); ctx.lineTo(12, -25);
+  ctx.stroke();
 
   // Head
   ctx.fillStyle = '#8d6e63';
   ctx.beginPath();
   ctx.ellipse(0, -52, 19, 22, 0, 0, Math.PI * 2);
   ctx.fill();
+  ctx.strokeStyle = '#4e342e'; ctx.lineWidth = 2.5; ctx.stroke();
 
   // Hair
   ctx.fillStyle = '#1e1e1e';
@@ -746,67 +369,79 @@ function drawFriend2(ctx, x, y, scale, pose, t) {
   ctx.fill();
 
   // Facial Expression
-  if (pose === 'shocked_angry') {
-    ctx.fillStyle = '#ffffff';
-    drawCircle(ctx, -7, -54, 7, '#ffffff', '#212121', 2);
-    drawCircle(ctx, 7, -54, 7, '#ffffff', '#212121', 2);
-    ctx.fillStyle = '#d50000';
-    drawCircle(ctx, -7, -51, 3.5, '#d50000', null, 0);
-    drawCircle(ctx, 7, -51, 3.5, '#d50000', null, 0);
-
-    // Jaw dropped
-    ctx.fillStyle = '#b71c1c';
+  if (pose === 'phone_call' || pose === 'eating_excited') {
+    // Talking on phone, smiling romantically!
+    ctx.strokeStyle = '#212121'; ctx.lineWidth = 2.5;
     ctx.beginPath();
-    ctx.roundRect(-8, -42, 16, 12, 3);
-    ctx.fill();
-
-  } else if (pose === 'laughing_uncontrollably') {
-    ctx.strokeStyle = '#212121';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(-12, -54); ctx.lineTo(-4, -50); ctx.lineTo(-12, -46);
-    ctx.moveTo(12, -54); ctx.lineTo(4, -50); ctx.lineTo(12, -46);
+    ctx.arc(-7, -54, 4, 0.1, Math.PI * 1.1);
+    ctx.arc(7, -54, 4, 0.1, Math.PI * 1.1);
     ctx.stroke();
 
-    ctx.fillStyle = '#b71c1c';
+    // Sweet smile talking into phone
     ctx.beginPath();
-    ctx.arc(0, -38, 11, 0, Math.PI);
-    ctx.fill();
+    ctx.arc(0, -42, 7, 0.1, Math.PI * 0.9);
+    ctx.stroke();
 
-    // Tears
-    ctx.fillStyle = '#29b6f6';
-    drawCircle(ctx, -18, -48, 4, '#29b6f6', null, 0);
-    drawCircle(ctx, 18, -48, 4, '#29b6f6', null, 0);
+    // Romantic blush
+    ctx.fillStyle = 'rgba(255, 64, 129, 0.4)';
+    drawCircle(ctx, -14, -46, 5, 'rgba(255, 64, 129, 0.4)', null, 0);
 
   } else {
-    // Scheming grin
-    ctx.strokeStyle = '#212121';
-    ctx.lineWidth = 2.5;
-    ctx.beginPath();
-    ctx.arc(-7, -52, 4, 0.1, Math.PI * 1.1);
-    ctx.arc(7, -52, 4, 0.1, Math.PI * 1.1);
-    ctx.stroke();
+    // Awkward / guilty side-eye expression
+    ctx.fillStyle = '#ffffff';
+    drawCircle(ctx, -7, -54, 6, '#ffffff', '#212121', 2);
+    drawCircle(ctx, 7, -54, 6, '#ffffff', '#212121', 2);
+    // Pupils looking sideways
+    ctx.fillStyle = '#212121';
+    drawCircle(ctx, -9, -54, 3, '#212121', null, 0);
+    drawCircle(ctx, 5, -54, 3, '#212121', null, 0);
 
+    // Awkward mouth
+    ctx.strokeStyle = '#212121'; ctx.lineWidth = 2.5;
     ctx.beginPath();
-    ctx.arc(0, -42, 8, 0.1, Math.PI * 0.9);
+    ctx.moveTo(-6, -42); ctx.lineTo(6, -40);
     ctx.stroke();
   }
 
-  // Arms
-  if (pose === 'helping') {
-    ctx.strokeStyle = '#e0e0e0';
-    ctx.lineWidth = 9;
+  // Arms & Smartphone
+  if (pose === 'phone_call' || pose === 'eating_excited') {
+    // Left arm holding black smartphone to left ear!
+    ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 9;
     ctx.beginPath();
-    ctx.moveTo(20, -10);
-    ctx.lineTo(45, 10);
+    ctx.moveTo(-20, -10); ctx.lineTo(-24, -40);
     ctx.stroke();
-  } else if (pose === 'laughing_uncontrollably') {
-    // Pointing finger and laughing
-    ctx.strokeStyle = '#e0e0e0';
-    ctx.lineWidth = 8;
+
+    // Black Smartphone held at ear
+    ctx.fillStyle = '#212121';
     ctx.beginPath();
-    ctx.moveTo(-20, -10);
-    ctx.lineTo(-45, -15);
+    ctx.roundRect(-30, -56, 12, 22, 3);
+    ctx.fill();
+    ctx.strokeStyle = '#4fc3f7'; ctx.lineWidth = 1.5; ctx.stroke();
+
+    // Phone signal waves
+    const sig = Math.sin(t * 8) * 3;
+    ctx.strokeStyle = '#00e676'; ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(-34, -45, 8 + sig, -0.8, 0.8);
+    ctx.stroke();
+
+    // Right arm on waist
+    ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 9;
+    ctx.beginPath();
+    ctx.moveTo(20, -10); ctx.lineTo(32, 10); ctx.lineTo(22, 22);
+    ctx.stroke();
+
+  } else {
+    // Hand on head scratching (like in the original video!)
+    ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 9;
+    ctx.beginPath();
+    ctx.moveTo(-20, -10); ctx.lineTo(-28, -48); ctx.lineTo(-10, -68);
+    ctx.stroke();
+    drawCircle(ctx, -8, -70, 6, '#8d6e63', null, 0);
+
+    // Other hand on hip
+    ctx.beginPath();
+    ctx.moveTo(20, -10); ctx.lineTo(34, 10); ctx.lineTo(22, 22);
     ctx.stroke();
   }
 
@@ -814,7 +449,7 @@ function drawFriend2(ctx, x, y, scale, pose, t) {
 }
 
 // ----------------------------------------------------
-// Character 4: Laughing Meme Legend (Punchline!)
+// Character 3: Laughing Meme Legend (Punchline)
 // ----------------------------------------------------
 function drawMemeLaugher(ctx, x, y, scale, t) {
   ctx.save();
@@ -839,8 +474,7 @@ function drawMemeLaugher(ctx, x, y, scale, t) {
   ctx.fill();
 
   // Chunky Gold Chains
-  ctx.strokeStyle = '#ffd700';
-  ctx.lineWidth = 6;
+  ctx.strokeStyle = '#ffd700'; ctx.lineWidth = 6;
   ctx.beginPath();
   ctx.arc(0, 30, 24, 0.1, Math.PI - 0.1);
   ctx.stroke();
@@ -867,7 +501,7 @@ function drawMemeLaugher(ctx, x, y, scale, t) {
   ctx.arc(0, -15, 43, Math.PI * 1.05, Math.PI * 1.95);
   ctx.fill();
 
-  // Red Bindi / Tilak dot on forehead
+  // Red Tilak dot on forehead
   drawCircle(ctx, 0, -26, 4.5, '#d50000', null, 0);
 
   // Mustache
@@ -891,8 +525,7 @@ function drawMemeLaugher(ctx, x, y, scale, t) {
   ctx.fill();
 
   // Closed Laughing Eyes (> <)
-  ctx.strokeStyle = '#212121';
-  ctx.lineWidth = 4.5;
+  ctx.strokeStyle = '#212121'; ctx.lineWidth = 4.5;
   ctx.beginPath();
   ctx.moveTo(-30, -8); ctx.lineTo(-14, -2); ctx.lineTo(-28, 6);
   ctx.moveTo(30, -8); ctx.lineTo(14, -2); ctx.lineTo(28, 6);
@@ -915,16 +548,13 @@ function drawMemeLaugher(ctx, x, y, scale, t) {
   ctx.roundRect(-18, -25, 36, 45, 6);
   ctx.fill();
   ctx.strokeStyle = '#212121'; ctx.lineWidth = 3; ctx.stroke();
-  // Pink stripe on cup
   ctx.fillStyle = '#e91e63';
   ctx.fillRect(-18, -10, 36, 15);
-  // Handle
   ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 6;
   ctx.beginPath();
   ctx.arc(20, -5, 12, -Math.PI * 0.4, Math.PI * 0.4);
   ctx.stroke();
   ctx.strokeStyle = '#212121'; ctx.lineWidth = 2; ctx.stroke();
-  // Gold rings
   drawCircle(ctx, -10, 5, 5, '#ffd700', '#b78103', 1.5);
   drawCircle(ctx, 5, 8, 5, '#ffd700', '#b78103', 1.5);
   ctx.restore();
@@ -941,135 +571,86 @@ function frame(ctx, w, h, t) {
   const local = t - scene.start;
   const font = '"Noto Sans Bengali", "Nirmala UI", Arial, sans-serif';
 
-  // Scene Selection & Action Direction
-  if (scene.action === 'bottle_knockdown') {
-    // Scene 1: The Spilled Bottle Incident!
-    drawGardenBG(ctx, w, h, t, vertical);
+  // Base Background
+  if (scene.action !== 'meme_laugh_punchline') {
+    drawOutdoorBG(ctx, w, h, t, vertical);
+  }
 
-    const groundY = vertical ? h * 0.72 : h * 0.68;
-    const pScale = vertical ? 2.1 : 1.75;
-    const pathLeft = w * (vertical ? 0.42 : 0.48);
+  const groundY = vertical ? h * 0.72 : h * 0.68;
+  const pScale = vertical ? 2.1 : 1.75;
 
-    // Bottle position on the brick curb
-    const bottleX = pathLeft - 10;
-    const bottleY = groundY + 10;
-    const hasSpilled = local > 2.0;
+  // Scene Action & Layout
+  if (scene.action === 'mirjafar_speech') {
+    // Scene 1: Green sweater guy giving fiery "Mir Jafar" speech; Real Madrid guy looking awkward
+    const gX = w * (vertical ? 0.68 : 0.62);
+    const rX = w * (vertical ? 0.32 : 0.38);
 
-    // Draw Bottle & Cups
-    drawBottleAndCups(ctx, bottleX, bottleY, hasSpilled, t);
+    drawRealMadridGuy(ctx, rX, groundY, pScale, 'awkward', t);
+    drawGreenSweaterGuy(ctx, gX, groundY, pScale, 'angry_speech', t);
 
-    // Blind man walking towards the curb
-    const walkProgress = Math.min(1, local / 2.2);
-    const bX = (w * 0.15) * (1 - walkProgress) + (bottleX - 60) * walkProgress;
-    const blindPose = (local >= 1.8 && local <= 2.8) ? 'cane_clink' : 'walking';
-    drawBlindMan(ctx, bX, groundY, pScale, blindPose, t);
-
-    // Friends sitting on curb
-    const f1X = w * (vertical ? 0.64 : 0.62);
-    const f2X = w * (vertical ? 0.82 : 0.76);
-    const friendPose = hasSpilled ? 'shocked_angry' : 'sitting';
-    drawFriend1(ctx, f1X, groundY + 15, pScale * 0.95, friendPose, t);
-    drawFriend2(ctx, f2X, groundY + 20, pScale * 0.95, friendPose, t);
-
-    // Question / Asking text from blind man
-    if (local > 2.8) {
-      ctx.font = `bold ${vertical ? 44 : 34}px ${font}`;
-      ctx.fillStyle = '#ffea00';
-      ctx.strokeStyle = '#000000'; ctx.lineWidth = 6;
-      ctx.strokeText('🦯 "ভাই, বাস কোনদিকে?"', bX, groundY - 160);
-      ctx.fillText('🦯 "ভাই, বাস কোনদিকে?"', bX, groundY - 160);
-
-      // Angry exclamation from friends
-      ctx.fillStyle = '#ff1744';
-      ctx.strokeText('😡 "আমাদের বোতল শেষ!"', f1X + 20, groundY - 140);
-      ctx.fillText('😡 "আমাদের বোতল শেষ!"', f1X + 20, groundY - 140);
-    }
-
-  } else if (scene.action === 'fake_help_revenge') {
-    // Scene 2: Fake Helping March (Plotting Revenge)
-    drawGardenBG(ctx, w, h, t, vertical);
-
-    const groundY = vertical ? h * 0.72 : h * 0.68;
-    const pScale = vertical ? 2.15 : 1.8;
-
-    // Walking across the driveway
-    const groupX = w * 0.5 + Math.sin(local * 2) * 15;
-
-    // Friend 1 on left holding arm with devil smirk
-    drawFriend1(ctx, groupX - (vertical ? 95 : 105), groundY, pScale * 0.95, 'helping', t);
-
-    // Blind Man in center
-    drawBlindMan(ctx, groupX, groundY, pScale, 'walking', t);
-
-    // Friend 2 on right holding arm
-    drawFriend2(ctx, groupX + (vertical ? 95 : 105), groundY, pScale * 0.95, 'helping', t);
-
-    // Devil revenge thought bubble above friends!
+    // Fiery Mir Jafar label / betrayal badge
     ctx.font = `bold ${vertical ? 44 : 34}px ${font}`;
+    ctx.fillStyle = '#ff1744';
+    ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 5;
+    ctx.strokeText('🐍 "আস্ত মীরজাফর!"', rX, groundY - 160);
+    ctx.fillText('🐍 "আস্ত মীরজাফর!"', rX, groundY - 160);
+
+  } else if (scene.action === 'boycott_friend') {
+    // Scene 2: Green sweater guy urging audience to boycott such friends!
+    const gX = w * (vertical ? 0.65 : 0.60);
+    const rX = w * (vertical ? 0.30 : 0.36);
+
+    drawRealMadridGuy(ctx, rX, groundY, pScale, 'awkward', t);
+    drawGreenSweaterGuy(ctx, gX, groundY, pScale, 'angry_speech', t);
+
+    // Red X / Boycott symbol
+    ctx.font = `bold ${vertical ? 50 : 38}px sans-serif`;
+    ctx.fillStyle = '#d50000';
+    ctx.fillText('🚫 BOYCOTT 🚫', w / 2, groundY - 170);
+
+  } else if (scene.action === 'phone_call_twist') {
+    // Scene 3: The Phone Call Twist! Real Madrid guy answers phone: "Hello jaan!"
+    const gX = w * (vertical ? 0.68 : 0.62);
+    const rX = w * (vertical ? 0.32 : 0.38);
+
+    drawRealMadridGuy(ctx, rX, groundY, pScale, 'phone_call', t);
+    // Green sweater guy hears this and stops speaking, stunned and curious!
+    drawGreenSweaterGuy(ctx, gX, groundY, pScale, 'shocked_hearing', t);
+
+    // Phone call bubble with romantic restaurant vibes!
+    ctx.font = `bold ${vertical ? 42 : 32}px ${font}`;
     ctx.fillStyle = '#ffea00';
     ctx.strokeStyle = '#000000'; ctx.lineWidth = 6;
-    ctx.strokeText('😈 "তোরে আজ এমন বাসে তুলব..."', groupX, groundY - 170);
-    ctx.fillText('😈 "তোরে আজ এমন বাসে তুলব..."', groupX, groundY - 170);
+    ctx.strokeText('📱 "হ্যালো জান! রেস্টুরেন্টে গিয়ে বসছ?" 🍗', rX + 40, groundY - 170);
+    ctx.fillText('📱 "হ্যালো জান! রেস্টুরেন্টে গিয়ে বসছ?" 🍗', rX + 40, groundY - 170);
 
-  } else if (scene.action === 'lifting_on_railing') {
-    // Scene 3: The Deceptive Boarding (Lifting him onto the bridge railing)
-    drawBridgeBG(ctx, w, h, t, vertical);
+    // Green guy's thought bubble: "বিরিয়ানি?! রেস্টুরেন্ট?!"
+    ctx.fillStyle = '#00e676';
+    ctx.strokeText('💡 "রেস্টুরেন্ট?! বান্ধবী আসছে?!"', gX - 10, groundY - 130);
+    ctx.fillText('💡 "রেস্টুরেন্ট?! বান্ধবী আসছে?!"', gX - 10, groundY - 130);
 
-    const canalW = w * (vertical ? 0.52 : 0.48);
-    const railTopY = h * (vertical ? 0.62 : 0.58);
-    const pScale = vertical ? 2.0 : 1.7;
+  } else if (scene.action === 'instant_brother_hug') {
+    // Scene 4: Instant 180-degree flip! Throws arm over friend: "ও বন্ধু না, ও আমার নিজের ভাই!"
+    const centerGroupX = w * 0.5;
+    const gX = centerGroupX + (vertical ? 55 : 65);
+    const rX = centerGroupX - (vertical ? 55 : 65);
 
-    const targetY = railTopY - (110 * pScale);
-    const groundY = h * 0.74;
+    drawRealMadridGuy(ctx, rX, groundY, pScale, 'eating_excited', t);
+    drawGreenSweaterGuy(ctx, gX, groundY, pScale, 'brother_hug', t);
 
-    // Step up animation
-    const liftP = Math.min(1, local / 3.0);
-    const blindY = groundY * (1 - liftP) + targetY * liftP;
-
-    // Friends hoisting him
-    drawFriend1(ctx, canalW + (vertical ? 80 : 90), groundY, pScale * 0.95, 'helping', t);
-    drawFriend2(ctx, canalW + (vertical ? 150 : 170), groundY, pScale * 0.95, 'helping', t);
-
-    // Blind man stepping up
-    drawBlindMan(ctx, canalW, blindY, pScale, (liftP > 0.8 ? 'calling_bus' : 'walking'), t);
-
-    // Text: "ভাই সামনে সিঁড়ি, পা তুলে দাঁড়ান!"
-    ctx.font = `bold ${vertical ? 44 : 34}px ${font}`;
-    ctx.fillStyle = '#ffea00';
-    ctx.strokeStyle = '#000000'; ctx.lineWidth = 6;
-    ctx.strokeText('🪜 "ভাই সামনে সিঁড়ি, সাবধানে উঠুন!"', canalW + 60, targetY - 60);
-    ctx.fillText('🪜 "ভাই সামনে সিঁড়ি, সাবধানে উঠুন!"', canalW + 60, targetY - 60);
-
-  } else if (scene.action === 'calling_bus_on_edge') {
-    // Scene 4: Calling the Bus on the Railing! (The peak hilarious scene!)
-    drawBridgeBG(ctx, w, h, t, vertical);
-
-    const canalW = w * (vertical ? 0.52 : 0.48);
-    const railTopY = h * (vertical ? 0.62 : 0.58);
-    const pScale = vertical ? 2.05 : 1.75;
-
-    // Blind man standing on the narrow railing, ARM RAISED HIGH WAVING TO STOP THE BUS!
-    const blindY = railTopY - (110 * pScale);
-    drawBlindMan(ctx, canalW, blindY, pScale, 'calling_bus', t);
-
-    // Friends backing away laughing uncontrollably!
-    const sneakX = w * (vertical ? 0.72 : 0.70) + (local * 15);
-    drawFriend1(ctx, sneakX, h * 0.74, pScale * 0.9, 'laughing_uncontrollably', t);
-    drawFriend2(ctx, sneakX + 75, h * 0.74, pScale * 0.9, 'laughing_uncontrollably', t);
-
-    // Speech banner: "এই গাড়ি থামান! বাস থামান!"
+    // Giant love & brother banner
     ctx.font = `bold ${vertical ? 52 : 40}px ${font}`;
     ctx.fillStyle = '#ffea00';
     ctx.strokeStyle = '#000000'; ctx.lineWidth = 7;
-    ctx.strokeText('🚌 "এই বাস থামান! বাস!!" 🙋‍♂️', canalW - 20, blindY - 95);
-    ctx.fillText('🚌 "এই বাস থামান! বাস!!" 🙋‍♂️', canalW - 20, blindY - 95);
+    ctx.strokeText('❤️ "ও বন্ধু না, ও আমার ভাই!" 🤝', w / 2, groundY - 165);
+    ctx.fillText('❤️ "ও বন্ধু না, ও আমার ভাই!" 🤝', w / 2, groundY - 165);
 
-    // Laughing reactions from friends
-    ctx.font = `${vertical ? 50 : 38}px sans-serif`;
-    ctx.fillText('🤣🤣🤣', sneakX + 30, h * 0.74 - 130);
+    // Flying food & celebration emojis
+    ctx.font = `${vertical ? 48 : 36}px sans-serif`;
+    ctx.fillText('🍗 🍲 🍛', w / 2, groundY - 115);
 
   } else if (scene.action === 'meme_laugh_punchline') {
-    // Scene 5: Ultimate Laughing Meme Man Punchline!
+    // Scene 5: Ultimate Laughing Meme Punchline!
     const bgGrad = ctx.createRadialGradient(w / 2, h / 2, 50, w / 2, h / 2, w * 0.75);
     bgGrad.addColorStop(0, '#ffeb3b');
     bgGrad.addColorStop(0.4, '#ff9800');
@@ -1078,7 +659,7 @@ function frame(ctx, w, h, t) {
     ctx.fillStyle = bgGrad;
     ctx.fillRect(0, 0, w, h);
 
-    // Rotating burst rays
+    // Rotating celebration rays
     ctx.save();
     ctx.translate(w / 2, h / 2);
     ctx.rotate(t * 0.8);
@@ -1133,7 +714,7 @@ function frame(ctx, w, h, t) {
     const caption = cue ? cue.text : (!CONFIG.cues ? scene.narration : '');
 
     if (caption) {
-      const capSize = vertical ? 48 : 34;
+      const capSize = vertical ? 46 : 32;
       ctx.font = `800 ${capSize}px ${font}`;
       const lines = wrap(ctx, caption, w * 0.88);
       const step = vertical ? 66 : 46;
