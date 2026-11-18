@@ -557,12 +557,12 @@ function drawDuck(ctx, x, y, s, t, isAkhi, action, isSpeaking, waddlePhase = 0) 
 // ----------------------------------------------------
 // The Two Ducks Snuggled in the Pink Bed (Victory Scene)
 // ----------------------------------------------------
-function drawDucksInBed(ctx, bedX, bedY, s, t) {
+function drawDucksInBed(ctx, bedX, bedY, s, t, isSiuuu) {
   ctx.save();
   ctx.translate(bedX, bedY - 14);
   ctx.scale(s, s);
 
-  const bob = Math.sin(t * 4) * 3;
+  const bob = Math.sin(t * 5) * 3;
 
   // Duck 1 (Left - Mastermind Duck nestled in bed)
   ctx.save();
@@ -623,7 +623,6 @@ function drawDucksInBed(ctx, bedX, bedY, s, t) {
   ctx.strokeStyle = '#2d3436'; ctx.lineWidth = 3.5;
   ctx.beginPath(); ctx.arc(-10, -30, 5.5, Math.PI, 0); ctx.stroke();
   ctx.beginPath(); ctx.arc(6, -30, 5.5, Math.PI, 0); ctx.stroke();
-  // Cute lashes
   ctx.beginPath(); ctx.moveTo(11, -34); ctx.lineTo(16, -38); ctx.stroke();
 
   // Cute Beak
@@ -637,12 +636,26 @@ function drawDucksInBed(ctx, bedX, bedY, s, t) {
 
   ctx.restore();
 
-  // Floating Love Hearts & Laughing Stars
-  const hY = (t * 45) % 95;
+  // Floating Love Hearts, Laughing Emojis & SIUUU Celebrations
+  const hY = (t * 50) % 110;
   ctx.font = '36px sans-serif';
-  ctx.fillText('💖', -25, -60 - hY);
-  ctx.fillText('✨', 45, -50 - (hY * 0.8));
-  ctx.fillText('😂', 5, -80 - (hY * 0.6));
+  ctx.fillText('💖', -30, -60 - hY);
+  ctx.fillText('✨', 55, -50 - (hY * 0.8));
+  ctx.fillText('😂', 5, -85 - (hY * 0.6));
+
+  if (isSiuuu) {
+    // Big SIUUU Meme Flash Banner
+    ctx.save();
+    ctx.translate(0, -140);
+    const pulse = 1 + Math.sin(t * 12) * 0.12;
+    ctx.scale(pulse, pulse);
+    drawRoundRect(ctx, -110, -30, 220, 60, 16, '#ff4757', '#ffffff', 4);
+    ctx.font = 'bold 36px sans-serif';
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('SIUUUU! 🔥', 0, 0);
+    ctx.restore();
+  }
 
   ctx.restore();
 }
@@ -660,8 +673,8 @@ function frame(ctx, w, h, t) {
   const scale = vertical ? (w / 1080) * 3.0 : (h / 1080) * 1.55;
 
   // Calculate Spooky Storytelling Progress
-  const isSpooky = (t >= 6.25 && t < 20.5);
-  const spookyProgress = isSpooky ? Math.min(1, (t - 6.25) / 5.5) : 0;
+  const isSpooky = (t >= 5.0 && t < 22.0);
+  const spookyProgress = isSpooky ? Math.min(1, (t - 5.0) / 5.5) : 0;
 
   // 1. Render Living Room
   drawLivingRoomBG(ctx, w, h, t, floorY, isSpooky, spookyProgress);
@@ -676,7 +689,7 @@ function frame(ctx, w, h, t) {
   drawPinkPetBed(ctx, bedX, bedY, bedW, bedH);
 
   // 3. Render Cat or Occupied Ducks
-  if (t < 20.5) {
+  if (t < 25.0) {
     // Cat is in bed or fleeing!
     let catState = 'normal';
     let catProgress = 0;
@@ -684,43 +697,49 @@ function frame(ctx, w, h, t) {
       catState = 'suspicious';
     } else if (scene.action === 'cat_shivering_scared') {
       catState = 'shivering';
-    } else if (scene.action === 'cat_panicking') {
+    } else if (scene.action === 'cat_panicking' || scene.action === 'ducks_intimidate') {
       catState = 'panicking';
     } else if (scene.action === 'cat_flees_rocket') {
       catState = 'rocket_flee';
-      catProgress = (t - 17.5) / 1.5;
+      catProgress = (t - 20.0) / 2.0;
     }
 
     drawBlackCat(ctx, bedX, bedY - 12, scale * 0.95, t, catState, catProgress);
   }
 
   // 4. Render Ducks
-  const inBed = (scene.action === 'ducks_hop_in_bed' || scene.action === 'ducks_victory_cozy');
+  const inBed = (scene.action === 'ducks_hop_in_bed' || scene.action === 'ducks_victory_siuuu');
 
   if (inBed) {
     // Both ducks are snuggled in the pink pet bed!
-    drawDucksInBed(ctx, bedX, bedY, scale * 1.1, t);
+    drawDucksInBed(ctx, bedX, bedY, scale * 1.1, t, scene.action === 'ducks_victory_siuuu');
   } else {
     // Ducks waddling / standing in the room
     let duck1X, duck1Y, duck2X, duck2Y;
 
-    if (scene.action === 'ducks_approach_bed') {
-      // Walking right up to the bed
-      const p = Math.min(1, local / 3.0);
-      const startX1 = vertical ? w * 0.15 : w * 0.12;
-      const targetX1 = bedX - bedW * 0.38;
+    if (scene.action === 'ducks_intimidate') {
+      // Stepping close to the bed in confrontation
+      duck1X = bedX - bedW * 0.38;
+      duck1Y = floorY;
+      duck2X = bedX - bedW * 0.65;
+      duck2Y = floorY;
+    } else if (scene.action === 'cat_flees_rocket') {
+      // Watching the cat zoom away and laughing
+      duck1X = bedX - bedW * 0.35;
+      duck1Y = floorY;
+      duck2X = bedX - bedW * 0.60;
+      duck2Y = floorY;
+    } else {
+      // Approaching or standing
+      const p = Math.min(1, t / 8.0);
+      const startX1 = vertical ? w * 0.08 : w * 0.05;
+      const targetX1 = vertical ? w * 0.26 : w * 0.20;
       duck1X = startX1 + (targetX1 - startX1) * p;
       duck1Y = floorY;
 
-      const startX2 = vertical ? w * 0.02 : w * 0.02;
-      const targetX2 = bedX - bedW * 0.65;
+      const startX2 = vertical ? w * -0.05 : w * -0.05;
+      const targetX2 = vertical ? w * 0.10 : w * 0.09;
       duck2X = startX2 + (targetX2 - startX2) * p;
-      duck2Y = floorY;
-    } else {
-      // Standing on the left / side observing
-      duck1X = vertical ? w * 0.26 : w * 0.20;
-      duck1Y = floorY;
-      duck2X = vertical ? w * 0.10 : w * 0.09;
       duck2Y = floorY;
     }
 
@@ -730,16 +749,15 @@ function frame(ctx, w, h, t) {
       scene.action === 'cat_watching_nervous' ||
       scene.action === 'cat_shivering_scared' ||
       scene.action === 'cat_panicking' ||
-      scene.action === 'cat_flees_rocket' ||
-      scene.action === 'ducks_approach_bed'
+      scene.action === 'ducks_intimidate' ||
+      scene.action === 'cat_flees_rocket'
     );
-    const isAkhiSpeaking = (scene.action === 'akhi_curious');
 
     // Duck 1 (Leader / Mastermind)
     drawDuck(ctx, duck1X, duck1Y, scale * 0.95, t, false, scene.action, isDuck1Speaking, 0);
 
     // Duck 2 (Akhi - Pink Bow & Diaper)
-    drawDuck(ctx, duck2X, duck2Y, scale * 0.88, t, true, scene.action, isAkhiSpeaking, Math.PI * 0.5);
+    drawDuck(ctx, duck2X, duck2Y, scale * 0.88, t, true, scene.action, false, Math.PI * 0.5);
   }
 
   // Smooth scene fade transitions
@@ -751,7 +769,7 @@ function frame(ctx, w, h, t) {
 
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  const font = '"Noto Sans Bengali","Nirmala UI",sans-serif';
+  const font = '"Nirmala UI", "Noto Sans Bengali", Arial, sans-serif';
 
   // Scene Title Banner (Top)
   const titleSize = vertical ? 52 : 36;
@@ -766,7 +784,7 @@ function frame(ctx, w, h, t) {
     ctx.fillText(lineText, w / 2, yPos);
   });
 
-  // Bengali Subtitles (Heavy black stroke, crisp white text)
+  // Subtitles (Heavy black stroke, crisp white text)
   if (CONFIG.captions) {
     const cue = CONFIG.cues?.find(c => t >= c.start && t < c.end);
     const caption = cue ? cue.text : (!CONFIG.cues ? scene.narration : '');
