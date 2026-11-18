@@ -1,118 +1,85 @@
 {
   "brand": "",
-  "export_folder": "seal_love_story_bengali",
-  "file_prefix": "seal_love_story_bengali",
-  "title": "সিলদের মজার প্রেম কাহিনি (Seal Love Story)",
+  "export_folder": "puchke_biral_duo",
+  "file_prefix": "puchke_cat_duo",
+  "title": "পুঁচকে বিড়ালের সোয়াগ ও রোমাঞ্চ (Puchke Cat Duo)",
   "language": "bn",
   "kind": "comic animal 2d animation",
-  "source_note": "পানিতে সোজা দাঁড়িয়ে থাকা দুই সিল বন্ধুর মজার প্রেমের প্রস্তাব ও হাসির গল্প।",
-  "duration": 58.80,
+  "source_note": "ঘাসের ওপর দুই বিড়ালের লেজ খাড়া করে মজার হাঁটা, পুঁচকের দুরন্তপনা ও বড় ভাইয়ের বিশ্রাম।",
+  "duration": 26.98,
   "voice": "assets/voice.wav",
   "captions": true,
   "music": false,
   "scenes": [
     {
       "start": 0.0,
-      "end": 8.0,
-      "title": "কী সুন্দর মেয়ে রে ভাই!",
-      "narration": "কী সুন্দর একটা মেয়ে রে ভাই! যা গিয়ে একবার 'আই লাভ ইউ' বলে আয় না!",
-      "setting": "aquarium_pool",
-      "action": "shy_proposal_talk"
+      "end": 7.0,
+      "title": "পুঁচকের সোয়াগ আর লেজ খাড়া হাঁটা",
+      "narration": "পুঁচকে সাথে নিয়ে রোমাঞ্চকর হাঁটা, দুজনেরই লেজ খাড়া বসের মতো সোয়াগ!",
+      "setting": "grassy_meadow_path",
+      "action": "duo_swagger_walk"
     },
     {
-      "start": 8.0,
-      "end": 18.0,
-      "title": "আমার অনেক ভয় লাগতেছে!",
-      "narration": "এখন বলতে পারব না ভাই... আমার বুক কাঁপতেছে, অনেক ভয় লাগতেছে!",
-      "setting": "aquarium_pool",
-      "action": "scared_hero_seal"
+      "start": 7.0,
+      "end": 14.0,
+      "title": "বড় ভাইয়ের আয়েশী বিশ্রাম",
+      "narration": "বড় বিড়াল আরাম করে ঘাসে শুয়ে পড়ল, পুঁচকে মনের আনন্দে ঘুরছে।",
+      "setting": "grassy_meadow_path",
+      "action": "big_cat_resting"
     },
     {
-      "start": 18.0,
-      "end": 28.0,
-      "title": "আরে যা ভাই, ভয় পাস না!",
-      "narration": "আরে যা ভাই, ভয় পাওয়ার কী আছে? কোনো ঝামেলা হবে না!",
-      "setting": "aquarium_pool",
-      "action": "friend_pushing"
+      "start": 14.0,
+      "end": 20.5,
+      "title": "ঝোপের ভেতর পুঁচকের রোমাঞ্চ",
+      "narration": "কৌতূহলী চোখে পাতার পেছনে কী খুঁজছে পুঁচকে? বড় ভাই দেখছে তাকিয়ে।",
+      "setting": "grassy_meadow_path",
+      "action": "kitten_exploring_bushes"
     },
     {
-      "start": 28.0,
-      "end": 40.0,
-      "title": "ওই দেখ ও তাকাচ্ছে!",
-      "narration": "ওই দেখ, ও নিজের চোখেই তোর দিকে তাকাচ্ছে! একদম পিছু হটবি না!",
-      "setting": "aquarium_pool",
-      "action": "moving_forward"
-    },
-    {
-      "start": 40.0,
-      "end": 51.5,
-      "title": "এবার না বললে খবর আছে!",
-      "narration": "আরে যা না! শেষবারের মতো বলতেছি, এবার না বলে ফিরে আসলে খবর আছে!",
-      "setting": "aquarium_pool",
-      "action": "final_push"
-    },
-    {
-      "start": 51.5,
-      "end": 55.4,
-      "title": "আই লাভ ইউ! (I LOVE YOU!)",
-      "narration": "আই লাভ ইউ! ওগো, আমি তোমায় ভালোবাসি! 💖",
-      "setting": "aquarium_pool",
-      "action": "proposal_climax"
-    },
-    {
-      "start": 55.4,
-      "end": 58.80,
-      "title": "মজার পঞ্চলাইন!",
-      "narration": "হাহাহা! মারছে রে! পাতা কপি... কারো না কারো বাবলু! 😂💥",
-      "setting": "aquarium_pool",
-      "action": "funny_punchline"
+      "start": 20.5,
+      "end": 26.98,
+      "title": "পুঁচকের দুরন্ত চাউনি ও তৃপ্তির হাসি",
+      "narration": "পুঁচকে ঘুরেই এক মধুর চাউনি দিল, চমৎকার রোমাঞ্চকর সফর!",
+      "setting": "grassy_meadow_path",
+      "action": "kitten_curious_look"
     }
   ],
   "cues": [
     {
-      "start": 0.5,
-      "end": 4.2,
-      "text": "কী সুন্দর একটা মেয়ে রে ভাই! যা গিয়ে একবার আই লাভ ইউ বলে আয় না!"
+      "start": 0.0,
+      "end": 3.6,
+      "text": "পুঁচকে সাথে নিয়ে রোমাঞ্চকর হাঁটা...",
+      "speaker": "নিরেট আনন্দ"
     },
     {
-      "start": 4.3,
-      "end": 8.0,
-      "text": "এখন বলতে পারব না ভাই... আমার বুক কাঁপতেছে, অনেক ভয় লাগতেছে!"
+      "start": 3.6,
+      "end": 7.0,
+      "text": "দুজনেরই লেজ খাড়া, বসের মতো সোয়াগ!",
+      "speaker": "হাঁটার ভঙ্গি"
     },
     {
-      "start": 8.2,
-      "end": 14.0,
-      "text": "আরে যা ভাই, ভয় পাওয়ার কী আছে? কোনো ঝামেলা হবে না!"
+      "start": 7.0,
+      "end": 11.8,
+      "text": "বড় বিড়াল এবার ঘাসের ওপর আরাম করে শুয়ে পড়ল...",
+      "speaker": "বড় ভাই"
     },
     {
-      "start": 14.2,
-      "end": 20.5,
-      "text": "ওই দেখ, ও নিজের চোখেই তোর দিকে তাকাচ্ছে! একদম পিছু হটবি না!"
+      "start": 11.8,
+      "end": 15.5,
+      "text": "পুঁচকে একা একাই মনের সুখে এদিক-সেদিক খুঁজে বেড়াচ্ছে!",
+      "speaker": "ছোট পুঁচকে"
     },
     {
-      "start": 21.0,
-      "end": 28.0,
-      "text": "আরে পাবলিক দেখতেছে ভাই... সামনে গিয়ে বলেই দেখ না!"
+      "start": 15.5,
+      "end": 20.8,
+      "text": "কৌতূহলী চোখে ঝোপের পেছনে কী যেন শুঁকছে পুঁচকে...",
+      "speaker": "আবিষ্কার"
     },
     {
-      "start": 28.5,
-      "end": 40.5,
-      "text": "দেখ ও ঠিক সামনেই দাঁড়িয়ে আছে! একটু সাহস কর ভাই!"
-    },
-    {
-      "start": 41.0,
-      "end": 51.4,
-      "text": "আরে যা না! শেষবারের মতো বলতেছি, এবার না বলে ফিরে আসলে কিন্তু খবর আছে!"
-    },
-    {
-      "start": 51.5,
-      "end": 55.3,
-      "text": "আই লাভ ইউ! ওগো, আমি তোমায় ভালোবাসি! 💖"
-    },
-    {
-      "start": 55.4,
-      "end": 58.8,
-      "text": "হাহাহা! মারছে রে! পাতা কপি... কারো না কারো বাবলু! 😂💥"
+      "start": 20.8,
+      "end": 26.98,
+      "text": "সব দেখে শুনে বড় ভাইয়ের এক তৃপ্তিময় মধুর হাসি!",
+      "speaker": "শেষ কথা"
     }
   ]
 }
