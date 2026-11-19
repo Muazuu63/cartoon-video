@@ -10,4 +10,5 @@ slider.oninput=()=>window.seek(+slider.value);
 document.querySelector('#voice').onchange=e=>{if(e.target.files[0]){halt();voice.src=URL.createObjectURL(e.target.files[0]);}};
 function tick(){if(active){position=cl((performance.now()-epoch)/1000,0,DURATION);draw(position);if(position>=DURATION)halt();}requestAnimationFrame(tick);}tick();
 window.DURATION=DURATION;window.scoreSound=scoreSound;
-Promise.all([document.fonts.load('44px "Noto Sans Bengali"','বাংলা ভালোবাসা'),document.fonts.ready]).then(()=>{draw(0);window.READY=true;});
+const preloadPromise = (typeof window.PRELOAD_ASSETS === 'function') ? window.PRELOAD_ASSETS() : Promise.resolve();
+Promise.all([document.fonts.load('44px "Noto Sans Bengali"','বাংলা ভালোবাসা'),document.fonts.ready,preloadPromise]).then(()=>{draw(0);window.READY=true;});

@@ -1,111 +1,71 @@
 {
   "brand": "DipuToons",
-  "export_folder": "real_madrid_twist",
-  "file_prefix": "real_madrid_friend_twist",
-  "title": "রিয়াল মাদ্রিদের বন্ধু ও রেস্টুরেন্টের টুইস্ট (Real Madrid Friend Twist)",
+  "export_folder": "cat_job_interview",
+  "file_prefix": "cat_job_interview",
+  "title": "বিড়ালের চাকরির ইন্টারভিউ (Cat Job Interview)",
   "language": "bn",
-  "kind": "comic human 2d animation",
-  "source_note": "বন্ধুকে মীরজাফর বলে বক্তৃতা দেওয়ার মাঝেই রেস্টুরেন্ট ও বান্ধবীর ফোন আসায় পল্টি মেরে ভাই বানানোর হাসির গল্প।",
-  "duration": 42.60,
+  "kind": "comic cartoon 2d animation",
+  "source_note": "অফিসে বিড়ালের চাকরির ইন্টারভিউ—ঘুম, ফ্রিজ পাহারা, টেবিলের গ্লাস ফেলা, ৩০ কেজি ইলিশের বেতন ও বসের চেয়ার দখল নিয়ে চরম হাসির কার্টুন।",
+  "duration": 49.64,
   "voice": "assets/voice.wav",
   "captions": true,
   "music": false,
   "scenes": [
     {
       "start": 0.0,
+      "end": 5.0,
+      "title": "নাম ও ডাকনাম",
+      "narration": "বারনি বাবু: নাম? | ভোলা: ভোলা। | বারনি বাবু: ডাকনাম? | ভোলা: মিউ মিউ।",
+      "setting": "office_interview_room",
+      "action": "intro_name_nickname"
+    },
+    {
+      "start": 5.0,
       "end": 10.5,
-      "title": "পাশে দাঁড়ানো মানুষ না মীরজাফর!",
-      "narration": "এই যে পাশে দাঁড়ানো লোকটা, মানুষ না আস্ত মীরজাফর! বন্ধুর সাথে বেইমানি করে!",
-      "setting": "outdoor_ground",
-      "action": "mirjafar_speech"
-    },
-    {
-      "start": 10.5,
-      "end": 20.5,
-      "title": "এরকম বেইমান বন্ধু বয়কট করুন!",
-      "narration": "এরকম বন্ধুকে চিনে রাখুন! সম্পর্ক রাখার চেয়ে না রাখাই ভালো, এখনই বাদ দিন!",
-      "setting": "outdoor_ground",
-      "action": "boycott_friend"
-    },
-    {
-      "start": 20.5,
-      "end": 28.0,
-      "title": "ফোনে জান ও বান্ধবীর রেস্টুরেন্ট ডাক!",
-      "narration": "হঠাৎ ফোনে জানের কল—রেস্টুরেন্টে বান্ধবীসহ বসে আছে, খাবার রেডি!",
-      "setting": "outdoor_ground",
-      "action": "phone_call_twist"
-    },
-    {
-      "start": 28.0,
-      "end": 39.5,
-      "title": "ও বন্ধু না, ও আমার নিজের ভাই!",
-      "narration": "পলক ফেলতে না ফেলতেই পল্টি—ও বন্ধু না, ও আমার নিজের ভাই! চল রেস্টুরেন্টে যাই!",
-      "setting": "outdoor_ground",
-      "action": "instant_brother_hug"
-    },
-    {
-      "start": 39.5,
-      "end": 42.60,
-      "title": "স্বার্থপর বন্ধুত্বের চরম হাসির মেম",
-      "narration": "স্বার্থপর বন্ধুত্বের চরম হাসির মেম উৎসব!",
-      "setting": "outdoor_ground",
-      "action": "meme_laugh_punchline"
-    }
-  ],
-  "cues": [
-    {
-      "start": 0.0,
-      "end": 4.5,
-      "text": "এই পাশে দাঁড়ানো লোকটাকে দেখতে পারছেন? মানুষ না মীরজাফর!",
-      "speaker": "সবুজ সোয়েটার"
-    },
-    {
-      "start": 4.5,
-      "end": 10.5,
-      "text": "বন্ধুর সাথে যে বেইমানি করে সে মানুষ হতে পারে? যা করার করেই ফেলছে!",
-      "speaker": "সবুজ সোয়েটার"
+      "title": "আগের অফিসের অভিজ্ঞতা",
+      "narration": "বারনি বাবু: আগের অফিসে কী কাজ করতেন? | ভোলা: সারাদিন ঘুমাতাম, ফ্রিজ পাহারা দিতাম!",
+      "setting": "office_interview_room",
+      "action": "sleeping_fridge_guard"
     },
     {
       "start": 10.5,
       "end": 15.0,
-      "text": "মীরজাফরকে চিনে রাখবেন! এরকম বন্ধুর সাথে সম্পর্ক না রাখাই ভালো!",
-      "speaker": "সবুজ সোয়েটার"
+      "title": "সবচেয়ে বড় গুণ",
+      "narration": "বারনি বাবু: আপনার সবচেয়ে বড় গুণ কী? | ভোলা: কাজ না করেও কোনো চাপ নিই না!",
+      "setting": "office_interview_room",
+      "action": "zero_stress_skill"
     },
     {
       "start": 15.0,
-      "end": 20.5,
-      "text": "আপনাদের জীবনেও যদি এরকম বেইমান বন্ধু থাকে, এখনই বাদ দিন!",
-      "speaker": "সবুজ সোয়েটার"
+      "end": 21.0,
+      "title": "টেবিলের গ্লাস ফেলা দুর্বলতা",
+      "narration": "বারনি বাবু: আপনার দুর্বলতা কী? | ভোলা: টেবিলে গ্লাস দেখলে ফেলে দিতে ইচ্ছে করে!",
+      "setting": "office_interview_room",
+      "action": "glass_drop_weakness"
     },
     {
-      "start": 20.5,
-      "end": 25.5,
-      "text": "হ্যাঁ হ্যালো জান! তুমি রেস্টুরেন্টে গিয়ে বসছ? দাঁড়াও আমি আসতেছি!",
-      "speaker": "রিয়াল মাদ্রিদ"
+      "start": 21.0,
+      "end": 28.5,
+      "title": "৩০ কেজি ইলিশের বেতন",
+      "narration": "বারনি বাবু: বেতন কত চান? | ভোলা: ৩০ কেজি ইলিশ, আর দুবেলা দুধ!",
+      "setting": "office_interview_room",
+      "action": "hilsa_fish_salary"
     },
     {
-      "start": 25.5,
-      "end": 28.0,
-      "text": "তোমার সাথে তোমার বান্ধবীও আসছে?! খাব কিন্তু আজকে জমিয়ে!",
-      "speaker": "রিয়াল মাদ্রিদ"
+      "start": 28.5,
+      "end": 38.0,
+      "title": "চাকরি পাকা ও চেয়ার খালি করার হুকুম",
+      "narration": "বারনি বাবু: ঠিক আছে, আপনাকে চাকরিতে নিলাম! | ভোলা: আগে আপনার চেয়ারটা ছাড়ুন!",
+      "setting": "office_interview_room",
+      "action": "hired_vacate_chair"
     },
     {
-      "start": 28.0,
-      "end": 34.5,
-      "text": "আর এই যে রিয়াল মাদ্রিদের জার্সি পরা লোকটা—ও বন্ধু না, ও আমার ভাই!",
-      "speaker": "সবুজ সোয়েটার"
-    },
-    {
-      "start": 34.5,
-      "end": 39.5,
-      "text": "চল ভাই, দুই ভাই মিলে আজকে রেস্টুরেন্টে জমিয়ে খাব!",
-      "speaker": "দুই ভাই"
-    },
-    {
-      "start": 39.5,
-      "end": 42.60,
-      "text": "বন্ধুর গিরগিটির মতো রংবদল! চরম হাসির মেম সমাপ্তি!",
-      "speaker": "হাসির মেম"
+      "start": 38.0,
+      "end": 49.64,
+      "title": "তাহলে আমি কোথায় বসব? ওই কোণে যান!",
+      "narration": "বারনি বাবু: কী?! তাহলে আমি কোথায় বসব?! | ভোলা: ওই কোণে যান!",
+      "setting": "office_interview_room",
+      "action": "boss_in_corner_cat_ceo"
     }
   ]
 }

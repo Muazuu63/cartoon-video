@@ -17,6 +17,9 @@ if voice.exists():
     mime='audio/mpeg' if voice.suffix.lower()=='.mp3' else 'audio/wav'
     source='data:'+mime+';base64,'+base64.b64encode(voice.read_bytes()).decode()
 font_data=base64.b64encode((P/'assets/NotoSansBengali-Regular.ttf').read_bytes()).decode()
+logo_file=P/'assets/logo.png'
+logo_b64=base64.b64encode(logo_file.read_bytes()).decode() if logo_file.exists() else ''
+c['logo_data']=f'data:image/png;base64,{logo_b64}' if logo_b64 else ''
 libs='\n'.join((P/x).read_text(encoding='utf-8') for x in ['lib/harness.js','lib/sound.js'])
 code='\n'.join((P/x).read_text(encoding='utf-8') for x in ['src/ref.js','src/story.js','src/sound_score.js','src/player.js'])
 config_json=json.dumps(c,ensure_ascii=False).replace('<','\\u003c')
@@ -27,8 +30,6 @@ for name,w,h in [('landscape',1920,1080),('portrait',1080,1920)]:
 <canvas width="{w}" height="{h}"></canvas><footer><button id="play">Play</button><input type="range" id="seek" min="0" step=".05"><span id="time"></span><label><input type="checkbox" id="sound" checked>Foley</label><input type="file" id="voice" accept="audio/*"></footer><audio src="{source}"></audio>
 <script>{libs}</script><script>(()=>{{const CONFIG={config_json};{code}}})();</script>"""
     (P/'preview'/f'{name}.html').write_text(page,encoding='utf-8')
-# Storyboard uses the same exact renderer and times.
-page=page.replace('<footer>','<footer>')
 rows=''.join(f"<tr><td>{s['start']}–{s['end']}</td><td>{html.escape(s['title'])}</td><td>{html.escape(s['narration'])}</td><td>{s['setting']} / {s['action']}</td></tr>" for s in c['scenes'])
 (P/'preview/storyboard.html').write_text('<meta charset="utf-8"><style>body{background:#071c17;color:#f8e2b5;font:18px sans-serif;padding:40px}td{padding:18px;border-bottom:1px solid #596b51}</style><h1>'+html.escape(c['title'])+'</h1><p>'+html.escape(c['source_note'])+'</p><table>'+rows+'</table><p><a href="landscape.html">16:9</a> | <a href="portrait.html">9:16</a></p>',encoding='utf-8')
 print('Built preview/landscape.html, portrait.html, storyboard.html')
