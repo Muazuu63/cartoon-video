@@ -1,55 +1,63 @@
 {
   "brand": "DipuToons",
-  "export_folder": "bouer_shondeho_hurpori",
-  "file_prefix": "bouer_shondeho_hurpori",
-  "title": "বউয়ের চরম সন্দেহ ও বেহেশতের হুর (Wife Suspicion & Houri Twist)",
+  "export_folder": "nijerai_nijeray_biye",
+  "file_prefix": "nijerai_nijeray_biye",
+  "title": "নিজেরাই নিজেরায় বিয়ে (Father & Son Marriage Joke)",
   "language": "bn",
   "kind": "comic cartoon 2d animation",
-  "source_note": "বউয়ের সন্দেহ দূর করতে দাঁড়ি রেখে ৫ ওয়াক্ত নামাজ শুরু করা স্বামীর চরম হাসির পরিণতি নিয়ে গ্রামীণ কমেডি কার্টুন।",
-  "duration": 17.23,
+  "source_note": "বাবা তুমি কাকে বিয়ে করেছ? তোমার মাকে। মা কাকে বিয়ে করেছে? আমাকে। নিজেরাই নিজেরায়... চরম হাসির ফ্যামিলি কার্টুন।",
+  "duration": 14.00,
   "voice": "assets/voice.wav",
   "captions": true,
   "music": false,
   "scenes": [
     {
       "start": 0.0,
-      "end": 2.0,
-      "title": "কী হয়েছে ভাই?",
-      "narration": "মন্টু ভাই: কী হয়েছে ভাই?",
-      "setting": "village_courtyard",
-      "action": "neighbor_asks_what_happened"
+      "end": 2.5,
+      "title": "বাবা, তুমি কাকে বিয়া করছ?",
+      "narration": "ছেলে: বাবা, তুমি কাকে বিয়া করছ?",
+      "setting": "cozy_living_room",
+      "action": "son_asks_father_marriage"
     },
     {
-      "start": 2.0,
-      "end": 7.5,
-      "title": "সন্দেহ দূর করতে নামাজ শুরু",
-      "narration": "আবুল মিয়া: বউ এখানে সন্দেহ করে দেখে পায়জামা-পাঞ্জাবি পইরে, দাড়ি রেখে পাঁচ ওয়াক্ত নামাজ পড়া আরম্ভ করেছিলাম...",
-      "setting": "village_courtyard",
-      "action": "husband_explains_pious_transformation"
+      "start": 2.5,
+      "end": 4.5,
+      "title": "তোমার মাকে।",
+      "narration": "বাবা: তোমার মাকে।",
+      "setting": "cozy_living_room",
+      "action": "father_answers_your_mother"
     },
     {
-      "start": 7.5,
+      "start": 4.5,
+      "end": 7.0,
+      "title": "মা কাকে বিয়া করছে?",
+      "narration": "ছেলে: মা কাকে বিয়া করছে?",
+      "setting": "cozy_living_room",
+      "action": "son_asks_mother_marriage"
+    },
+    {
+      "start": 7.0,
+      "end": 8.5,
+      "title": "আমাকে।",
+      "narration": "বাবা: আমাকে।",
+      "setting": "cozy_living_room",
+      "action": "father_answers_me"
+    },
+    {
+      "start": 8.5,
       "end": 10.5,
-      "title": "শাকচুন্নীর নতুন অপবাদ",
-      "narration": "আবুল মিয়া: এই নামাজ পড়তে দেখে শাকচুন্নীর বেটি কয় কি? কয়...",
-      "setting": "village_courtyard",
-      "action": "husband_imitates_wife_complaint"
+      "title": "নিজেরাই নিজেরায়...",
+      "narration": "ছেলে: নিজেরাই নিজেরায়...",
+      "setting": "cozy_living_room",
+      "action": "son_funny_punchline"
     },
     {
       "start": 10.5,
-      "end": 13.8,
-      "title": "বেহেশতের হুরের ওপর নজর!",
-      "narration": "আবুল মিয়া: এখন দিন-দুনিয়ার খেদমত ছাড়িয়া দিয়ে, বেহেশতের হুরের ওপর নজর দিতেছি!",
-      "setting": "village_courtyard",
-      "action": "hilarious_houri_punchline"
-    },
-    {
-      "start": 13.8,
-      "end": 17.23,
+      "end": 14.0,
       "title": "হাসির রোল ও DipuToons আউটরো",
-      "narration": "হাসির রোল, চরম অবাক হওয়া ও DipuToons চ্যানেল কার্ড!",
-      "setting": "village_courtyard",
-      "action": "shocked_laughter_outro"
+      "narration": "হাসির রোল ও DipuToons অফিসিয়াল চ্যানেল কার্ড!",
+      "setting": "cozy_living_room",
+      "action": "laughing_outro_diputoons"
     }
   ]
 }

@@ -1,7 +1,8 @@
 // ============================================================================
 // DipuToons - Premium 2D Cartoon Animation Engine
-// Episode: "বউয়ের চরম সন্দেহ ও বেহেশতের হুর" (Wife Suspicion & Houri Twist)
-// Characters: আবুল মিয়া (Husband), মন্টু ভাই (Neighbor), জরিনা বেগম (Wife)
+// Episode: "নিজেরাই নিজেরায় বিয়ে!" (Father & Son Marriage Joke)
+// Characters: বাবা (Young modern dad) & ছেলে (Cute toddler/kid)
+// Style: High-Quality 2D Animated Cartoon matching 3D Reference Photo
 // Channel: DipuToons (ছোট্ট কার্টুন, বড় হাসি!)
 // ============================================================================
 
@@ -26,7 +27,7 @@ window.PRELOAD_ASSETS = () => {
 };
 
 // ----------------------------------------------------------------------------
-// Geometry & Canvas Utilities
+// Core Vector Utilities
 // ----------------------------------------------------------------------------
 function drawCircle(ctx, x, y, r, fill, stroke, lw = 2) {
   ctx.beginPath();
@@ -50,520 +51,657 @@ function drawEllipse(ctx, x, y, rx, ry, fill, stroke, lw = 2, rot = 0) {
 }
 
 // ----------------------------------------------------------------------------
-// Rural Homestead Verandah Environment (গ্রামের বাড়ির বারান্দা ও উঠোন)
+// Modern Living Room Environment
 // ----------------------------------------------------------------------------
-function drawVillageBackground(ctx, w, h, isPort, t) {
-  // 1. Warm morning rural sky
-  const skyGrad = ctx.createLinearGradient(0, 0, 0, h * 0.7);
-  skyGrad.addColorStop(0, '#81d4fa');
-  skyGrad.addColorStop(0.4, '#b3e5fc');
-  skyGrad.addColorStop(1, '#fff9c4');
-  ctx.fillStyle = skyGrad;
+function drawLivingRoomBackground(ctx, w, h, isPort, t) {
+  // 1. Warm Contemporary Wall
+  const wallGrad = ctx.createLinearGradient(0, 0, 0, h * 0.72);
+  wallGrad.addColorStop(0, '#f8fafc');
+  wallGrad.addColorStop(0.5, '#f1f5f9');
+  wallGrad.addColorStop(1, '#e2e8f0');
+  ctx.fillStyle = wallGrad;
   ctx.fillRect(0, 0, w, h);
 
-  // Distant green village trees
-  ctx.fillStyle = '#81c784';
-  const treeCount = isPort ? 4 : 7;
-  for (let i = 0; i < treeCount; i++) {
-    const tx = w * (0.02 + i * 0.16);
-    const ty = h * (isPort ? 0.35 : 0.38);
-    const tr = isPort ? w * 0.18 : w * 0.12;
-    drawCircle(ctx, tx, ty, tr, '#a5d6a7', null);
-    drawCircle(ctx, tx + 25, ty - 18, tr * 0.88, '#81c784', null);
-    drawCircle(ctx, tx - 15, ty - 12, tr * 0.75, '#66bb6a', null);
-  }
+  // Soft wall molding
+  ctx.strokeStyle = '#cbd5e1';
+  ctx.lineWidth = 2.5;
+  ctx.strokeRect(w * 0.04, h * 0.05, w * 0.92, h * 0.63);
 
-  // 2. Mud House Verandah Wall (মাটির ঘর)
-  const wallX = isPort ? w * 0.12 : w * 0.18;
-  const wallY = isPort ? h * 0.08 : h * 0.06;
-  const wallW = w - wallX;
-  const wallH = isPort ? h * 0.65 : h * 0.70;
+  // 2. Large Sunlit Window (Left)
+  const winX = isPort ? w * 0.08 : w * 0.07;
+  const winY = isPort ? h * 0.08 : h * 0.09;
+  const winW = isPort ? w * 0.38 : w * 0.22;
+  const winH = isPort ? h * 0.26 : h * 0.36;
 
-  // Clay / Mud Wall Gradient with warm earthen tones
-  const wallGrad = ctx.createLinearGradient(wallX, wallY, wallX, wallY + wallH);
-  wallGrad.addColorStop(0, '#f5ebe0');
-  wallGrad.addColorStop(0.5, '#e6ccb2');
-  wallGrad.addColorStop(1, '#ddb892');
-  ctx.fillStyle = wallGrad;
-  ctx.fillRect(wallX, wallY, wallW, wallH);
+  // Outer Window Frame
+  drawRoundRect(ctx, winX - 8, winY - 8, winW + 16, winH + 16, 14, '#ffffff', '#94a3b8', 3);
+  drawRoundRect(ctx, winX, winY, winW, winH, 10, '#e0f2fe', '#64748b', 4);
 
-  // Verandah wooden beam overhang
-  const beamGrad = ctx.createLinearGradient(0, wallY, 0, wallY + 32);
-  beamGrad.addColorStop(0, '#4e342e');
-  beamGrad.addColorStop(1, '#3e2723');
-  ctx.fillStyle = beamGrad;
-  ctx.fillRect(0, wallY - 10, w, 32);
-
-  // Wooden Verandah Pillars
-  const pil1X = isPort ? w * 0.14 : w * 0.20;
-  const pil2X = isPort ? w * 0.94 : w * 0.96;
-  const pilW = isPort ? 28 : 36;
-  drawRoundRect(ctx, pil1X, wallY, pilW, wallH, 4, '#5d4037', '#271206', 3);
-  drawRoundRect(ctx, pil2X, wallY, pilW, wallH, 4, '#5d4037', '#271206', 3);
-
-  // Traditional Wooden Window placed safely on the left
-  const winX = isPort ? w * 0.18 : w * 0.22;
-  const winY = isPort ? h * 0.10 : h * 0.09;
-  const winW = isPort ? w * 0.16 : w * 0.11;
-  const winH = isPort ? h * 0.14 : h * 0.18;
-
-  drawRoundRect(ctx, winX - 4, winY - 4, winW + 8, winH + 8, 5, '#3e2723', null);
-  drawRoundRect(ctx, winX, winY, winW, winH, 4, '#271206', '#4e342e', 3);
-  ctx.strokeStyle = '#8d6e63'; ctx.lineWidth = 3;
-  for (let bx = winX + winW * 0.3; bx < winX + winW; bx += winW * 0.3) {
-    ctx.beginPath(); ctx.moveTo(bx, winY); ctx.lineTo(bx, winY + winH); ctx.stroke();
-  }
-  drawRoundRect(ctx, winX - winW * 0.36, winY + 4, winW * 0.34, winH - 8, 3, '#6d4c41', '#3e2723', 2);
-  drawRoundRect(ctx, winX + winW + 2, winY + 4, winW * 0.34, winH - 8, 3, '#6d4c41', '#3e2723', 2);
-
-  // Rolled Bamboo Mat (বাঁশের মাদুর)
-  const matX = isPort ? w * 0.40 : w * 0.38;
-  const matY = isPort ? h * 0.16 : h * 0.14;
-  const matW = isPort ? 28 : 34;
-  const matH = isPort ? 150 : 190;
-
+  // Outdoor Garden View
   ctx.save();
-  ctx.translate(matX, matY);
-  ctx.rotate(0.12);
-  drawRoundRect(ctx, 0, 0, matW, matH, 8, '#d7ccc8', '#8d6e63', 2.5);
-  ctx.strokeStyle = '#a1887f'; ctx.lineWidth = 2;
-  for (let my = 12; my < matH - 10; my += 14) {
-    ctx.beginPath(); ctx.moveTo(3, my); ctx.lineTo(matW - 3, my); ctx.stroke();
-  }
-  ctx.strokeStyle = '#5d4037'; ctx.lineWidth = 4;
-  ctx.beginPath(); ctx.moveTo(0, matH * 0.48); ctx.lineTo(matW, matH * 0.48); ctx.stroke();
-  ctx.restore();
-
-  // Clay Flower Pot with Fresh Green Plant
-  const potX = isPort ? w * 0.16 : w * 0.22;
-  const potY = isPort ? h * 0.45 : h * 0.48;
-  ctx.fillStyle = '#b7410e';
   ctx.beginPath();
-  ctx.moveTo(potX, potY);
-  ctx.lineTo(potX + 38, potY);
-  ctx.lineTo(potX + 30, potY + 38);
-  ctx.lineTo(potX + 8, potY + 38);
+  ctx.rect(winX, winY, winW, winH);
+  ctx.clip();
+
+  const skyGrad = ctx.createLinearGradient(winX, winY, winX, winY + winH);
+  skyGrad.addColorStop(0, '#38bdf8');
+  skyGrad.addColorStop(1, '#bae6fd');
+  ctx.fillStyle = skyGrad;
+  ctx.fillRect(winX, winY, winW, winH);
+
+  // Soft sun ray
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.30)';
+  ctx.beginPath();
+  ctx.moveTo(winX, winY);
+  ctx.lineTo(winX + winW * 0.45, winY);
+  ctx.lineTo(winX, winY + winH * 0.75);
   ctx.closePath();
   ctx.fill();
-  ctx.strokeStyle = '#5d2004'; ctx.lineWidth = 2; ctx.stroke();
-  drawCircle(ctx, potX + 19, potY - 12, 14, '#43a047', null);
-  drawCircle(ctx, potX + 8, potY - 22, 11, '#66bb6a', null);
-  drawCircle(ctx, potX + 30, potY - 22, 11, '#66bb6a', null);
 
-  // 3. Ground / Courtyard
-  const groundY = isPort ? h * 0.65 : h * 0.70;
-  const groundGrad = ctx.createLinearGradient(0, groundY, 0, h);
-  groundGrad.addColorStop(0, '#8d6e63');
-  groundGrad.addColorStop(0.4, '#795548');
-  groundGrad.addColorStop(1, '#5d4037');
-  ctx.fillStyle = groundGrad;
-  ctx.fillRect(0, groundY, w, h - groundY);
+  // Green foliage
+  drawCircle(ctx, winX + winW * 0.30, winY + winH * 0.85, winW * 0.40, '#86efac', null);
+  drawCircle(ctx, winX + winW * 0.75, winY + winH * 0.70, winW * 0.35, '#4ade80', null);
+  drawCircle(ctx, winX + winW * 0.50, winY + winH * 0.95, winW * 0.32, '#22c55e', null);
 
-  // Verandah concrete step / bench slab
-  const stepGrad = ctx.createLinearGradient(0, groundY - 30, 0, groundY);
-  stepGrad.addColorStop(0, '#b0bec5');
-  stepGrad.addColorStop(1, '#78909c');
-  ctx.fillStyle = stepGrad;
-  ctx.fillRect(wallX - 30, groundY - 30, wallW + 30, 30);
-  ctx.strokeStyle = '#455a64'; ctx.lineWidth = 2.5;
-  ctx.strokeRect(wallX - 30, groundY - 30, wallW + 30, 30);
+  // Window Panes
+  ctx.strokeStyle = '#64748b';
+  ctx.lineWidth = 4;
+  ctx.beginPath(); ctx.moveTo(winX + winW / 2, winY); ctx.lineTo(winX + winW / 2, winY + winH); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(winX, winY + winH * 0.45); ctx.lineTo(winX + winW, winY + winH * 0.45); ctx.stroke();
+
+  ctx.restore();
+
+  // Pastel Pink Curtains
+  const curtainW = winW * 0.16;
+  drawRoundRect(ctx, winX - 4, winY - 4, curtainW, winH + 12, 6, '#fbcfe8', '#f472b6', 2);
+  drawRoundRect(ctx, winX + winW - curtainW + 4, winY - 4, curtainW, winH + 12, 6, '#fbcfe8', '#f472b6', 2);
+
+  // 3. Wall Art Frame (Right)
+  const picX = isPort ? w * 0.62 : w * 0.76;
+  const picY = isPort ? h * 0.09 : h * 0.09;
+  const picW = isPort ? w * 0.30 : w * 0.17;
+  const picH = isPort ? h * 0.18 : h * 0.24;
+
+  drawRoundRect(ctx, picX - 6, picY - 6, picW + 12, picH + 12, 10, '#475569', '#1e293b', 3);
+  drawRoundRect(ctx, picX, picY, picW, picH, 6, '#fffbeb', '#cbd5e1', 2);
+
+  drawCircle(ctx, picX + picW * 0.32, picY + picH * 0.40, picW * 0.14, '#0284c7', null);
+  drawCircle(ctx, picX + picW * 0.68, picY + picH * 0.42, picW * 0.13, '#ec4899', null);
+  drawCircle(ctx, picX + picW * 0.50, picY + picH * 0.64, picW * 0.11, '#eab308', null);
+  ctx.fillStyle = '#b45309';
+  ctx.font = `bold ${Math.max(11, Math.floor(picW * 0.085))}px sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.fillText('FAMILY ❤️', picX + picW / 2, picY + picH * 0.90);
+
+  // 4. Background Sofa
+  const sofaW = isPort ? w * 0.74 : w * 0.44;
+  const sofaH = isPort ? h * 0.16 : h * 0.22;
+  const sofaX = (w - sofaW) / 2;
+  const sofaY = (isPort ? h * 0.70 : h * 0.70) - sofaH * 0.84;
+
+  drawRoundRect(ctx, sofaX, sofaY, sofaW, sofaH * 0.75, 20, '#64748b', '#334155', 3);
+  const cushW = (sofaW - 24) / 3;
+  for (let c = 0; c < 3; c++) {
+    drawRoundRect(ctx, sofaX + 12 + c * cushW, sofaY + sofaH * 0.35, cushW - 6, sofaH * 0.45, 12, '#94a3b8', '#475569', 2);
+  }
+  drawRoundRect(ctx, sofaX + 20, sofaY + sofaH * 0.25, 45, 40, 10, '#fef08a', '#eab308', 2);
+  drawRoundRect(ctx, sofaX + sofaW - 65, sofaY + sofaH * 0.25, 45, 40, 10, '#fbcfe8', '#f472b6', 2);
+
+  // 5. Polished Hardwood Floor
+  const floorY = isPort ? h * 0.70 : h * 0.70;
+  const floorGrad = ctx.createLinearGradient(0, floorY, 0, h);
+  floorGrad.addColorStop(0, '#a16207');
+  floorGrad.addColorStop(0.3, '#854d0e');
+  floorGrad.addColorStop(1, '#713f12');
+  ctx.fillStyle = floorGrad;
+  ctx.fillRect(0, floorY, w, h - floorY);
+
+  ctx.strokeStyle = '#451a032b';
+  ctx.lineWidth = 2.5;
+  for (let y = floorY + 30; y < h; y += 42) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+  }
+
+  // Baseboard Trim
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, floorY - 14, w, 14);
+  ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 2;
+  ctx.strokeRect(0, floorY - 14, w, 14);
+
+  // 6. Indoor Plant (Bottom Left)
+  const potX = isPort ? w * 0.05 : w * 0.04;
+  const potY = floorY - 55;
+  drawRoundRect(ctx, potX, potY, 52, 58, 8, '#ffffff', '#94a3b8', 2.5);
+  drawEllipse(ctx, potX + 26, potY - 32, 22, 38, '#16a34a', '#14532d', 2.5, -0.3);
+  drawEllipse(ctx, potX + 12, potY - 56, 25, 42, '#22c55e', '#15803d', 2.5, -0.6);
+  drawEllipse(ctx, potX + 42, potY - 48, 24, 38, '#4ade80', '#15803d', 2.5, 0.4);
 }
 
 // ----------------------------------------------------------------------------
-// Character 1: Abul Mia - The Pious Husband ("আবুল মিয়া")
+// Character 1: Father ("বাবা")
+// Exactly matching user 3D photo (media_1795111775615_28792646.jpg)
 // ----------------------------------------------------------------------------
-function drawAbulMia(ctx, ax, ay, scale, t, isTalking, expr) {
+function drawFather(ctx, fx, fy, scale, t, isTalking, expr) {
   ctx.save();
-  ctx.translate(ax, ay);
+  ctx.translate(fx, fy);
   ctx.scale(scale, scale);
 
-  const bob = Math.sin(t * 3.6) * 3.5;
+  const bob = Math.sin(t * 3.8) * 3;
   const talkMouth = isTalking ? Math.abs(Math.sin(t * 15)) : 0;
 
-  // 1. Torso: White Panjabi / Kurta
-  ctx.fillStyle = '#ffffff';
+  // Soft Floor Shadow
+  drawEllipse(ctx, 0, 134 + bob, 46, 11, 'rgba(0, 0, 0, 0.28)', null);
+
+  // ==================== 1. JEANS & LEGS ====================
+  // Blue Straight-Leg Denim Jeans
+  const denimGrad = ctx.createLinearGradient(-30, 0, 30, 0);
+  denimGrad.addColorStop(0, '#365d8c');
+  denimGrad.addColorStop(0.3, '#456b9c');
+  denimGrad.addColorStop(0.7, '#456b9c');
+  denimGrad.addColorStop(1, '#365d8c');
+
+  // Left Leg
+  ctx.fillStyle = denimGrad;
   ctx.beginPath();
-  ctx.moveTo(-54, 25 + bob);
-  ctx.lineTo(-46, -100 + bob);
-  ctx.lineTo(46, -100 + bob);
-  ctx.lineTo(54, 25 + bob);
+  ctx.moveTo(-24, 0 + bob);
+  ctx.lineTo(-26, 65 + bob);
+  ctx.lineTo(-28, 124 + bob);
+  ctx.lineTo(-6, 124 + bob);
+  ctx.lineTo(-4, 65 + bob);
+  ctx.lineTo(-6, 0 + bob);
   ctx.closePath();
   ctx.fill();
-  ctx.strokeStyle = '#b0bec5'; ctx.lineWidth = 3.5; ctx.stroke();
+  ctx.strokeStyle = '#28466e'; ctx.lineWidth = 2.2; ctx.stroke();
 
-  // Collar & Buttons
-  ctx.strokeStyle = '#90a4ae'; ctx.lineWidth = 2.5;
-  ctx.beginPath(); ctx.moveTo(0, -100 + bob); ctx.lineTo(0, -40 + bob); ctx.stroke();
-  drawCircle(ctx, 0, -85 + bob, 3, '#546e7a', null);
-  drawCircle(ctx, 0, -68 + bob, 3, '#546e7a', null);
-  drawCircle(ctx, 0, -50 + bob, 3, '#546e7a', null);
-
-  // 2. Arms & Gestures
-  ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 20; ctx.lineCap = 'round';
-  ctx.beginPath(); ctx.moveTo(-42, -90 + bob); ctx.lineTo(-28, -20 + bob); ctx.stroke();
-  ctx.strokeStyle = '#cfd8dc'; ctx.lineWidth = 3; ctx.stroke();
-  drawCircle(ctx, -26, -14 + bob, 14, '#f5cba7', '#b37d45', 2.5);
-
-  const armMove = isTalking ? Math.sin(t * 7) * 10 : 0;
-  ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 20; ctx.lineCap = 'round';
-  ctx.beginPath(); ctx.moveTo(42, -90 + bob); ctx.lineTo(68 + armMove, -40 + bob); ctx.stroke();
-  ctx.strokeStyle = '#cfd8dc'; ctx.lineWidth = 3; ctx.stroke();
-  drawCircle(ctx, 74 + armMove, -36 + bob, 14, '#f5cba7', '#b37d45', 2.5);
-
-  // 3. Neck
-  drawRoundRect(ctx, -16, -120 + bob, 32, 24, 6, '#f5cba7', '#b37d45', 2.5);
-
-  // 4. Head & Face
-  const headY = -160 + bob;
-
-  // Face Oval
-  ctx.fillStyle = '#f5cba7';
+  // Right Leg
+  ctx.fillStyle = denimGrad;
   ctx.beginPath();
-  ctx.ellipse(0, headY + 30, 36, 42, 0, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.strokeStyle = '#b37d45'; ctx.lineWidth = 3; ctx.stroke();
-
-  // Hair peek around ears
-  ctx.fillStyle = '#212121';
-  ctx.beginPath();
-  ctx.ellipse(-36, headY + 28, 8, 14, -0.2, 0, Math.PI * 2);
-  ctx.ellipse(36, headY + 28, 8, 14, 0.2, 0, Math.PI * 2);
-  ctx.fill();
-
-  // Ears
-  drawCircle(ctx, -38, headY + 34, 10, '#f5cba7', '#b37d45', 2.5);
-  drawCircle(ctx, 38, headY + 34, 10, '#f5cba7', '#b37d45', 2.5);
-
-  // White Islamic Prayer Cap (সাদা টুপি)
-  ctx.fillStyle = '#ffffff';
-  ctx.beginPath();
-  ctx.arc(0, headY + 10, 40, Math.PI, 0);
-  ctx.lineTo(40, headY + 16);
-  ctx.lineTo(-40, headY + 16);
+  ctx.moveTo(6, 0 + bob);
+  ctx.lineTo(4, 65 + bob);
+  ctx.lineTo(6, 124 + bob);
+  ctx.lineTo(28, 124 + bob);
+  ctx.lineTo(26, 65 + bob);
+  ctx.lineTo(24, 0 + bob);
   ctx.closePath();
   ctx.fill();
-  ctx.strokeStyle = '#90a4ae'; ctx.lineWidth = 3.5; ctx.stroke();
+  ctx.strokeStyle = '#28466e'; ctx.lineWidth = 2.2; ctx.stroke();
 
-  ctx.strokeStyle = '#cfd8dc'; ctx.lineWidth = 2;
-  for (let cx = -30; cx <= 30; cx += 12) {
-    ctx.beginPath(); ctx.moveTo(cx, headY + 16); ctx.lineTo(cx * 0.7, headY - 26); ctx.stroke();
-  }
+  // Denim Fly & Crotch Seams
+  ctx.strokeStyle = '#203654'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(-6, 0 + bob); ctx.lineTo(0, 18 + bob); ctx.lineTo(6, 0 + bob); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0, 18 + bob); ctx.lineTo(0, 34 + bob); ctx.stroke();
 
-  // 5. Eyebrows & Eyes
-  ctx.strokeStyle = '#212121'; ctx.lineWidth = 4.5; ctx.lineCap = 'round';
-  ctx.beginPath(); ctx.moveTo(-28, headY + 20); ctx.lineTo(-8, headY + 14); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(28, headY + 20); ctx.lineTo(8, headY + 14); ctx.stroke();
+  // Knee Crease Folds
+  ctx.beginPath(); ctx.moveTo(-22, 68 + bob); ctx.quadraticCurveTo(-15, 72 + bob, -8, 68 + bob); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(8, 68 + bob); ctx.quadraticCurveTo(15, 72 + bob, 22, 68 + bob); ctx.stroke();
 
-  const blink = (t % 3.6 < 0.16);
-  if (blink) {
-    ctx.strokeStyle = '#212121'; ctx.lineWidth = 4;
-    ctx.beginPath(); ctx.moveTo(-26, headY + 30); ctx.lineTo(-10, headY + 30); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(10, headY + 30); ctx.lineTo(26, headY + 30); ctx.stroke();
+  // Ankle Folds
+  ctx.beginPath(); ctx.moveTo(-27, 118 + bob); ctx.lineTo(-7, 118 + bob); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(7, 118 + bob); ctx.lineTo(27, 118 + bob); ctx.stroke();
+
+  // Slide Sandals (Dark with comfortable wide strap)
+  // Left Sandal
+  drawRoundRect(ctx, -30, 124 + bob, 26, 9, 3.5, '#232a35', '#0f141c', 1.8);
+  drawRoundRect(ctx, -27, 121 + bob, 20, 6, 2.5, '#394454', null);
+  // Visible Toes
+  drawCircle(ctx, -9, 125 + bob, 3, '#c68b59', null);
+
+  // Right Sandal
+  drawRoundRect(ctx, 4, 124 + bob, 26, 9, 3.5, '#232a35', '#0f141c', 1.8);
+  drawRoundRect(ctx, 7, 121 + bob, 20, 6, 2.5, '#394454', null);
+  // Visible Toes
+  drawCircle(ctx, 25, 125 + bob, 3, '#c68b59', null);
+
+  // ==================== 2. YELLOW CREWNECK T-SHIRT ====================
+  // Bright cheerful sunny yellow
+  const yellowGrad = ctx.createLinearGradient(-35, 0, 35, 0);
+  yellowGrad.addColorStop(0, '#eab308');
+  yellowGrad.addColorStop(0.25, '#facc15');
+  yellowGrad.addColorStop(0.75, '#facc15');
+  yellowGrad.addColorStop(1, '#eab308');
+  ctx.fillStyle = yellowGrad;
+
+  // Athletic Torso
+  ctx.beginPath();
+  ctx.moveTo(-28, 2 + bob);
+  ctx.quadraticCurveTo(-30, -38 + bob, -29, -68 + bob);
+  ctx.lineTo(-38, -82 + bob); // left shoulder slope
+  ctx.quadraticCurveTo(-18, -92 + bob, 0, -90 + bob);
+  ctx.quadraticCurveTo(18, -92 + bob, 38, -82 + bob); // right shoulder slope
+  ctx.lineTo(29, -68 + bob);
+  ctx.quadraticCurveTo(30, -38 + bob, 28, 2 + bob);
+  ctx.quadraticCurveTo(0, 5 + bob, -28, 2 + bob);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = '#ca8a04'; ctx.lineWidth = 2.2; ctx.stroke();
+
+  // Crewneck Collar
+  ctx.fillStyle = '#fef08a';
+  ctx.beginPath();
+  ctx.arc(0, -90 + bob, 12, 0.2, Math.PI - 0.2);
+  ctx.lineWidth = 3.5;
+  ctx.strokeStyle = '#ca8a04';
+  ctx.stroke();
+
+  // Sleeves
+  // Left Sleeve
+  ctx.fillStyle = '#eab308';
+  ctx.beginPath();
+  ctx.moveTo(-38, -82 + bob);
+  ctx.lineTo(-50, -56 + bob);
+  ctx.lineTo(-38, -50 + bob);
+  ctx.lineTo(-29, -68 + bob);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = '#ca8a04'; ctx.lineWidth = 2; ctx.stroke();
+
+  // Right Sleeve
+  ctx.fillStyle = '#eab308';
+  ctx.beginPath();
+  ctx.moveTo(38, -82 + bob);
+  ctx.lineTo(50, -56 + bob);
+  ctx.lineTo(38, -50 + bob);
+  ctx.lineTo(29, -68 + bob);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = '#ca8a04'; ctx.lineWidth = 2; ctx.stroke();
+
+  // ==================== 3. ARMS & HANDS ====================
+  ctx.fillStyle = '#c68b59';
+  ctx.strokeStyle = '#a66838';
+
+  if (expr === 'laughing') {
+    // Both arms bent holding belly laughing
+    ctx.lineWidth = 11; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(-44, -54 + bob); ctx.quadraticCurveTo(-38, -25 + bob, -16, -12 + bob); ctx.stroke();
+    drawCircle(ctx, -14, -10 + bob, 8.5, '#c68b59', '#a66838', 1.8);
+
+    ctx.beginPath(); ctx.moveTo(44, -54 + bob); ctx.quadraticCurveTo(38, -25 + bob, 16, -12 + bob); ctx.stroke();
+    drawCircle(ctx, 14, -10 + bob, 8.5, '#c68b59', '#a66838', 1.8);
+  } else if (expr === 'proud_me') {
+    // Left arm resting at side
+    ctx.lineWidth = 11; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(-44, -54 + bob); ctx.lineTo(-38, -8 + bob); ctx.stroke();
+    drawCircle(ctx, -36, -5 + bob, 8.5, '#c68b59', '#a66838', 1.8);
+
+    // Right arm bent up pointing thumb proudly at chest! ("আমাকে!")
+    ctx.beginPath(); ctx.moveTo(44, -54 + bob); ctx.lineTo(28, -28 + bob); ctx.lineTo(10, -42 + bob); ctx.stroke();
+    drawCircle(ctx, 8, -45 + bob, 9, '#c68b59', '#a66838', 1.8);
+    // Pointing thumb
+    ctx.lineWidth = 5;
+    ctx.beginPath(); ctx.moveTo(8, -45 + bob); ctx.lineTo(-2, -50 + bob); ctx.stroke();
   } else {
-    drawEllipse(ctx, -18, headY + 30, 10, 8, '#ffffff', '#212121', 2.5);
-    drawEllipse(ctx, 18, headY + 30, 10, 8, '#ffffff', '#212121', 2.5);
-    drawCircle(ctx, -17, headY + 30, 5, '#3e2723', null);
-    drawCircle(ctx, 19, headY + 30, 5, '#3e2723', null);
-    drawCircle(ctx, -16.5, headY + 30, 3, '#111111', null);
-    drawCircle(ctx, 19.5, headY + 30, 3, '#111111', null);
-    drawCircle(ctx, -18, headY + 28, 1.8, '#ffffff', null);
-    drawCircle(ctx, 18, headY + 28, 1.8, '#ffffff', null);
+    // Natural standing pose, arms hanging loosely at sides
+    ctx.lineWidth = 11; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(-44, -54 + bob); ctx.lineTo(-38, -4 + bob); ctx.stroke();
+    drawCircle(ctx, -36, -1 + bob, 8.5, '#c68b59', '#a66838', 1.8);
+
+    ctx.beginPath(); ctx.moveTo(44, -54 + bob); ctx.lineTo(38, -4 + bob); ctx.stroke();
+    drawCircle(ctx, 36, -1 + bob, 8.5, '#c68b59', '#a66838', 1.8);
   }
 
-  // Nose
-  ctx.strokeStyle = '#b37d45'; ctx.lineWidth = 3;
-  ctx.beginPath(); ctx.moveTo(0, headY + 34); ctx.lineTo(-4, headY + 46); ctx.lineTo(3, headY + 46); ctx.stroke();
+  // ==================== 4. NECK ====================
+  ctx.fillStyle = '#c68b59';
+  ctx.fillRect(-9, -106 + bob, 18, 18);
+  ctx.strokeStyle = '#a66838'; ctx.lineWidth = 1.8;
+  ctx.strokeRect(-9, -106 + bob, 18, 18);
 
-  // 6. Mustache & Beard
-  ctx.fillStyle = '#212121';
-  ctx.beginPath();
-  ctx.moveTo(-22, headY + 48);
-  ctx.quadraticCurveTo(-10, headY + 42, 0, headY + 48);
-  ctx.quadraticCurveTo(10, headY + 42, 22, headY + 48);
-  ctx.quadraticCurveTo(12, headY + 58, 0, headY + 54);
-  ctx.quadraticCurveTo(-12, headY + 58, -22, headY + 48);
-  ctx.fill();
+  // ==================== 5. HEAD & CHARMING FACE ====================
+  const headY = -146 + bob;
 
+  // Face Oval with Defined Handsome Jawline
+  ctx.fillStyle = '#c68b59';
   ctx.beginPath();
-  ctx.moveTo(-36, headY + 40);
-  ctx.lineTo(-32, headY + 65);
-  ctx.quadraticCurveTo(-16, headY + 88, 0, headY + 90);
-  ctx.quadraticCurveTo(16, headY + 88, 32, headY + 65);
-  ctx.lineTo(36, headY + 40);
-  ctx.lineTo(26, headY + 44);
-  ctx.quadraticCurveTo(0, headY + 66, -26, headY + 44);
+  ctx.moveTo(-18, headY + 8);
+  ctx.lineTo(-17, headY + 32);
+  ctx.quadraticCurveTo(-14, headY + 50, 0, headY + 52);
+  ctx.quadraticCurveTo(14, headY + 50, 17, headY + 32);
+  ctx.lineTo(18, headY + 8);
+  ctx.quadraticCurveTo(0, headY - 8, -18, headY + 8);
   ctx.closePath();
   ctx.fill();
-  ctx.strokeStyle = '#111111'; ctx.lineWidth = 2; ctx.stroke();
+  ctx.strokeStyle = '#a66838'; ctx.lineWidth = 2; ctx.stroke();
 
-  if (isTalking) {
-    const mh = 5 + talkMouth * 12;
-    drawEllipse(ctx, 0, headY + 58, 8, mh, '#b71c1c', '#212121', 2);
-    ctx.fillStyle = '#ff80ab';
-    drawCircle(ctx, 0, headY + 58 + mh * 0.35, 3.5, '#ff80ab', null);
-  }
+  // Natural Ears (Properly proportioned, flush against head)
+  drawEllipse(ctx, -19, headY + 24, 3.5, 7.5, '#c68b59', '#a66838', 1.6);
+  drawEllipse(ctx, 19, headY + 24, 3.5, 7.5, '#c68b59', '#a66838', 1.6);
 
-  ctx.restore();
-}
-
-// ----------------------------------------------------------------------------
-// Character 2: Montu Bhai - The Neighbor ("মন্টু ভাই")
-// ----------------------------------------------------------------------------
-function drawMontuBhai(ctx, mx, my, scale, t, isTalking, expr) {
+  // Trimmed Short Beard & Stubble (Soft modern fade, exactly like 3D photo)
   ctx.save();
-  ctx.translate(mx, my);
-  ctx.scale(scale, scale);
-
-  const bob = Math.sin(t * 3.8 + 1) * 3.5;
-  const talkMouth = isTalking ? Math.abs(Math.sin(t * 15)) : 0;
-
-  // 1. Torso: Warm Orange Kurta
-  ctx.fillStyle = '#f57c00';
+  ctx.fillStyle = 'rgba(35, 41, 50, 0.42)';
   ctx.beginPath();
-  ctx.moveTo(-52, 25 + bob);
-  ctx.lineTo(-44, -100 + bob);
-  ctx.lineTo(44, -100 + bob);
-  ctx.lineTo(52, 25 + bob);
+  ctx.moveTo(-17, headY + 28);
+  ctx.lineTo(-16, headY + 36);
+  ctx.quadraticCurveTo(-12, headY + 50, 0, headY + 52);
+  ctx.quadraticCurveTo(12, headY + 50, 16, headY + 36);
+  ctx.lineTo(17, headY + 28);
+  ctx.quadraticCurveTo(11, headY + 34, 0, headY + 36);
+  ctx.quadraticCurveTo(-11, headY + 34, -17, headY + 28);
   ctx.closePath();
   ctx.fill();
-  ctx.strokeStyle = '#e65100'; ctx.lineWidth = 3.5; ctx.stroke();
-
-  drawCircle(ctx, 0, -80 + bob, 3.5, '#212121', null);
-  drawCircle(ctx, 0, -62 + bob, 3.5, '#212121', null);
-  drawCircle(ctx, 0, -44 + bob, 3.5, '#212121', null);
-
-  // 2. Arms
-  ctx.strokeStyle = '#f57c00'; ctx.lineWidth = 20; ctx.lineCap = 'round';
-  ctx.beginPath(); ctx.moveTo(-40, -85 + bob); ctx.lineTo(-85, -55 + bob); ctx.stroke();
-  ctx.strokeStyle = '#e65100'; ctx.lineWidth = 3; ctx.stroke();
-  drawCircle(ctx, -92, -50 + bob, 14, '#e0a96d', '#b37d45', 2.5);
-
-  ctx.strokeStyle = '#f57c00'; ctx.lineWidth = 20; ctx.lineCap = 'round';
-  ctx.beginPath(); ctx.moveTo(40, -85 + bob); ctx.lineTo(58, -25 + bob); ctx.stroke();
-  ctx.strokeStyle = '#e65100'; ctx.lineWidth = 3; ctx.stroke();
-  drawCircle(ctx, 60, -18 + bob, 14, '#e0a96d', '#b37d45', 2.5);
-
-  // 3. Neck
-  drawRoundRect(ctx, -16, -120 + bob, 32, 24, 6, '#e0a96d', '#b37d45', 2.5);
-
-  // 4. Head & Turban
-  const headY = -160 + bob;
-
-  ctx.fillStyle = '#e0a96d';
-  ctx.beginPath();
-  ctx.ellipse(0, headY + 30, 36, 42, 0, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.strokeStyle = '#b37d45'; ctx.lineWidth = 3; ctx.stroke();
-
-  drawCircle(ctx, -38, headY + 34, 10, '#e0a96d', '#b37d45', 2.5);
-  drawCircle(ctx, 38, headY + 34, 10, '#e0a96d', '#b37d45', 2.5);
-
-  // Wrapped Turban
-  ctx.save();
-  ctx.translate(0, headY + 2);
-  drawEllipse(ctx, 0, -12, 48, 28, '#c27d78', '#5d2c28', 3.5);
-  ctx.strokeStyle = '#5d2c28'; ctx.lineWidth = 3;
-  ctx.beginPath(); ctx.arc(-12, -8, 44, -1.2, 0.4); ctx.stroke();
-  ctx.beginPath(); ctx.arc(12, -12, 42, -2.4, -0.6); ctx.stroke();
-  ctx.strokeStyle = '#8c4843'; ctx.lineWidth = 2.5;
-  ctx.beginPath(); ctx.moveTo(-38, -6); ctx.lineTo(38, -6); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(-42, -16); ctx.lineTo(42, -16); ctx.stroke();
   ctx.restore();
 
-  // 5. Eyebrows & Eyes
-  ctx.strokeStyle = '#212121'; ctx.lineWidth = 4.5; ctx.lineCap = 'round';
-  if (expr === 'shocked') {
-    ctx.beginPath(); ctx.moveTo(-28, headY + 14); ctx.lineTo(-8, headY + 8); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(28, headY + 14); ctx.lineTo(8, headY + 8); ctx.stroke();
+  // Chin Stubble Accent
+  drawEllipse(ctx, 0, headY + 46, 4.5, 3, '#1f2937', null);
 
-    drawCircle(ctx, -16, headY + 28, 10, '#ffffff', '#212121', 2.5);
-    drawCircle(ctx, -16, headY + 28, 4.5, '#212121', null);
-    drawCircle(ctx, 16, headY + 28, 10, '#ffffff', '#212121', 2.5);
-    drawCircle(ctx, 16, headY + 28, 4.5, '#212121', null);
+  // Trimmed Neat Mustache
+  ctx.fillStyle = '#1f2937';
+  ctx.beginPath();
+  ctx.moveTo(-11, headY + 35);
+  ctx.quadraticCurveTo(0, headY + 32, 11, headY + 35);
+  ctx.quadraticCurveTo(0, headY + 39, -11, headY + 35);
+  ctx.fill();
 
-    drawEllipse(ctx, 0, headY + 58, 12, 16, '#b71c1c', '#212121', 2.5);
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(-8, headY + 46, 16, 5);
+  // Modern Styled Quiff Hair (Voluminous sweep on top, cropped sides)
+  ctx.fillStyle = '#111827';
+  ctx.beginPath();
+  ctx.moveTo(-20, headY + 16);
+  ctx.lineTo(-20, headY + 2);
+  ctx.quadraticCurveTo(-18, headY - 18, -8, headY - 22);
+  ctx.lineTo(2, headY - 24);
+  ctx.quadraticCurveTo(16, headY - 20, 21, headY - 6);
+  ctx.lineTo(20, headY + 16);
+  ctx.lineTo(17, headY + 6);
+  ctx.quadraticCurveTo(8, headY + 2, 0, headY + 10);
+  ctx.quadraticCurveTo(-8, headY + 2, -15, headY + 8);
+  ctx.lineTo(-18, headY + 6);
+  ctx.closePath();
+  ctx.fill();
+
+  // Subtle Hair Highlight
+  ctx.strokeStyle = '#374151'; ctx.lineWidth = 1.8;
+  ctx.beginPath(); ctx.moveTo(-10, headY - 16); ctx.quadraticCurveTo(0, headY - 10, 10, headY - 14); ctx.stroke();
+
+  // Eyebrows
+  ctx.strokeStyle = '#111827'; ctx.lineWidth = 2.8; ctx.lineCap = 'round';
+  if (expr === 'laughing') {
+    ctx.beginPath(); ctx.moveTo(-14, headY + 16); ctx.lineTo(-4, headY + 19); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(14, headY + 16); ctx.lineTo(4, headY + 19); ctx.stroke();
+  } else if (expr === 'proud_me') {
+    ctx.beginPath(); ctx.moveTo(-14, headY + 15); ctx.lineTo(-4, headY + 14); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(14, headY + 11); ctx.lineTo(4, headY + 14); ctx.stroke();
   } else {
-    ctx.beginPath(); ctx.moveTo(-26, headY + 20); ctx.lineTo(-8, headY + 18); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(26, headY + 20); ctx.lineTo(8, headY + 18); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(-14, headY + 15); ctx.lineTo(-4, headY + 14); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(14, headY + 15); ctx.lineTo(4, headY + 14); ctx.stroke();
+  }
 
-    drawEllipse(ctx, -16, headY + 28, 10, 8, '#ffffff', '#212121', 2.5);
-    drawEllipse(ctx, 16, headY + 28, 10, 8, '#ffffff', '#212121', 2.5);
-    drawCircle(ctx, -16, headY + 28, 5, '#3e2723', null);
-    drawCircle(ctx, 16, headY + 28, 5, '#3e2723', null);
-    drawCircle(ctx, -17.5, headY + 26.5, 1.8, '#ffffff', null);
-    drawCircle(ctx, 14.5, headY + 26.5, 1.8, '#ffffff', null);
-
-    ctx.fillStyle = '#212121';
-    ctx.beginPath();
-    ctx.moveTo(-22, headY + 44);
-    ctx.quadraticCurveTo(0, headY + 38, 22, headY + 44);
-    ctx.quadraticCurveTo(0, headY + 52, -22, headY + 44);
-    ctx.fill();
-
-    if (isTalking) {
-      const mh = 5 + talkMouth * 12;
-      drawEllipse(ctx, 0, headY + 54, 8, mh, '#b71c1c', '#212121', 2);
+  // Eyes (Expressive, warm almond eyes)
+  if (expr === 'laughing') {
+    ctx.strokeStyle = '#111827'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.arc(-9, headY + 22, 5.5, Math.PI, 0); ctx.stroke();
+    ctx.beginPath(); ctx.arc(9, headY + 22, 5.5, Math.PI, 0); ctx.stroke();
+  } else {
+    const blink = (t % 3.6 < 0.16);
+    if (blink) {
+      ctx.strokeStyle = '#111827'; ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(-14, headY + 22); ctx.lineTo(-4, headY + 22); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(4, headY + 22); ctx.lineTo(14, headY + 22); ctx.stroke();
     } else {
-      ctx.strokeStyle = '#b71c1c'; ctx.lineWidth = 3.5;
-      ctx.beginPath(); ctx.arc(0, headY + 52, 8, 0.2, Math.PI - 0.2); ctx.stroke();
+      // Eye whites
+      drawEllipse(ctx, -9, headY + 22, 6, 5, '#ffffff', '#111827', 1.5);
+      drawEllipse(ctx, 9, headY + 22, 6, 5, '#ffffff', '#111827', 1.5);
+
+      // Warm Brown Irises
+      drawCircle(ctx, -8.5, headY + 22, 3.2, '#542d13', null);
+      drawCircle(ctx, 9.5, headY + 22, 3.2, '#542d13', null);
+
+      // Pupil
+      drawCircle(ctx, -8.2, headY + 22, 1.8, '#111827', null);
+      drawCircle(ctx, 9.8, headY + 22, 1.8, '#111827', null);
+
+      // Catchlight
+      drawCircle(ctx, -9.8, headY + 20.8, 1, '#ffffff', null);
+      drawCircle(ctx, 8.2, headY + 20.8, 1, '#ffffff', null);
     }
   }
 
+  // Refined Nose
+  ctx.strokeStyle = '#a66838'; ctx.lineWidth = 1.8;
+  ctx.beginPath(); ctx.moveTo(0, headY + 22); ctx.lineTo(-1.5, headY + 30); ctx.lineTo(1.5, headY + 30); ctx.stroke();
+
+  // Mouth
+  if (expr === 'laughing') {
+    // Big hearty dad laugh
+    drawEllipse(ctx, 0, headY + 41, 7, 8.5, '#b91c1c', '#111827', 1.8);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(-4.5, headY + 34, 9, 2.5);
+    ctx.fillStyle = '#f87171';
+    drawCircle(ctx, 0, headY + 45, 3.5, '#f87171', null);
+  } else if (isTalking) {
+    const mh = 2.5 + talkMouth * 7;
+    drawEllipse(ctx, 0, headY + 40, 5.5, mh, '#b91c1c', '#111827', 1.6);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(-3.5, headY + 40 - mh * 0.4, 7, 1.8);
+  } else if (expr === 'proud_me') {
+    // Proud smirk
+    ctx.strokeStyle = '#b91c1c'; ctx.lineWidth = 2.2;
+    ctx.beginPath(); ctx.arc(1, headY + 39, 5.5, 0.1, Math.PI - 0.4); ctx.stroke();
+  } else {
+    // Warm gentle smile
+    ctx.strokeStyle = '#b91c1c'; ctx.lineWidth = 1.8;
+    ctx.beginPath(); ctx.arc(0, headY + 40, 5, 0.2, Math.PI - 0.2); ctx.stroke();
+  }
+
   ctx.restore();
 }
 
 // ----------------------------------------------------------------------------
-// Character 3: Jorina Begum - The Suspicious Wife ("জরিনা বেগম")
+// Character 2: Son ("ছেলে")
+// Exactly matching user 3D photo (media_1795111775615_28792646.jpg)
 // ----------------------------------------------------------------------------
-function drawJorinaBegum(ctx, jx, jy, scale, t, isAngry) {
+function drawSon(ctx, sx, sy, scale, t, isTalking, expr) {
   ctx.save();
-  ctx.translate(jx, jy);
+  ctx.translate(sx, sy);
   ctx.scale(scale, scale);
 
-  const bob = Math.sin(t * 3.2) * 3;
+  const bob = Math.sin(t * 4.2) * 3.5;
+  const talkMouth = isTalking ? Math.abs(Math.sin(t * 16)) : 0;
 
-  // 1. Long Dark Hair behind head
-  ctx.fillStyle = '#212121';
-  ctx.beginPath();
-  ctx.ellipse(0, -135 + bob, 38, 48, 0, 0, Math.PI * 2);
-  ctx.fill();
+  // Soft Floor Shadow
+  drawEllipse(ctx, 0, 92 + bob, 34, 9, 'rgba(0, 0, 0, 0.25)', null);
 
-  // 2. Torso: Pink Salwar Kameez
-  ctx.fillStyle = '#e91e63';
+  // ==================== 1. CHARCOAL SHORTS & KID LEGS ====================
+  // Relaxed Charcoal Shorts
+  ctx.fillStyle = '#262626';
+  drawRoundRect(ctx, -18, 14 + bob, 15, 28, 3.5, '#262626', '#141414', 1.8);
+  drawRoundRect(ctx, 3, 14 + bob, 15, 28, 3.5, '#262626', '#141414', 1.8);
+
+  // White drawstring detail
+  ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(-3, 16 + bob); ctx.lineTo(0, 19 + bob); ctx.lineTo(3, 16 + bob); ctx.stroke();
+
+  // Cute toddler legs
+  ctx.fillStyle = '#dba372';
+  drawRoundRect(ctx, -15, 40 + bob, 10, 34, 3.5, '#dba372', '#b87d4d', 1.8);
+  drawRoundRect(ctx, 5, 40 + bob, 10, 34, 3.5, '#dba372', '#b87d4d', 1.8);
+
+  // Slide Sandals
+  drawRoundRect(ctx, -18, 74 + bob, 18, 8, 3, '#262626', '#141414', 1.5);
+  drawRoundRect(ctx, -15, 71 + bob, 12, 4.5, 1.8, '#404040', null);
+
+  drawRoundRect(ctx, 2, 74 + bob, 18, 8, 3, '#262626', '#141414', 1.5);
+  drawRoundRect(ctx, 5, 71 + bob, 12, 4.5, 1.8, '#404040', null);
+
+  // ==================== 2. PINK TANK TOP / SLEEVELESS VEST ====================
+  const pinkGrad = ctx.createLinearGradient(-20, 0, 20, 0);
+  pinkGrad.addColorStop(0, '#f5b5cd');
+  pinkGrad.addColorStop(0.5, '#fce7f3');
+  pinkGrad.addColorStop(1, '#f5b5cd');
+  ctx.fillStyle = pinkGrad;
+
   ctx.beginPath();
-  ctx.moveTo(-44, 25 + bob);
-  ctx.lineTo(-36, -95 + bob);
-  ctx.lineTo(36, -95 + bob);
-  ctx.lineTo(44, 25 + bob);
+  ctx.moveTo(-20, 16 + bob);
+  ctx.quadraticCurveTo(-22, -15 + bob, -19, -48 + bob);
+  ctx.lineTo(-9, -48 + bob);
+  ctx.quadraticCurveTo(0, -42 + bob, 9, -48 + bob);
+  ctx.lineTo(19, -48 + bob);
+  ctx.quadraticCurveTo(22, -15 + bob, 20, 16 + bob);
   ctx.closePath();
   ctx.fill();
-  ctx.strokeStyle = '#c2185b'; ctx.lineWidth = 3.5; ctx.stroke();
+  ctx.strokeStyle = '#e89bb8'; ctx.lineWidth = 2; ctx.stroke();
 
-  // Purple Dupatta (ওড়না)
-  ctx.fillStyle = '#7b1fa2';
-  ctx.beginPath();
-  ctx.moveTo(-38, -95 + bob);
-  ctx.lineTo(-14, -20 + bob);
-  ctx.lineTo(28, -32 + bob);
-  ctx.lineTo(38, -95 + bob);
-  ctx.closePath();
-  ctx.fill();
-  ctx.strokeStyle = '#4a148c'; ctx.lineWidth = 2.5; ctx.stroke();
-
-  // 3. Arms Crossed Tight
-  ctx.strokeStyle = '#e91e63'; ctx.lineWidth = 18; ctx.lineCap = 'round';
-  ctx.beginPath(); ctx.moveTo(-36, -85 + bob); ctx.lineTo(18, -50 + bob); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(36, -85 + bob); ctx.lineTo(-18, -50 + bob); ctx.stroke();
-  drawCircle(ctx, 20, -50 + bob, 11, '#f5cba7', '#b37d45', 2);
-  drawCircle(ctx, -20, -50 + bob, 11, '#f5cba7', '#b37d45', 2);
-
-  // 4. Neck
-  drawRoundRect(ctx, -14, -115 + bob, 28, 22, 5, '#f5cba7', '#b37d45', 2);
-
-  // 5. Head & Face
-  const headY = -155 + bob;
-
-  ctx.fillStyle = '#f5cba7';
-  ctx.beginPath();
-  ctx.ellipse(0, headY + 30, 32, 38, 0, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.strokeStyle = '#b37d45'; ctx.lineWidth = 2.5; ctx.stroke();
-
-  // Hair Front Framing
-  ctx.fillStyle = '#212121';
-  ctx.beginPath();
-  ctx.arc(0, headY + 10, 34, Math.PI, 0);
-  ctx.lineTo(34, headY + 25);
-  ctx.quadraticCurveTo(15, headY + 12, 0, headY + 18);
-  ctx.quadraticCurveTo(-15, headY + 12, -34, headY + 25);
-  ctx.closePath();
-  ctx.fill();
-
-  // Red Bindi
-  drawCircle(ctx, 0, headY + 20, 3.5, '#d32f2f', null);
-
-  // 6. Glaring Facial Features
-  ctx.strokeStyle = '#212121'; ctx.lineWidth = 4; ctx.lineCap = 'round';
-  ctx.beginPath(); ctx.moveTo(-24, headY + 20); ctx.lineTo(-6, headY + 25); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(24, headY + 20); ctx.lineTo(6, headY + 25); ctx.stroke();
-
-  drawEllipse(ctx, -14, headY + 30, 9, 6.5, '#ffffff', '#212121', 2.5);
-  drawEllipse(ctx, 14, headY + 30, 9, 6.5, '#ffffff', '#212121', 2.5);
-  drawCircle(ctx, -11, headY + 30, 4, '#212121', null);
-  drawCircle(ctx, 17, headY + 30, 4, '#212121', null);
-  drawCircle(ctx, -12, headY + 28.5, 1.5, '#ffffff', null);
-  drawCircle(ctx, 16, headY + 28.5, 1.5, '#ffffff', null);
-
-  // Nose
-  ctx.strokeStyle = '#b37d45'; ctx.lineWidth = 2.5;
-  ctx.beginPath(); ctx.moveTo(0, headY + 34); ctx.lineTo(-3, headY + 44); ctx.lineTo(2, headY + 44); ctx.stroke();
-
-  // Pouting Mouth
-  ctx.strokeStyle = '#c2185b'; ctx.lineWidth = 3.5;
-  ctx.beginPath();
-  ctx.moveTo(-10, headY + 52);
-  ctx.quadraticCurveTo(0, headY + 47, 10, headY + 52);
-  ctx.stroke();
-
-  if (isAngry) {
-    ctx.strokeStyle = '#d32f2f'; ctx.lineWidth = 3.5;
-    const vx = 28;
-    const vy = headY - 10;
-    ctx.beginPath(); ctx.arc(vx, vy, 8, 0, Math.PI / 2); ctx.stroke();
-    ctx.beginPath(); ctx.arc(vx + 12, vy, 8, Math.PI / 2, Math.PI); ctx.stroke();
-    ctx.beginPath(); ctx.arc(vx, vy + 12, 8, -Math.PI / 2, 0); ctx.stroke();
-    ctx.beginPath(); ctx.arc(vx + 12, vy + 12, 8, Math.PI, -Math.PI / 2); ctx.stroke();
-  }
-
-  ctx.restore();
-}
-
-// ----------------------------------------------------------------------------
-// Houri / Fantasy Thought Cloud (Scene 4: বেহেশতের হুর!)
-// ----------------------------------------------------------------------------
-function drawHouriFantasyCloud(ctx, cx, cy, cw, ch, t) {
-  ctx.save();
-
-  // Thought bubbles connecting from Abul Mia's head
-  drawCircle(ctx, cx + cw * 0.25, cy + ch * 0.72, 8, '#ffffff', '#ce93d8', 2);
-  drawCircle(ctx, cx + cw * 0.15, cy + ch * 0.58, 14, '#ffffff', '#ce93d8', 2);
-  drawCircle(ctx, cx + cw * 0.05, cy + ch * 0.44, 20, '#ffffff', '#ce93d8', 2);
-
-  // Cloud backdrop
-  drawRoundRect(ctx, cx - cw / 2, cy - ch / 2, cw, ch, 28, '#f3e5f5', '#ab47bc', 4);
-
-  // Golden Glow & Stars
-  ctx.fillStyle = '#fbc02d';
-  for (let i = 0; i < 5; i++) {
-    const sx = cx - cw * 0.35 + i * (cw * 0.18);
-    const sy = cy - ch * 0.28 + Math.sin(t * 6 + i) * 8;
-    drawCircle(ctx, sx, sy, 4 + Math.sin(t * 8 + i) * 2, '#fff59d', '#fbc02d', 1.5);
-  }
-
-  // Heavenly Golden Gate / Arch Motif
-  const gx = cx;
-  const gy = cy + ch * 0.14;
-  ctx.strokeStyle = '#ffd54f'; ctx.lineWidth = 6;
-  ctx.beginPath();
-  ctx.arc(gx, gy, 38, Math.PI, 0);
-  ctx.stroke();
-  ctx.fillStyle = '#fff9c4'; ctx.fill();
-
-  // Angelic Light Wings
+  // White hem at bottom
   ctx.fillStyle = '#ffffff';
-  ctx.beginPath();
-  ctx.ellipse(gx - 42, gy - 10, 24, 12, -0.4, 0, Math.PI * 2);
-  ctx.ellipse(gx + 42, gy - 10, 24, 12, 0.4, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.strokeStyle = '#ce93d8'; ctx.lineWidth = 2; ctx.stroke();
+  ctx.fillRect(-19, 12 + bob, 38, 4.5);
+  ctx.strokeStyle = '#e89bb8'; ctx.lineWidth = 1;
+  ctx.strokeRect(-19, 12 + bob, 38, 4.5);
 
-  // Banner text
-  ctx.fillStyle = '#6a1b9a';
-  ctx.font = 'bold 22px "Noto Sans Bengali", sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('বেহেশতের হুরপরী! ✨👑', cx, cy + ch * 0.38);
+  // White trim at neck
+  ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2.2;
+  ctx.beginPath(); ctx.arc(0, -48 + bob, 9, 0.2, Math.PI - 0.2); ctx.stroke();
+
+  // ==================== 3. CUTE KID ARMS & GESTURES ====================
+  ctx.strokeStyle = '#dba372'; ctx.lineWidth = 8.5; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  if (expr === 'giggling') {
+    // Hands near mouth giggling
+    ctx.beginPath(); ctx.moveTo(-18, -36 + bob); ctx.lineTo(-6, -58 + bob); ctx.stroke();
+    drawCircle(ctx, -4, -60 + bob, 6.5, '#dba372', '#b87d4d', 1.6);
+
+    ctx.beginPath(); ctx.moveTo(18, -36 + bob); ctx.lineTo(6, -58 + bob); ctx.stroke();
+    drawCircle(ctx, 4, -60 + bob, 6.5, '#dba372', '#b87d4d', 1.6);
+  } else if (expr === 'pointing_punchline') {
+    // Left hand on hip
+    ctx.beginPath(); ctx.moveTo(-18, -36 + bob); ctx.lineTo(-24, -12 + bob); ctx.stroke();
+    drawCircle(ctx, -24, -9 + bob, 6.5, '#dba372', '#b87d4d', 1.6);
+
+    // Right arm raised high with index finger pointing up! ("নিজেরাই নিজেরায়...")
+    ctx.beginPath(); ctx.moveTo(18, -36 + bob); ctx.lineTo(28, -60 + bob); ctx.stroke();
+    drawCircle(ctx, 28, -62 + bob, 7, '#dba372', '#b87d4d', 1.6);
+    // Pointing finger
+    ctx.strokeStyle = '#dba372'; ctx.lineWidth = 3.5;
+    ctx.beginPath(); ctx.moveTo(28, -63 + bob); ctx.lineTo(30, -75 + bob); ctx.stroke();
+  } else if (isTalking) {
+    // Asking curiously: one hand raised inquisitively
+    ctx.beginPath(); ctx.moveTo(-18, -36 + bob); ctx.lineTo(-14, -8 + bob); ctx.stroke();
+    drawCircle(ctx, -13, -5 + bob, 6.5, '#dba372', '#b87d4d', 1.6);
+
+    ctx.beginPath(); ctx.moveTo(18, -36 + bob); ctx.lineTo(24, -32 + bob); ctx.stroke();
+    drawCircle(ctx, 25, -34 + bob, 7, '#dba372', '#b87d4d', 1.6);
+  } else {
+    // Natural relaxed standing arms
+    ctx.beginPath(); ctx.moveTo(-18, -36 + bob); ctx.lineTo(-14, -4 + bob); ctx.stroke();
+    drawCircle(ctx, -13, -1 + bob, 6.5, '#dba372', '#b87d4d', 1.6);
+
+    ctx.beginPath(); ctx.moveTo(18, -36 + bob); ctx.lineTo(14, -4 + bob); ctx.stroke();
+    drawCircle(ctx, 13, -1 + bob, 6.5, '#dba372', '#b87d4d', 1.6);
+  }
+
+  // ==================== 4. NECK ====================
+  ctx.fillStyle = '#dba372';
+  ctx.fillRect(-6, -58 + bob, 12, 12);
+  ctx.strokeStyle = '#b87d4d'; ctx.lineWidth = 1.6;
+  ctx.strokeRect(-6, -58 + bob, 12, 12);
+
+  // ==================== 5. ADORABLE CHUBBY HEAD & BIG EYES ====================
+  const headY = -92 + bob;
+
+  // Chubby Cute Round Face
+  ctx.fillStyle = '#dba372';
+  ctx.beginPath();
+  ctx.moveTo(-19, headY + 6);
+  ctx.lineTo(-19, headY + 26);
+  ctx.quadraticCurveTo(-14, headY + 42, 0, headY + 44);
+  ctx.quadraticCurveTo(14, headY + 42, 19, headY + 26);
+  ctx.lineTo(19, headY + 6);
+  ctx.quadraticCurveTo(0, headY - 4, -19, headY + 6);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = '#b87d4d'; ctx.lineWidth = 2; ctx.stroke();
+
+  // Rosy Cheeks
+  ctx.fillStyle = 'rgba(244, 114, 182, 0.40)';
+  drawCircle(ctx, -12, headY + 26, 4.5, null, null);
+  drawCircle(ctx, 12, headY + 26, 4.5, null, null);
+
+  // Ears
+  drawEllipse(ctx, -20, headY + 20, 3, 6, '#dba372', '#b87d4d', 1.5);
+  drawEllipse(ctx, 20, headY + 20, 3, 6, '#dba372', '#b87d4d', 1.5);
+
+  // Spiky Fluffy Black Hair (Tousled dynamic locks & bangs)
+  ctx.fillStyle = '#111827';
+  ctx.beginPath();
+  ctx.moveTo(-21, headY + 16);
+  ctx.lineTo(-24, headY + 4);
+  ctx.lineTo(-20, headY - 6);
+  ctx.lineTo(-14, headY - 14);
+  ctx.lineTo(-18, headY - 22);
+  ctx.lineTo(-8, headY - 18);
+  ctx.lineTo(-6, headY - 28); // left spike
+  ctx.lineTo(0, headY - 18);
+  ctx.lineTo(7, headY - 30);  // center spike
+  ctx.lineTo(12, headY - 18);
+  ctx.lineTo(20, headY - 22); // right spike
+  ctx.lineTo(18, headY - 8);
+  ctx.lineTo(24, headY - 2);
+  ctx.lineTo(21, headY + 6);
+  ctx.lineTo(21, headY + 16);
+  // Bangs draping naturally over forehead
+  ctx.lineTo(16, headY + 8);
+  ctx.quadraticCurveTo(6, headY + 2, 0, headY + 10);
+  ctx.quadraticCurveTo(-6, headY + 2, -14, headY + 10);
+  ctx.lineTo(-18, headY + 8);
+  ctx.closePath();
+  ctx.fill();
+
+  // Eyebrows
+  ctx.strokeStyle = '#111827'; ctx.lineWidth = 2.4; ctx.lineCap = 'round';
+  if (expr === 'pointing_punchline') {
+    ctx.beginPath(); ctx.moveTo(-12, headY + 13); ctx.lineTo(-3, headY + 11); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(12, headY + 8); ctx.lineTo(3, headY + 11); ctx.stroke();
+  } else {
+    ctx.beginPath(); ctx.moveTo(-12, headY + 12); ctx.lineTo(-3, headY + 12); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(12, headY + 12); ctx.lineTo(3, headY + 12); ctx.stroke();
+  }
+
+  // Giant Sparkling Brown Disney/Pixar Anime Eyes
+  if (expr === 'giggling') {
+    ctx.strokeStyle = '#111827'; ctx.lineWidth = 2.8;
+    ctx.beginPath(); ctx.arc(-8, headY + 19, 5.5, Math.PI, 0); ctx.stroke();
+    ctx.beginPath(); ctx.arc(8, headY + 19, 5.5, Math.PI, 0); ctx.stroke();
+  } else {
+    // Sclera (Eye whites)
+    drawEllipse(ctx, -8, headY + 19, 6.5, 7.5, '#ffffff', '#111827', 1.8);
+    drawEllipse(ctx, 8, headY + 19, 6.5, 7.5, '#ffffff', '#111827', 1.8);
+
+    // Warm Chocolate Brown Irises (Looking up at Dad!)
+    drawCircle(ctx, -9, headY + 18, 4.8, '#542d13', null);
+    drawCircle(ctx, 7, headY + 18, 4.8, '#542d13', null);
+
+    // Dark Pupil
+    drawCircle(ctx, -9.5, headY + 18, 3, '#111827', null);
+    drawCircle(ctx, 6.5, headY + 18, 3, '#111827', null);
+
+    // Double Catchlights (Gives life, innocence & cuteness!)
+    drawCircle(ctx, -11, headY + 16, 1.8, '#ffffff', null);
+    drawCircle(ctx, 5, headY + 16, 1.8, '#ffffff', null);
+    drawCircle(ctx, -7.5, headY + 20, 1, '#ffffff', null);
+    drawCircle(ctx, 8.5, headY + 20, 1, '#ffffff', null);
+  }
+
+  // Cute Button Nose
+  drawCircle(ctx, 0, headY + 25, 1.6, '#b87d4d', null);
+
+  // Mouth
+  if (expr === 'pointing_punchline') {
+    // Cheeky triumphant kid grin
+    ctx.fillStyle = '#b91c1c';
+    ctx.beginPath();
+    ctx.arc(0, headY + 32, 4.8, 0, Math.PI);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = '#111827'; ctx.lineWidth = 1.5; ctx.stroke();
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(-3, headY + 32, 6, 1.6);
+  } else if (isTalking) {
+    const mh = 2.5 + talkMouth * 6;
+    drawEllipse(ctx, 0, headY + 33, 4.8, mh, '#b91c1c', '#111827', 1.6);
+    ctx.fillStyle = '#f87171';
+    drawCircle(ctx, 0, headY + 33 + mh * 0.35, 1.8, '#f87171', null);
+  } else {
+    // Cheerful kid smile
+    ctx.strokeStyle = '#b91c1c'; ctx.lineWidth = 1.8;
+    ctx.beginPath(); ctx.arc(0, headY + 32, 4.2, 0.2, Math.PI - 0.2); ctx.stroke();
+  }
 
   ctx.restore();
 }
@@ -598,9 +736,9 @@ function drawChannelWatermark(ctx, w, h, isPort, t) {
   ctx.fillText('ছোট্ট কার্টুন, বড় হাসি!', badgeX + 58, badgeY + 47);
 }
 
-// Grand Outro Card (14.0s - 17.23s)
+// Grand Outro Card (11.0s - 14.0s)
 function drawOutroCard(ctx, w, h, isPort, t) {
-  const p = Math.max(0, Math.min(1, (t - 14.0) / 0.8));
+  const p = Math.max(0, Math.min(1, (t - 11.0) / 0.8));
   ctx.save();
   ctx.fillStyle = `rgba(15, 23, 42, ${0.94 * p})`;
   ctx.fillRect(0, 0, w, h);
@@ -648,49 +786,53 @@ function drawOutroCard(ctx, w, h, isPort, t) {
 }
 
 // ----------------------------------------------------------------------------
-// Comic Speech Balloon & Synchronized Subtitle Bar
-// (Clamped so it never overflows off-screen in portrait or landscape!)
+// Comic Speech Balloon & Subtitle System
 // ----------------------------------------------------------------------------
-function drawSpeechBalloon(ctx, w, h, x, y, speaker, text, pointLeft) {
+function drawSpeechBalloon(ctx, w, h, targetX, targetY, speaker, text, pointLeft, isPort) {
   ctx.save();
-  ctx.font = 'bold 23px "Noto Sans Bengali", sans-serif';
+  const fontSize = isPort ? 28 : 24;
+  ctx.font = `bold ${fontSize}px "Noto Sans Bengali", sans-serif`;
   const tm = ctx.measureText(text);
-  const bw = Math.min(w - 48, Math.max(220, tm.width + 48));
-  const bh = 68;
+  const bw = Math.min(w - 60, Math.max(isPort ? 260 : 220, tm.width + (isPort ? 64 : 56)));
+  const bh = isPort ? 82 : 70;
 
-  let bx = pointLeft ? x : x - bw;
-  bx = Math.max(24, Math.min(w - bw - 24, bx));
-  const by = Math.max(24, y - bh - 24);
+  let bx = pointLeft ? targetX - 40 : targetX - bw + 40;
+  bx = Math.max(28, Math.min(w - bw - 28, bx));
 
-  ctx.fillStyle = 'rgba(0,0,0,0.25)';
-  drawRoundRect(ctx, bx + 4, by + 4, bw, bh, 18, 'rgba(0,0,0,0.25)', null);
-  drawRoundRect(ctx, bx, by, bw, bh, 18, '#ffffff', '#263238', 3.5);
+  const by = isPort ? Math.floor(h * 0.44) : Math.max(24, targetY - bh - 30);
 
-  // Pointer Tail pointing accurately to speaker
-  const tailX = Math.max(bx + 25, Math.min(bx + bw - 25, x));
+  // Drop shadow
+  drawRoundRect(ctx, bx + 5, by + 5, bw, bh, 18, 'rgba(0,0,0,0.22)', null);
+  // Bubble body
+  drawRoundRect(ctx, bx, by, bw, bh, 18, '#ffffff', '#0f172a', 3.5);
+
+  // Tail pointing to speaker
+  const tailX = Math.max(bx + 32, Math.min(bx + bw - 32, targetX));
+  const tipY = isPort ? Math.min(by + bh + 48, targetY) : targetY;
   ctx.fillStyle = '#ffffff';
   ctx.beginPath();
-  ctx.moveTo(tailX - 16, by + bh);
-  ctx.lineTo(x, by + bh + 22);
-  ctx.lineTo(tailX + 16, by + bh);
+  ctx.moveTo(tailX - 18, by + bh);
+  ctx.lineTo(targetX, tipY);
+  ctx.lineTo(tailX + 18, by + bh);
   ctx.closePath();
   ctx.fill();
-  ctx.strokeStyle = '#263238'; ctx.lineWidth = 3.5; ctx.stroke();
+  ctx.strokeStyle = '#0f172a'; ctx.lineWidth = 3.5; ctx.stroke();
 
   // Speaker Badge
-  const isAbul = speaker.includes('আবুল');
-  const isMontu = speaker.includes('মন্টু');
-  const badgeBg = isAbul ? '#2e7d32' : (isMontu ? '#e65100' : '#c2185b');
-  drawRoundRect(ctx, bx + 16, by - 16, 175, 28, 8, badgeBg, '#ffffff', 2);
+  const isDad = speaker.includes('বাবা');
+  const badgeBg = isDad ? '#0284c7' : '#db2777';
+  const badgeW = isPort ? 180 : 160;
+  const badgeH = isPort ? 32 : 28;
+  drawRoundRect(ctx, bx + 16, by - (isPort ? 18 : 16), badgeW, badgeH, 8, badgeBg, '#ffffff', 2);
   ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 15px "Noto Sans Bengali", sans-serif';
+  ctx.font = `bold ${isPort ? 17 : 15}px "Noto Sans Bengali", sans-serif`;
   ctx.textAlign = 'left';
-  ctx.fillText(speaker, bx + 24, by + 3);
+  ctx.fillText(speaker, bx + 24, by + (isPort ? 4 : 3));
 
   // Dialogue Text
-  ctx.fillStyle = '#102027';
-  ctx.font = 'bold 22px "Noto Sans Bengali", sans-serif';
-  ctx.fillText(text, bx + 24, by + 45);
+  ctx.fillStyle = '#0f172a';
+  ctx.font = `bold ${fontSize}px "Noto Sans Bengali", sans-serif`;
+  ctx.fillText(text, bx + 24, by + (isPort ? 52 : 45));
 
   ctx.restore();
 }
@@ -702,12 +844,11 @@ function drawBottomSubtitleBar(ctx, w, h, speaker, text) {
   const barW = isPort ? w - 48 : w * 0.86;
   const barX = (w - barW) / 2;
 
-  drawRoundRect(ctx, barX, barY, barW, barH, 20, 'rgba(15, 23, 42, 0.90)', '#ffd54f', 3);
+  drawRoundRect(ctx, barX, barY, barW, barH, 20, 'rgba(15, 23, 42, 0.92)', '#ffd54f', 3);
 
-  const isAbul = speaker.includes('আবুল');
-  const isMontu = speaker.includes('মন্টু');
-  const badgeCol = isAbul ? '#2e7d32' : (isMontu ? '#ef6c00' : '#c2185b');
-  const badgeW = isPort ? 210 : 230;
+  const isDad = speaker.includes('বাবা');
+  const badgeCol = isDad ? '#0284c7' : '#db2777';
+  const badgeW = isPort ? 190 : 210;
   drawRoundRect(ctx, barX + 18, barY + (isPort ? 14 : 20), badgeW, 46, 12, badgeCol, '#ffffff', 2);
 
   ctx.fillStyle = '#ffffff';
@@ -717,7 +858,7 @@ function drawBottomSubtitleBar(ctx, w, h, speaker, text) {
 
   ctx.textAlign = isPort ? 'center' : 'left';
   ctx.fillStyle = '#ffeb3b';
-  ctx.font = `bold ${isPort ? 25 : 27}px "Noto Sans Bengali", sans-serif`;
+  ctx.font = `bold ${isPort ? 26 : 28}px "Noto Sans Bengali", sans-serif`;
   if (isPort) {
     ctx.fillText(text, barX + barW / 2, barY + 102);
   } else {
@@ -726,120 +867,107 @@ function drawBottomSubtitleBar(ctx, w, h, speaker, text) {
 }
 
 // ----------------------------------------------------------------------------
-// MAIN FRAME RENDERER (Called for every frame t: 0 -> 17.23)
+// MAIN FRAME RENDERER (Called for every frame t: 0 -> 14.00)
 // ----------------------------------------------------------------------------
 function frame(ctx, w, h, t) {
   ctx.clearRect(0, 0, w, h);
   const isPort = h > w;
 
-  // 1. Draw Rural Environment
-  drawVillageBackground(ctx, w, h, isPort, t);
+  // 1. Draw Living Room Environment
+  drawLivingRoomBackground(ctx, w, h, isPort, t);
 
   // Determine Dialogue Beat & Active Speaker
   let speaker = '';
   let speechText = '';
-  let activeSpeaker = 'none'; // 'montu' | 'abul'
-  let montuExpr = 'normal';
-  let showHouri = false;
-  let wifeAngry = false;
+  let activeSpeaker = 'none'; // 'dad' | 'son'
+  let dadExpr = 'normal';
+  let sonExpr = 'normal';
 
-  if (t < 2.0) {
-    speaker = '👳 মন্টু ভাই (প্রতিবেশী)';
-    speechText = 'কী হয়েছে ভাই?';
-    activeSpeaker = 'montu';
-  } else if (t < 7.5) {
-    speaker = '🧔 আবুল মিয়া (স্বামী)';
-    speechText = 'বউয়ের সন্দেহ দূর করতে পায়জামা-পাঞ্জাবি পইরে, দাঁড়ি রেখে পাঁচ ওয়াক্ত নামাজ শুরু করেছিলাম...';
-    activeSpeaker = 'abul';
+  if (t < 2.5) {
+    speaker = '👦 ছেলে:';
+    speechText = 'বাবা, তুমি কাকে বিয়া করছ?';
+    activeSpeaker = 'son';
+  } else if (t < 4.5) {
+    speaker = '👨 বাবা:';
+    speechText = 'তোমার মাকে।';
+    activeSpeaker = 'dad';
+  } else if (t < 7.0) {
+    speaker = '👦 ছেলে:';
+    speechText = 'মা কাকে বিয়া করছে?';
+    activeSpeaker = 'son';
+  } else if (t < 8.5) {
+    speaker = '👨 বাবা:';
+    speechText = 'আমাকে।';
+    activeSpeaker = 'dad';
+    dadExpr = 'proud_me';
   } else if (t < 10.5) {
-    speaker = '🧔 আবুল মিয়া (স্বামী)';
-    speechText = 'এই নামাজ পড়তে দেখে শাকচুন্নীর বেটি কয় কি? কয়...';
-    activeSpeaker = 'abul';
-    wifeAngry = true;
-  } else if (t < 13.8) {
-    speaker = '🧔 আবুল মিয়া (স্বামী)';
-    speechText = 'এখন দিন-দুনিয়ার খেদমত ছাড়িয়া দিয়ে, বেহেশতের হুরের ওপর নজর দিতেছি!';
-    activeSpeaker = 'abul';
-    showHouri = true;
-    montuExpr = 'shocked';
-    wifeAngry = true;
+    speaker = '👦 ছেলে:';
+    speechText = 'নিজেরাই নিজেরায়...';
+    activeSpeaker = 'son';
+    sonExpr = 'pointing_punchline';
   } else {
-    montuExpr = 'shocked';
-    wifeAngry = true;
+    dadExpr = 'laughing';
+    sonExpr = 'giggling';
   }
 
-  // 2. Characters Positions & Layout (Bold, prominent, medium close-up framing!)
+  // 2. Characters Positions & Layout
   if (!isPort) {
     // ---------------- LANDSCAPE LAYOUT (16:9) ----------------
-    // Wife on Left (glaring, arms crossed)
-    const jx = w * 0.16;
-    const jy = h * 0.82;
-    drawJorinaBegum(ctx, jx, jy, 2.30, t, wifeAngry);
+    // Both characters stand firmly on floor ground level
+    const groundY = h * 0.88;
+    const fScale = 2.45;
+    const sScale = 2.30;
+    const fx = w * 0.40;
+    const fy = groundY - 124 * fScale;
 
-    // Abul Mia (Husband) seated in the center (prominent, expressive)
-    const ax = w * 0.50;
-    const ay = h * 0.84;
-    drawAbulMia(ctx, ax, ay, 2.40, t, activeSpeaker === 'abul', 'normal');
+    const sx = w * 0.68;
+    const sy = groundY - 74 * sScale;
 
-    // Montu Bhai (Friend/Neighbor) standing right beside Abul, arm around shoulder
-    const mx = w * 0.80;
-    const my = h * 0.82;
-    drawMontuBhai(ctx, mx, my, 2.40, t, activeSpeaker === 'montu', montuExpr);
+    drawFather(ctx, fx, fy, fScale, t, activeSpeaker === 'dad', dadExpr);
+    drawSon(ctx, sx, sy, sScale, t, activeSpeaker === 'son', sonExpr);
 
-    // Houri Fantasy Cloud (Punchline Scene)
-    if (showHouri) {
-      drawHouriFantasyCloud(ctx, w * 0.50, h * 0.22, 420, 210, t);
-    }
-
-    // Speech Balloon above talking character
-    if (activeSpeaker === 'montu') {
-      drawSpeechBalloon(ctx, w, h, w * 0.80, h * 0.28, speaker, speechText, false);
-    } else if (activeSpeaker === 'abul') {
-      drawSpeechBalloon(ctx, w, h, w * 0.50, h * 0.26, speaker, speechText, true);
+    // Speech Balloon
+    if (activeSpeaker === 'son') {
+      drawSpeechBalloon(ctx, w, h, sx, sy - 92 * sScale, speaker, speechText, false, false);
+    } else if (activeSpeaker === 'dad') {
+      drawSpeechBalloon(ctx, w, h, fx, fy - 146 * fScale, speaker, speechText, true, false);
     }
 
   } else {
     // ---------------- PORTRAIT LAYOUT (9:16) ----------------
-    // Wife on Left
-    const jx = w * 0.16;
-    const jy = h * 0.78;
-    drawJorinaBegum(ctx, jx, jy, 2.10, t, wifeAngry);
+    // Both characters stand firmly on floor ground level in portrait
+    const groundY = h * 0.86;
+    const fScale = 2.50;
+    const sScale = 2.35;
+    const fx = w * 0.36;
+    const fy = groundY - 124 * fScale;
 
-    // Abul Mia (Husband) seated on center-right
-    const ax = w * 0.50;
-    const ay = h * 0.76;
-    drawAbulMia(ctx, ax, ay, 2.20, t, activeSpeaker === 'abul', 'normal');
+    const sx = w * 0.72;
+    const sy = groundY - 74 * sScale;
 
-    // Montu Bhai (Neighbor) standing behind/right of Abul
-    const mx = w * 0.84;
-    const my = h * 0.76;
-    drawMontuBhai(ctx, mx, my, 2.20, t, activeSpeaker === 'montu', montuExpr);
+    drawFather(ctx, fx, fy, fScale, t, activeSpeaker === 'dad', dadExpr);
+    drawSon(ctx, sx, sy, sScale, t, activeSpeaker === 'son', sonExpr);
 
-    // Houri Fantasy Cloud in Portrait
-    if (showHouri) {
-      drawHouriFantasyCloud(ctx, w * 0.50, h * 0.26, 380, 220, t);
-    }
-
-    // Speech Balloon
-    if (activeSpeaker === 'montu') {
-      drawSpeechBalloon(ctx, w, h, w * 0.80, h * 0.32, speaker, speechText, false);
-    } else if (activeSpeaker === 'abul') {
-      drawSpeechBalloon(ctx, w, h, w * 0.48, h * 0.30, speaker, speechText, true);
+    // Speech Balloon in Portrait
+    if (activeSpeaker === 'son') {
+      drawSpeechBalloon(ctx, w, h, sx, sy - 92 * sScale, speaker, speechText, false, true);
+    } else if (activeSpeaker === 'dad') {
+      drawSpeechBalloon(ctx, w, h, fx, fy - 146 * fScale, speaker, speechText, true, true);
     }
   }
 
   // 3. Bottom Subtitle Banner
-  if (speaker && speechText && t < 14.0) {
+  if (speaker && speechText && t < 11.0) {
     drawBottomSubtitleBar(ctx, w, h, speaker, speechText);
   }
 
   // 4. Channel Watermark Badge (DipuToons)
-  if (t < 14.0) {
+  if (t < 11.0) {
     drawChannelWatermark(ctx, w, h, isPort, t);
   }
 
-  // 5. Outro End Card (14.0s - 17.23s)
-  if (t >= 14.0) {
+  // 5. Outro End Card (11.0s - 14.0s)
+  if (t >= 11.0) {
     drawOutroCard(ctx, w, h, isPort, t);
   }
 }
