@@ -1,71 +1,55 @@
 {
   "brand": "DipuToons",
-  "export_folder": "cat_job_interview",
-  "file_prefix": "cat_job_interview",
-  "title": "বিড়ালের চাকরির ইন্টারভিউ (Cat Job Interview)",
+  "export_folder": "bouer_shondeho_hurpori",
+  "file_prefix": "bouer_shondeho_hurpori",
+  "title": "বউয়ের চরম সন্দেহ ও বেহেশতের হুর (Wife Suspicion & Houri Twist)",
   "language": "bn",
   "kind": "comic cartoon 2d animation",
-  "source_note": "অফিসে বিড়ালের চাকরির ইন্টারভিউ—ঘুম, ফ্রিজ পাহারা, টেবিলের গ্লাস ফেলা, ৩০ কেজি ইলিশের বেতন ও বসের চেয়ার দখল নিয়ে চরম হাসির কার্টুন।",
-  "duration": 49.64,
+  "source_note": "বউয়ের সন্দেহ দূর করতে দাঁড়ি রেখে ৫ ওয়াক্ত নামাজ শুরু করা স্বামীর চরম হাসির পরিণতি নিয়ে গ্রামীণ কমেডি কার্টুন।",
+  "duration": 17.23,
   "voice": "assets/voice.wav",
   "captions": true,
   "music": false,
   "scenes": [
     {
       "start": 0.0,
-      "end": 5.0,
-      "title": "নাম ও ডাকনাম",
-      "narration": "বারনি বাবু: নাম? | ভোলা: ভোলা। | বারনি বাবু: ডাকনাম? | ভোলা: মিউ মিউ।",
-      "setting": "office_interview_room",
-      "action": "intro_name_nickname"
+      "end": 2.0,
+      "title": "কী হয়েছে ভাই?",
+      "narration": "মন্টু ভাই: কী হয়েছে ভাই?",
+      "setting": "village_courtyard",
+      "action": "neighbor_asks_what_happened"
     },
     {
-      "start": 5.0,
+      "start": 2.0,
+      "end": 7.5,
+      "title": "সন্দেহ দূর করতে নামাজ শুরু",
+      "narration": "আবুল মিয়া: বউ এখানে সন্দেহ করে দেখে পায়জামা-পাঞ্জাবি পইরে, দাড়ি রেখে পাঁচ ওয়াক্ত নামাজ পড়া আরম্ভ করেছিলাম...",
+      "setting": "village_courtyard",
+      "action": "husband_explains_pious_transformation"
+    },
+    {
+      "start": 7.5,
       "end": 10.5,
-      "title": "আগের অফিসের অভিজ্ঞতা",
-      "narration": "বারনি বাবু: আগের অফিসে কী কাজ করতেন? | ভোলা: সারাদিন ঘুমাতাম, ফ্রিজ পাহারা দিতাম!",
-      "setting": "office_interview_room",
-      "action": "sleeping_fridge_guard"
+      "title": "শাকচুন্নীর নতুন অপবাদ",
+      "narration": "আবুল মিয়া: এই নামাজ পড়তে দেখে শাকচুন্নীর বেটি কয় কি? কয়...",
+      "setting": "village_courtyard",
+      "action": "husband_imitates_wife_complaint"
     },
     {
       "start": 10.5,
-      "end": 15.0,
-      "title": "সবচেয়ে বড় গুণ",
-      "narration": "বারনি বাবু: আপনার সবচেয়ে বড় গুণ কী? | ভোলা: কাজ না করেও কোনো চাপ নিই না!",
-      "setting": "office_interview_room",
-      "action": "zero_stress_skill"
+      "end": 13.8,
+      "title": "বেহেশতের হুরের ওপর নজর!",
+      "narration": "আবুল মিয়া: এখন দিন-দুনিয়ার খেদমত ছাড়িয়া দিয়ে, বেহেশতের হুরের ওপর নজর দিতেছি!",
+      "setting": "village_courtyard",
+      "action": "hilarious_houri_punchline"
     },
     {
-      "start": 15.0,
-      "end": 21.0,
-      "title": "টেবিলের গ্লাস ফেলা দুর্বলতা",
-      "narration": "বারনি বাবু: আপনার দুর্বলতা কী? | ভোলা: টেবিলে গ্লাস দেখলে ফেলে দিতে ইচ্ছে করে!",
-      "setting": "office_interview_room",
-      "action": "glass_drop_weakness"
-    },
-    {
-      "start": 21.0,
-      "end": 28.5,
-      "title": "৩০ কেজি ইলিশের বেতন",
-      "narration": "বারনি বাবু: বেতন কত চান? | ভোলা: ৩০ কেজি ইলিশ, আর দুবেলা দুধ!",
-      "setting": "office_interview_room",
-      "action": "hilsa_fish_salary"
-    },
-    {
-      "start": 28.5,
-      "end": 38.0,
-      "title": "চাকরি পাকা ও চেয়ার খালি করার হুকুম",
-      "narration": "বারনি বাবু: ঠিক আছে, আপনাকে চাকরিতে নিলাম! | ভোলা: আগে আপনার চেয়ারটা ছাড়ুন!",
-      "setting": "office_interview_room",
-      "action": "hired_vacate_chair"
-    },
-    {
-      "start": 38.0,
-      "end": 49.64,
-      "title": "তাহলে আমি কোথায় বসব? ওই কোণে যান!",
-      "narration": "বারনি বাবু: কী?! তাহলে আমি কোথায় বসব?! | ভোলা: ওই কোণে যান!",
-      "setting": "office_interview_room",
-      "action": "boss_in_corner_cat_ceo"
+      "start": 13.8,
+      "end": 17.23,
+      "title": "হাসির রোল ও DipuToons আউটরো",
+      "narration": "হাসির রোল, চরম অবাক হওয়া ও DipuToons চ্যানেল কার্ড!",
+      "setting": "village_courtyard",
+      "action": "shocked_laughter_outro"
     }
   ]
 }
