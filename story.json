@@ -1,12 +1,12 @@
 {
   "brand": "DipuToons",
-  "export_folder": "chatro_o_teacher_comedy",
-  "file_prefix": "chatro_o_teacher_comedy",
-  "title": "ছাত্র ও শিক্ষিকার চরম হাসির কথোপকথন (Naughty Student & Angry Teacher Joke)",
+  "export_folder": "taka_dharer_chokkor",
+  "file_prefix": "taka_dharer_chokkor",
+  "title": "টাকা ধারের চরম চক্কর (Borrowing Money Phone Call Comedy)",
   "language": "bn",
   "kind": "comic cartoon 2d animation",
-  "source_note": "ছাত্র: মিস আপনি কি প্রেম করেন? আপনার বয়ফ্রেন্ডও থাকবে না, যে রাগি! আপনার বিয়া কখন? বিয়ে করলে দাওয়াত দিবেন? মিস: দাঁড়া মাইর দিবো! ছাত্র: ওরে বাবা!",
-  "duration": 26.77,
+  "source_note": "বন্ধু: একটা কাজ আছিলো। - আগে কাজ কর, পরে কল দিস! ৫০০ টাকা লাগবো - তুই জানলি কেমনে? তোর না আমার লাগবো! - ১০০০ ধার কর ৫০০ আমারে দে! উল্টো অন্য বন্ধু ফোন দিয়ে বলে ৫০০ টেকা পাঠা!",
+  "duration": 38.04,
   "voice": "assets/voice.wav",
   "captions": true,
   "music": false,
@@ -16,59 +16,43 @@
   "scenes": [
     {
       "start": 0.0,
-      "end": 3.4,
-      "title": "একটা প্রশ্ন করি? বলবো?",
-      "narration": "ছাত্র: আচ্ছা মিস, একটা প্রশ্ন করি? বলবো? মিস: হুঁ।",
-      "setting": "classroom_study",
-      "action": "student_asks_permission"
+      "end": 4.5,
+      "title": "আগে কাজ কর, পরে কল দিস!",
+      "narration": "বন্ধু: হ্যালো? হ্যাঁ ভাই একটা কাজ আছিলো। অন্যজন: ঠিক আছে আগে কাজ কর, পরে কল দিস!",
+      "setting": "tea_stall_bench",
+      "action": "phone_call_1_cut_short"
     },
     {
-      "start": 3.4,
-      "end": 5.8,
-      "title": "আপনি কি প্রেম করেন?",
-      "narration": "ছাত্র: আপনি কি প্রেম করেন? মিস: কেন?",
-      "setting": "classroom_study",
-      "action": "student_asks_about_love"
+      "start": 4.5,
+      "end": 11.5,
+      "title": "৫০০ টাকা লাগবো - তুই জানলি কেমনে?",
+      "narration": "বন্ধু: হ্যালো ভাই? ভাই ৫০০ টাকা লাগবো। অন্যজন: হ্যাঁ লাগবো তো, তুই জানলি কেমনে?!",
+      "setting": "green_grass_field",
+      "action": "phone_call_2_confused"
     },
     {
-      "start": 5.8,
-      "end": 8.6,
-      "title": "এমনে বলতেছি, করেন? - না।",
-      "narration": "ছাত্র: এমনে বলতেছি, এমনে করেন? মিস: না।",
-      "setting": "classroom_study",
-      "action": "student_curious_teacher_cold_no"
+      "start": 11.5,
+      "end": 25.0,
+      "title": "তোর না, আমার লাগবো! - ১০০০ ধার কর!",
+      "narration": "বন্ধু: আরে শালা তোর না, আমার লাগবো! অন্যজন: তাহলে ১০০০ ধার কর, ৫০০ আমারে দে আর ৫০০ তুই নে!",
+      "setting": "tea_stall_bench",
+      "action": "phone_call_3_argument_and_solution"
     },
     {
-      "start": 8.6,
-      "end": 14.0,
-      "title": "বয়ফ্রেন্ডও থাকবে না, যে রাগি!",
-      "narration": "ছাত্র: আপনার তো এমনে বয়ফ্রেন্ডও থাকবে না, যে রাগি! কিছু মনে নিয়েন না, এমনে এমনে।",
-      "setting": "classroom_study",
-      "action": "student_roasts_teacher_temper"
+      "start": 25.0,
+      "end": 34.5,
+      "title": "৫০০ টেকা পাঠা তো তাড়াতাড়ি!",
+      "narration": "বন্ধু: হ্যালো ভাই? অন্য বন্ধু: হ্যালো বন্ধু, একটা কাজ আছে ৫০০ টেকা পাঠা তো তাড়াতাড়ি!",
+      "setting": "park_bench",
+      "action": "phone_call_4_reverse_twist"
     },
     {
-      "start": 14.0,
-      "end": 18.8,
-      "title": "আরেকটা কোশ্চেন... আপনার বিয়া কখন?",
-      "narration": "ছাত্র: আচ্ছা, আরেকটা কোয়েশ্চেন করি, রাগিয়েন না... আপনার বিয়া কখন?",
-      "setting": "classroom_study",
-      "action": "student_asks_marriage_time"
-    },
-    {
-      "start": 18.8,
-      "end": 23.2,
-      "title": "বিয়ে করলে কি আমারে দাওয়াত দিবেন?",
-      "narration": "মিস: কেন? ছাত্র: আপনি বিয়ে করলে কি আমারে দাওয়াত দিবেন?",
-      "setting": "classroom_study",
-      "action": "student_marriage_invitation_twist"
-    },
-    {
-      "start": 23.2,
-      "end": 26.77,
-      "title": "দাঁড়া! এখন মাইর দিবো! - ওরে বাবা!",
-      "narration": "মিস: দাঁড়া! এখন মাইর দিবো! ছাত্র: ওরে বাবা! (হাসির রোল ও DipuToons আউটরো)",
-      "setting": "classroom_study",
-      "action": "teacher_chases_student_with_ruler"
+      "start": 34.5,
+      "end": 38.04,
+      "title": "হাসির রোল ও DipuToons আউটরো",
+      "narration": "হাসির রোল ও DipuToons অফিসিয়াল চ্যানেল কার্ড!",
+      "setting": "outro_screen",
+      "action": "laughing_outro_diputoons"
     }
   ]
 }
