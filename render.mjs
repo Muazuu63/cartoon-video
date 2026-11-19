@@ -13,7 +13,8 @@ const out=path.join(root,'exports',folderName);fs.mkdirSync(out,{recursive:true}
 function command(args){const r=spawnSync('ffmpeg',['-hide_banner','-loglevel','error','-y',...args],{stdio:'inherit'});if(r.status!==0)throw Error('FFmpeg failed');}
 const browser=await chromium.launch({headless:true,...(process.env.CHROME_PATH?{executablePath:process.env.CHROME_PATH}:{}),args:process.env.NO_SANDBOX==='1'?['--no-sandbox']:[]});
 try{
-for(const format of ['landscape','portrait']){
+const formats = config.formats || ['portrait', 'landscape'];
+for(const format of formats){
  const page=await browser.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto(pathToFileURL(path.join(root,'preview',format+'.html')).href);await page.waitForFunction(()=>window.READY===true);
  if(test){for(let i=0;i<config.scenes.length;i++){await page.evaluate(t=>window.seek(t),config.scenes[i].start+2);await page.locator('canvas').screenshot({path:path.join(out,`${format}-${i+1}.png`)});}

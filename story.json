@@ -1,63 +1,74 @@
 {
   "brand": "DipuToons",
-  "export_folder": "nijerai_nijeray_biye",
-  "file_prefix": "nijerai_nijeray_biye",
-  "title": "নিজেরাই নিজেরায় বিয়ে (Father & Son Marriage Joke)",
+  "export_folder": "chatro_o_teacher_comedy",
+  "file_prefix": "chatro_o_teacher_comedy",
+  "title": "ছাত্র ও শিক্ষিকার চরম হাসির কথোপকথন (Naughty Student & Angry Teacher Joke)",
   "language": "bn",
   "kind": "comic cartoon 2d animation",
-  "source_note": "বাবা তুমি কাকে বিয়ে করেছ? তোমার মাকে। মা কাকে বিয়ে করেছে? আমাকে। নিজেরাই নিজেরায়... চরম হাসির ফ্যামিলি কার্টুন।",
-  "duration": 14.00,
+  "source_note": "ছাত্র: মিস আপনি কি প্রেম করেন? আপনার বয়ফ্রেন্ডও থাকবে না, যে রাগি! আপনার বিয়া কখন? বিয়ে করলে দাওয়াত দিবেন? মিস: দাঁড়া মাইর দিবো! ছাত্র: ওরে বাবা!",
+  "duration": 26.77,
   "voice": "assets/voice.wav",
   "captions": true,
   "music": false,
+  "formats": [
+    "portrait"
+  ],
   "scenes": [
     {
       "start": 0.0,
-      "end": 2.5,
-      "title": "বাবা, তুমি কাকে বিয়া করছ?",
-      "narration": "ছেলে: বাবা, তুমি কাকে বিয়া করছ?",
-      "setting": "cozy_living_room",
-      "action": "son_asks_father_marriage"
+      "end": 3.4,
+      "title": "একটা প্রশ্ন করি? বলবো?",
+      "narration": "ছাত্র: আচ্ছা মিস, একটা প্রশ্ন করি? বলবো? মিস: হুঁ।",
+      "setting": "classroom_study",
+      "action": "student_asks_permission"
     },
     {
-      "start": 2.5,
-      "end": 4.5,
-      "title": "তোমার মাকে।",
-      "narration": "বাবা: তোমার মাকে।",
-      "setting": "cozy_living_room",
-      "action": "father_answers_your_mother"
+      "start": 3.4,
+      "end": 5.8,
+      "title": "আপনি কি প্রেম করেন?",
+      "narration": "ছাত্র: আপনি কি প্রেম করেন? মিস: কেন?",
+      "setting": "classroom_study",
+      "action": "student_asks_about_love"
     },
     {
-      "start": 4.5,
-      "end": 7.0,
-      "title": "মা কাকে বিয়া করছে?",
-      "narration": "ছেলে: মা কাকে বিয়া করছে?",
-      "setting": "cozy_living_room",
-      "action": "son_asks_mother_marriage"
+      "start": 5.8,
+      "end": 8.6,
+      "title": "এমনে বলতেছি, করেন? - না।",
+      "narration": "ছাত্র: এমনে বলতেছি, এমনে করেন? মিস: না।",
+      "setting": "classroom_study",
+      "action": "student_curious_teacher_cold_no"
     },
     {
-      "start": 7.0,
-      "end": 8.5,
-      "title": "আমাকে।",
-      "narration": "বাবা: আমাকে।",
-      "setting": "cozy_living_room",
-      "action": "father_answers_me"
-    },
-    {
-      "start": 8.5,
-      "end": 10.5,
-      "title": "নিজেরাই নিজেরায়...",
-      "narration": "ছেলে: নিজেরাই নিজেরায়...",
-      "setting": "cozy_living_room",
-      "action": "son_funny_punchline"
-    },
-    {
-      "start": 10.5,
+      "start": 8.6,
       "end": 14.0,
-      "title": "হাসির রোল ও DipuToons আউটরো",
-      "narration": "হাসির রোল ও DipuToons অফিসিয়াল চ্যানেল কার্ড!",
-      "setting": "cozy_living_room",
-      "action": "laughing_outro_diputoons"
+      "title": "বয়ফ্রেন্ডও থাকবে না, যে রাগি!",
+      "narration": "ছাত্র: আপনার তো এমনে বয়ফ্রেন্ডও থাকবে না, যে রাগি! কিছু মনে নিয়েন না, এমনে এমনে।",
+      "setting": "classroom_study",
+      "action": "student_roasts_teacher_temper"
+    },
+    {
+      "start": 14.0,
+      "end": 18.8,
+      "title": "আরেকটা কোশ্চেন... আপনার বিয়া কখন?",
+      "narration": "ছাত্র: আচ্ছা, আরেকটা কোয়েশ্চেন করি, রাগিয়েন না... আপনার বিয়া কখন?",
+      "setting": "classroom_study",
+      "action": "student_asks_marriage_time"
+    },
+    {
+      "start": 18.8,
+      "end": 23.2,
+      "title": "বিয়ে করলে কি আমারে দাওয়াত দিবেন?",
+      "narration": "মিস: কেন? ছাত্র: আপনি বিয়ে করলে কি আমারে দাওয়াত দিবেন?",
+      "setting": "classroom_study",
+      "action": "student_marriage_invitation_twist"
+    },
+    {
+      "start": 23.2,
+      "end": 26.77,
+      "title": "দাঁড়া! এখন মাইর দিবো! - ওরে বাবা!",
+      "narration": "মিস: দাঁড়া! এখন মাইর দিবো! ছাত্র: ওরে বাবা! (হাসির রোল ও DipuToons আউটরো)",
+      "setting": "classroom_study",
+      "action": "teacher_chases_student_with_ruler"
     }
   ]
 }
