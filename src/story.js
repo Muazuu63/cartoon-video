@@ -357,24 +357,12 @@ function drawCharacters3D(ctx, W, H, t) {
   const fatherW = (fatherH * 220) / 572; // proportional ratio ~353px
 
   const isFatherSpeaking = (t >= 2.0 && t < 4.0) || (t >= 6.0 && t < 8.0) || (t >= 10.0);
-  // Visibly flap mouth with syllables during speech:
-  const isFatherMouthOpen = isFatherSpeaking && (Math.sin(t * 18.0) > -0.15);
+  // Gentle natural lip flap:
+  const isFatherMouthOpen = isFatherSpeaking && (Math.sin(t * 14.0) > -0.15);
   const fatherSprite = (isFatherMouthOpen && fatherLoaded) ? fatherImg : (fatherClosedLoaded ? fatherClosedImg : fatherImg);
-  const fatherSway = isFatherSpeaking ? Math.sin(t * 14.0) * 8 : Math.sin(t * 2.2) * 4;
-  const fatherBreath = Math.sin(t * 2.8) * 0.008;
-  const fatherNod = isFatherSpeaking ? Math.sin(t * 16.0) * 0.045 : 0;
-
-  // Speaker Active Aura / Sound waves when Father speaks
-  if (isFatherSpeaking) {
-    ctx.save();
-    ctx.strokeStyle = 'rgba(250, 204, 21, 0.4)';
-    ctx.lineWidth = 4;
-    const waveR = 80 + Math.sin(t * 20.0) * 20;
-    ctx.beginPath();
-    ctx.arc(fatherBaseX + 10, fatherBaseY - fatherH * 0.78, waveR, -Math.PI * 0.3, Math.PI * 0.3);
-    ctx.stroke();
-    ctx.restore();
-  }
+  const fatherSway = 0; // Grounded feet, no jitter
+  const fatherBreath = 0;
+  const fatherNod = isFatherSpeaking ? Math.sin(t * 4.5) * 0.015 : 0; // Very subtle, realistic head nod
 
   // Floor Contact Shadow (tightly hugging sandals)
   ctx.save();
@@ -409,23 +397,11 @@ function drawCharacters3D(ctx, W, H, t) {
 
   const isKidSpeaking = (t >= 0.0 && t < 2.0) || (t >= 4.0 && t < 6.0) || (t >= 8.0 && t < 10.0);
   const isShocked = (t >= 8.0 && t < 10.0);
-  // Visibly flap mouth with syllables during speech:
-  const isKidMouthOpen = isKidSpeaking && (isShocked || Math.sin(t * 18.0) > -0.15);
+  // Gentle natural lip flap:
+  const isKidMouthOpen = isKidSpeaking && (isShocked || Math.sin(t * 14.0) > -0.15);
   const kidSprite = (isKidMouthOpen && kidLoaded) ? kidImg : (kidClosedLoaded ? kidClosedImg : kidImg);
-  const kidBounce = isShocked ? Math.sin(t * 24.0) * 12 : (isKidSpeaking ? Math.sin(t * 16.0) * 8 : Math.sin(t * 2.5) * 4);
-  const kidTilt = isShocked ? 0.12 + Math.sin(t * 20.0) * 0.05 : (isKidSpeaking ? -0.06 + Math.sin(t * 16.0) * 0.04 : 0);
-
-  // Speaker Active Aura / Sound waves when Kid speaks
-  if (isKidSpeaking && !isShocked) {
-    ctx.save();
-    ctx.strokeStyle = 'rgba(56, 189, 248, 0.45)';
-    ctx.lineWidth = 4;
-    const waveR = 70 + Math.sin(t * 20.0) * 18;
-    ctx.beginPath();
-    ctx.arc(kidBaseX - 10, kidBaseY - kidH * 0.52, waveR, Math.PI * 0.7, Math.PI * 1.3);
-    ctx.stroke();
-    ctx.restore();
-  }
+  const kidBounce = 0; // Grounded feet, no bouncing/shaking
+  const kidTilt = isShocked ? 0.05 : (isKidSpeaking ? -0.025 : 0); // Natural steady tilt
 
   // Floor Contact Shadow (tightly hugging sandals)
   ctx.save();
