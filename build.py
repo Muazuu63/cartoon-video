@@ -23,9 +23,15 @@ c['logo_data']=f'data:image/png;base64,{logo_b64}' if logo_b64 else ''
 father_file=P/'assets/father_3d.png'
 father_b64=base64.b64encode(father_file.read_bytes()).decode() if father_file.exists() else ''
 c['father_3d']=f'data:image/png;base64,{father_b64}' if father_b64 else ''
+father_c_file=P/'assets/father_closed_3d.png'
+father_c_b64=base64.b64encode(father_c_file.read_bytes()).decode() if father_c_file.exists() else ''
+c['father_closed_3d']=f'data:image/png;base64,{father_c_b64}' if father_c_b64 else ''
 kid_file=P/'assets/kid_3d.png'
 kid_b64=base64.b64encode(kid_file.read_bytes()).decode() if kid_file.exists() else ''
 c['kid_3d']=f'data:image/png;base64,{kid_b64}' if kid_b64 else ''
+kid_c_file=P/'assets/kid_closed_3d.png'
+kid_c_b64=base64.b64encode(kid_c_file.read_bytes()).decode() if kid_c_file.exists() else ''
+c['kid_closed_3d']=f'data:image/png;base64,{kid_c_b64}' if kid_c_b64 else ''
 libs='\n'.join((P/x).read_text(encoding='utf-8') for x in ['lib/harness.js','lib/sound.js'])
 code='\n'.join((P/x).read_text(encoding='utf-8') for x in ['src/ref.js','src/story.js','src/sound_score.js','src/player.js'])
 config_json=json.dumps(c,ensure_ascii=False).replace('<','\\u003c')

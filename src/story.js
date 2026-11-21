@@ -19,9 +19,17 @@ const fatherImg = new Image();
 let fatherLoaded = false;
 fatherImg.onload = () => { fatherLoaded = true; };
 
+const fatherClosedImg = new Image();
+let fatherClosedLoaded = false;
+fatherClosedImg.onload = () => { fatherClosedLoaded = true; };
+
 const kidImg = new Image();
 let kidLoaded = false;
 kidImg.onload = () => { kidLoaded = true; };
+
+const kidClosedImg = new Image();
+let kidClosedLoaded = false;
+kidClosedImg.onload = () => { kidClosedLoaded = true; };
 
 window.PRELOAD_ASSETS = () => {
   const promises = [];
@@ -33,9 +41,17 @@ window.PRELOAD_ASSETS = () => {
     fatherImg.src = CONFIG.father_3d;
     if (fatherImg.decode) promises.push(fatherImg.decode().catch(() => {}));
   }
+  if (CONFIG.father_closed_3d) {
+    fatherClosedImg.src = CONFIG.father_closed_3d;
+    if (fatherClosedImg.decode) promises.push(fatherClosedImg.decode().catch(() => {}));
+  }
   if (CONFIG.kid_3d) {
     kidImg.src = CONFIG.kid_3d;
     if (kidImg.decode) promises.push(kidImg.decode().catch(() => {}));
+  }
+  if (CONFIG.kid_closed_3d) {
+    kidClosedImg.src = CONFIG.kid_closed_3d;
+    if (kidClosedImg.decode) promises.push(kidClosedImg.decode().catch(() => {}));
   }
   return Promise.all(promises);
 };
@@ -341,9 +357,24 @@ function drawCharacters3D(ctx, W, H, t) {
   const fatherW = (fatherH * 220) / 572; // proportional ratio ~353px
 
   const isFatherSpeaking = (t >= 2.0 && t < 4.0) || (t >= 6.0 && t < 8.0) || (t >= 10.0);
-  const fatherSway = Math.sin(t * 2.2) * 5;
+  // Visibly flap mouth with syllables during speech:
+  const isFatherMouthOpen = isFatherSpeaking && (Math.sin(t * 18.0) > -0.15);
+  const fatherSprite = (isFatherMouthOpen && fatherLoaded) ? fatherImg : (fatherClosedLoaded ? fatherClosedImg : fatherImg);
+  const fatherSway = isFatherSpeaking ? Math.sin(t * 14.0) * 8 : Math.sin(t * 2.2) * 4;
   const fatherBreath = Math.sin(t * 2.8) * 0.008;
-  const fatherNod = isFatherSpeaking ? Math.sin(t * 8.5) * 0.035 : 0;
+  const fatherNod = isFatherSpeaking ? Math.sin(t * 16.0) * 0.045 : 0;
+
+  // Speaker Active Aura / Sound waves when Father speaks
+  if (isFatherSpeaking) {
+    ctx.save();
+    ctx.strokeStyle = 'rgba(250, 204, 21, 0.4)';
+    ctx.lineWidth = 4;
+    const waveR = 80 + Math.sin(t * 20.0) * 20;
+    ctx.beginPath();
+    ctx.arc(fatherBaseX + 10, fatherBaseY - fatherH * 0.78, waveR, -Math.PI * 0.3, Math.PI * 0.3);
+    ctx.stroke();
+    ctx.restore();
+  }
 
   // Floor Contact Shadow (tightly hugging sandals)
   ctx.save();
@@ -357,14 +388,14 @@ function drawCharacters3D(ctx, W, H, t) {
   ctx.fill();
   ctx.restore();
 
-  // Draw Father Sprite
+  // Draw Father Sprite with Lip-Sync Mouth Swapping
   ctx.save();
   ctx.translate(fatherBaseX, fatherBaseY);
   ctx.rotate(fatherNod);
   ctx.scale(1 + fatherBreath, 1 - fatherBreath);
 
-  if (fatherLoaded && fatherImg.width > 0) {
-    ctx.drawImage(fatherImg, -fatherW / 2, -fatherH + fatherSway, fatherW, fatherH);
+  if (fatherSprite && fatherSprite.width > 0) {
+    ctx.drawImage(fatherSprite, -fatherW / 2, -fatherH + fatherSway, fatherW, fatherH);
   }
   ctx.restore();
 
@@ -378,8 +409,23 @@ function drawCharacters3D(ctx, W, H, t) {
 
   const isKidSpeaking = (t >= 0.0 && t < 2.0) || (t >= 4.0 && t < 6.0) || (t >= 8.0 && t < 10.0);
   const isShocked = (t >= 8.0 && t < 10.0);
-  const kidBounce = isShocked ? Math.sin(t * 22.0) * 8 : Math.sin(t * 3.5) * 6;
-  const kidTilt = isShocked ? 0.10 + Math.sin(t * 18.0) * 0.04 : (isKidSpeaking ? -0.05 + Math.sin(t * 7.0) * 0.03 : 0);
+  // Visibly flap mouth with syllables during speech:
+  const isKidMouthOpen = isKidSpeaking && (isShocked || Math.sin(t * 18.0) > -0.15);
+  const kidSprite = (isKidMouthOpen && kidLoaded) ? kidImg : (kidClosedLoaded ? kidClosedImg : kidImg);
+  const kidBounce = isShocked ? Math.sin(t * 24.0) * 12 : (isKidSpeaking ? Math.sin(t * 16.0) * 8 : Math.sin(t * 2.5) * 4);
+  const kidTilt = isShocked ? 0.12 + Math.sin(t * 20.0) * 0.05 : (isKidSpeaking ? -0.06 + Math.sin(t * 16.0) * 0.04 : 0);
+
+  // Speaker Active Aura / Sound waves when Kid speaks
+  if (isKidSpeaking && !isShocked) {
+    ctx.save();
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.45)';
+    ctx.lineWidth = 4;
+    const waveR = 70 + Math.sin(t * 20.0) * 18;
+    ctx.beginPath();
+    ctx.arc(kidBaseX - 10, kidBaseY - kidH * 0.52, waveR, Math.PI * 0.7, Math.PI * 1.3);
+    ctx.stroke();
+    ctx.restore();
+  }
 
   // Floor Contact Shadow (tightly hugging sandals)
   ctx.save();
@@ -393,13 +439,13 @@ function drawCharacters3D(ctx, W, H, t) {
   ctx.fill();
   ctx.restore();
 
-  // Draw Kid Sprite
+  // Draw Kid Sprite with Lip-Sync Mouth Swapping
   ctx.save();
   ctx.translate(kidBaseX, kidBaseY);
   ctx.rotate(kidTilt);
 
-  if (kidLoaded && kidImg.width > 0) {
-    ctx.drawImage(kidImg, -kidW / 2, -kidH + kidBounce, kidW, kidH);
+  if (kidSprite && kidSprite.width > 0) {
+    ctx.drawImage(kidSprite, -kidW / 2, -kidH + kidBounce, kidW, kidH);
   }
 
   // Comical Shock FX over Kid in Scene 5 ("নিজেরাই নিজেরাই বিয়া করছো??!!")
