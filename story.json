@@ -1,12 +1,12 @@
 {
   "brand": "DipuToons",
-  "export_folder": "nijerai_nijeray_biye_3d",
-  "file_prefix": "nijerai_nijeray_biye_3d",
-  "title": "নিজেরাই নিজেরাই বিয়া করছো?! (Father Son 3D Cartoon Comedy)",
-  "language": "bn",
+  "export_folder": "bhikhari_vs_bhagwan_3d",
+  "file_prefix": "bhikhari_vs_bhagwan_3d",
+  "title": "ভিখারি নাকি ভগবান?! (Beggar vs Bhagwan 3D Comedy)",
+  "language": "hi",
   "kind": "comic cartoon 3d animation",
-  "source_note": "ছেলে: বাবা তুমি কাকে বিয়া করছো? বাবা: তোর মাকে! ছেলে: মা কাকে বিয়া করছিলো? বাবা: আমাকে! ছেলে: নিজেরাই নিজেরাই বিয়া করছো??!!",
-  "duration": 11.17,
+  "source_note": "ভিখারি: কিছু পয়সা দাও, খুব শীঘ্রই সুখবর পাবে! ছেলেটি পয়সা দিতেই গার্লফ্রেন্ডের ব্রেকআপের মেসেজ: 'চিরদিনের জন্য চলে যাচ্ছি!' ছেলেটি খুশিতে আত্মহারা হয়ে ভিখারির দিকে হাত জোড় করে তাকিয়ে থাকে: ভিখারি ❌ ভগবান!",
+  "duration": 32.50,
   "voice": "assets/voice.wav",
   "captions": true,
   "music": false,
@@ -16,51 +16,59 @@
   "scenes": [
     {
       "start": 0.0,
-      "end": 2.0,
-      "title": "বাবা তুমি কাকে বিয়া করছো?",
-      "narration": "ছেলে: বাবা, তুমি কাকে বিয়া করছো?",
-      "setting": "living_room_3d",
-      "action": "kid_asks_father"
+      "end": 2.5,
+      "title": "ভিখারির আগমন",
+      "narration": "ভিখারি: ভাইয়া, কিছু টাকা দিন...",
+      "setting": "city_apartment_gate_3d",
+      "action": "beggar_asks_money"
     },
     {
-      "start": 2.0,
-      "end": 4.0,
-      "title": "তোর মাকে!",
-      "narration": "বাবা: তোর মাকে!",
-      "setting": "living_room_3d",
-      "action": "father_replies_mom"
+      "start": 2.5,
+      "end": 5.0,
+      "title": "দীপুর বিরক্তি",
+      "narration": "দীপু: আরে ভাই যা তো, সকাল সকাল মাথা খারাপ করিস না!",
+      "setting": "city_apartment_gate_3d",
+      "action": "dipu_dismisses"
     },
     {
-      "start": 4.0,
-      "end": 6.0,
-      "title": "মা কাকে বিয়া করছিলো?",
-      "narration": "ছেলে: মা কাকে বিয়া করছিলো?",
-      "setting": "living_room_3d",
-      "action": "kid_asks_about_mother"
+      "start": 5.0,
+      "end": 9.5,
+      "title": "সুখবরের ভবিষ্যদ্বাণী",
+      "narration": "ভিখারি: গরিবকে সাহায্য করুন ভাইয়া, খুব শীঘ্রই একটি সুখবর পাবেন!",
+      "setting": "city_apartment_gate_3d",
+      "action": "beggar_predicts_good_news"
     },
     {
-      "start": 6.0,
-      "end": 8.0,
-      "title": "আমাকে!",
-      "narration": "বাবা: আমাকে!",
-      "setting": "living_room_3d",
-      "action": "father_replies_me"
+      "start": 9.5,
+      "end": 13.5,
+      "title": "টাকা দেওয়া",
+      "narration": "দীপু: সত্যি?! এই নে!",
+      "setting": "city_apartment_gate_3d",
+      "action": "dipu_gives_coin"
     },
     {
-      "start": 8.0,
-      "end": 10.0,
-      "title": "নিজেরাই নিজেরাই বিয়া করছো??!!",
-      "narration": "ছেলে: নিজেরাই নিজেরাই বিয়া করছো??!!",
-      "setting": "living_room_3d",
-      "action": "kid_shocked_twist"
+      "start": 13.5,
+      "end": 22.0,
+      "title": "গার্লফ্রেন্ডের ব্রেকআপ মেসেজ",
+      "narration": "ফোন: চলে যাচ্ছি আমি তোমায় ছেড়ে চিরদিনের জন্য! পেপার্স পাঠালে সাইন করে দিও!",
+      "setting": "city_apartment_gate_3d",
+      "action": "girlfriend_breakup_audio"
     },
     {
-      "start": 10.0,
-      "end": 11.17,
+      "start": 22.0,
+      "end": 31.25,
+      "title": "ভিখারি ❌ ভগবান!",
+      "narration": "দীপু চরম খুশিতে হাত জোড় করে ভিখারির দিকে তাকিয়ে থাকে—এ তো সাক্ষাৎ ভগবান!",
+      "setting": "city_apartment_gate_3d",
+      "action": "dipu_ecstatic_namaste"
+    },
+    {
+      "start": 31.25,
+      "end": 32.50,
       "title": "DipuToons আউটরো",
-      "narration": "বাবা: হুম! (DipuToons: ছোট্ট কার্টুন, বড় হাসি!)",
+      "narration": "DipuToons: ছোট্ট কার্টুন, বড় হাসি!",
       "setting": "diputoons_outro_3d",
-      "action": "outro_card"
+      "action": "dedicated_outro_card"
     }
   ]
 }
