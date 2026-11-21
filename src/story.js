@@ -1,7 +1,7 @@
 // ============================================================================
-// DipuToons - Premium 2D Cartoon Animation Engine
-// Episode: "টাকা ধারের চরম চক্কর" (Borrowing Money Phone Call Comedy)
-// Character: দিপু (Dipu - The unlucky friend trying to borrow 500 Taka)
+// DipuToons - Premium 3D Cartoon Animation Engine
+// Episode: "নিজেরাই নিজেরাই বিয়া করছো?!" (Father Son 3D Marriage Comedy)
+// Characters: বাবা ও ছেলে (Father & Son - 3D Pixar Style)
 // Channel: DipuToons (ছোট্ট কার্টুন, বড় হাসি!)
 // ============================================================================
 
@@ -9,30 +9,46 @@ const DURATION = CONFIG.duration;
 const BEATS = CONFIG.scenes;
 
 // ----------------------------------------------------------------------------
-// Asset Preloading (Official DipuToons Logo)
+// Asset Preloading (Official DipuToons Logo, 3D Father, 3D Kid)
 // ----------------------------------------------------------------------------
 const logoImg = new Image();
 let logoLoaded = false;
 logoImg.onload = () => { logoLoaded = true; };
 
+const fatherImg = new Image();
+let fatherLoaded = false;
+fatherImg.onload = () => { fatherLoaded = true; };
+
+const kidImg = new Image();
+let kidLoaded = false;
+kidImg.onload = () => { kidLoaded = true; };
+
 window.PRELOAD_ASSETS = () => {
+  const promises = [];
   if (CONFIG.logo_data) {
     logoImg.src = CONFIG.logo_data;
-    if (logoImg.decode) {
-      return logoImg.decode().catch(() => {});
-    }
+    if (logoImg.decode) promises.push(logoImg.decode().catch(() => {}));
   }
-  return Promise.resolve();
+  if (CONFIG.father_3d) {
+    fatherImg.src = CONFIG.father_3d;
+    if (fatherImg.decode) promises.push(fatherImg.decode().catch(() => {}));
+  }
+  if (CONFIG.kid_3d) {
+    kidImg.src = CONFIG.kid_3d;
+    if (kidImg.decode) promises.push(kidImg.decode().catch(() => {}));
+  }
+  return Promise.all(promises);
 };
 
 // ----------------------------------------------------------------------------
-// Vector Utilities
+// Math & Drawing Utilities
 // ----------------------------------------------------------------------------
-function drawCircle(ctx, x, y, r, fill, stroke, lw = 2) {
-  ctx.beginPath();
-  ctx.arc(x, y, r, 0, Math.PI * 2);
-  if (fill) { ctx.fillStyle = fill; ctx.fill(); }
-  if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = lw; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke(); }
+function clampVal(v, min, max) {
+  return Math.max(min, Math.min(max, v));
+}
+
+function easeInOut(t) {
+  return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 }
 
 function drawRoundRect(ctx, x, y, w, h, rad, fill, stroke, lw = 2) {
@@ -42,790 +58,552 @@ function drawRoundRect(ctx, x, y, w, h, rad, fill, stroke, lw = 2) {
   if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = lw; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke(); }
 }
 
-function drawEllipse(ctx, x, y, rx, ry, fill, stroke, lw = 2, rot = 0) {
-  ctx.beginPath();
-  ctx.ellipse(x, y, rx, ry, rot, 0, Math.PI * 2);
-  if (fill) { ctx.fillStyle = fill; ctx.fill(); }
-  if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = lw; ctx.stroke(); }
-}
-
-// ----------------------------------------------------------------------------
-// Background 1: Roadside Tea Stall ("টংয়ের দোকান ও কাঠের বেঞ্চ")
-// ----------------------------------------------------------------------------
-function drawTeaStallBackground(ctx, w, h, t) {
-  // 1. Sky & Distant Village
-  const skyGrad = ctx.createLinearGradient(0, 0, 0, h * 0.6);
-  skyGrad.addColorStop(0, '#7dd3fc');
-  skyGrad.addColorStop(1, '#e0f2fe');
-  ctx.fillStyle = skyGrad;
-  ctx.fillRect(0, 0, w, h);
-
-  // Distant Trees
-  drawCircle(ctx, w * 0.15, h * 0.45, 120, '#86efac', null);
-  drawCircle(ctx, w * 0.40, h * 0.42, 140, '#4ade80', null);
-  drawCircle(ctx, w * 0.75, h * 0.46, 130, '#22c55e', null);
-
-  // Earthen Ground
-  const groundY = h * 0.64;
-  const groundGrad = ctx.createLinearGradient(0, groundY, 0, h);
-  groundGrad.addColorStop(0, '#d97706');
-  groundGrad.addColorStop(0.25, '#b45309');
-  groundGrad.addColorStop(1, '#78350f');
-  ctx.fillStyle = groundGrad;
-  ctx.fillRect(0, groundY, w, h - groundY);
-
-  // 2. Corrugated Tin Roof Stall Structure
-  // Bamboo Poles
-  drawRoundRect(ctx, w * 0.08, h * 0.12, 18, h * 0.60, 4, '#ca8a04', '#713f12', 2.5);
-  drawRoundRect(ctx, w * 0.88, h * 0.12, 18, h * 0.60, 4, '#ca8a04', '#713f12', 2.5);
-
-  // Green Canvas Canopy Overhang
-  ctx.fillStyle = '#15803d';
-  ctx.beginPath();
-  ctx.moveTo(w * 0.02, h * 0.16);
-  ctx.lineTo(w * 0.98, h * 0.16);
-  ctx.lineTo(w * 0.94, h * 0.28);
-  ctx.lineTo(w * 0.06, h * 0.28);
-  ctx.closePath();
-  ctx.fill();
-  ctx.strokeStyle = '#14532d'; ctx.lineWidth = 3; ctx.stroke();
-
-  // Corrugated Tin Roof Above Canopy
-  ctx.fillStyle = '#94a3b8';
-  ctx.beginPath();
-  ctx.moveTo(0, h * 0.04);
-  ctx.lineTo(w, h * 0.04);
-  ctx.lineTo(w * 0.96, h * 0.16);
-  ctx.lineTo(w * 0.04, h * 0.16);
-  ctx.closePath();
-  ctx.fill();
-  ctx.strokeStyle = '#475569'; ctx.lineWidth = 3; ctx.stroke();
-
-  // Tin Ridge Lines
-  ctx.strokeStyle = '#64748b'; ctx.lineWidth = 2.5;
-  for (let rx = w * 0.08; rx < w * 0.92; rx += 28) {
-    ctx.beginPath(); ctx.moveTo(rx, h * 0.04); ctx.lineTo(rx - 8, h * 0.16); ctx.stroke();
-  }
-
-  // 3. Hanging Snack Chips Bags & Glass Jars
-  const stallY = h * 0.32;
-  // Hanging snacks rack
-  const chipColors = ['#ef4444', '#3b82f6', '#f59e0b', '#10b981'];
-  for (let c = 0; c < 4; c++) {
-    drawRoundRect(ctx, w * 0.46 + c * 28, stallY, 20, 32, 3, chipColors[c], '#1e293b', 1.5);
-  }
-
-  // Stall Counter Table
-  drawRoundRect(ctx, w * 0.52, h * 0.44, w * 0.45, h * 0.26, 6, '#64748b', '#334155', 3);
-  // Glass Jars on counter (Biscuits, Chanachur)
-  drawRoundRect(ctx, w * 0.62, h * 0.40, 28, 36, 4, 'rgba(255,255,255,0.6)', '#475569', 2);
-  drawRoundRect(ctx, w * 0.74, h * 0.40, 28, 36, 4, 'rgba(255,255,255,0.6)', '#475569', 2);
-  // Red Thermos Flask
-  drawRoundRect(ctx, w * 0.86, h * 0.38, 24, 44, 4, '#dc2626', '#991b1b', 2);
-
-  // 4. Wooden Bench & Table in Foreground (Where Dipu sits)
-  const benchY = h * 0.72;
-  // Wooden Bench Top
-  drawRoundRect(ctx, w * 0.06, benchY, w * 0.65, 30, 4, '#9a3412', '#451a03', 3);
-  // Bench Legs
-  drawRoundRect(ctx, w * 0.10, benchY + 30, 22, 110, 3, '#7c2d12', '#451a03', 2.5);
-  drawRoundRect(ctx, w * 0.52, benchY + 30, 22, 110, 3, '#7c2d12', '#451a03', 2.5);
-
-  // Tea Glass on Bench
-  drawRoundRect(ctx, w * 0.12, benchY - 34, 22, 34, 3, 'rgba(255,255,255,0.7)', '#64748b', 1.8);
-  drawRoundRect(ctx, w * 0.14, benchY - 26, 18, 24, 2, '#d97706', null); // Milk Tea
-}
-
-// ----------------------------------------------------------------------------
-// Background 2: Green Grass Hill Field ("সবুজ ঘাসের মাঠ ও খোলা আকাশ")
-// ----------------------------------------------------------------------------
-function drawGrassFieldBackground(ctx, w, h, t) {
-  // Vibrant Blue Sky
-  const skyGrad = ctx.createLinearGradient(0, 0, 0, h * 0.3);
-  skyGrad.addColorStop(0, '#38bdf8');
-  skyGrad.addColorStop(1, '#bae6fd');
-  ctx.fillStyle = skyGrad;
-  ctx.fillRect(0, 0, w, h);
-
-  // Fluffy White Clouds
-  drawCircle(ctx, w * 0.25, h * 0.10, 48, '#ffffff', null);
-  drawCircle(ctx, w * 0.32, h * 0.08, 58, '#ffffff', null);
-  drawCircle(ctx, w * 0.40, h * 0.11, 44, '#ffffff', null);
-
-  drawCircle(ctx, w * 0.80, h * 0.09, 52, '#ffffff', null);
-  drawCircle(ctx, w * 0.88, h * 0.10, 45, '#ffffff', null);
-
-  // Lush Green Sloping Grass Hill
-  const grassGrad = ctx.createLinearGradient(0, h * 0.18, 0, h);
-  grassGrad.addColorStop(0, '#4ade80');
-  grassGrad.addColorStop(0.35, '#22c55e');
-  grassGrad.addColorStop(1, '#15803d');
-  ctx.fillStyle = grassGrad;
-
-  ctx.beginPath();
-  ctx.moveTo(0, h * 0.16);
-  ctx.quadraticCurveTo(w * 0.5, h * 0.14, w, h * 0.19);
-  ctx.lineTo(w, h);
-  ctx.lineTo(0, h);
-  ctx.closePath();
-  ctx.fill();
-
-  // Natural Grass Blades Texture
-  ctx.strokeStyle = '#166534';
-  ctx.lineWidth = 2.5;
-  ctx.lineCap = 'round';
-  const bladePoints = [
-    [0.12, 0.30], [0.28, 0.24], [0.45, 0.28], [0.65, 0.25], [0.82, 0.32],
-    [0.20, 0.52], [0.38, 0.48], [0.72, 0.55], [0.85, 0.46],
-    [0.15, 0.75], [0.42, 0.78], [0.60, 0.72], [0.88, 0.80]
-  ];
-  for (const [bx, by] of bladePoints) {
-    const gx = bx * w;
-    const gy = by * h;
-    ctx.beginPath(); ctx.moveTo(gx, gy); ctx.lineTo(gx - 6, gy - 16); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(gx + 4, gy); ctx.lineTo(gx + 10, gy - 18); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(gx + 8, gy); ctx.lineTo(gx + 14, gy - 12); ctx.stroke();
-  }
-}
-
-// ----------------------------------------------------------------------------
-// Background 3: Park Bench under Trees ("পার্কের কাঠের বেঞ্চ ও গাছপালা")
-// ----------------------------------------------------------------------------
-function drawParkBackground(ctx, w, h, t) {
-  // Sunny Afternoon Sky
-  const skyGrad = ctx.createLinearGradient(0, 0, 0, h * 0.5);
-  skyGrad.addColorStop(0, '#60a5fa');
-  skyGrad.addColorStop(1, '#dbeafe');
-  ctx.fillStyle = skyGrad;
-  ctx.fillRect(0, 0, w, h);
-
-  // Distant Park Bushes & Trees
-  drawCircle(ctx, w * 0.20, h * 0.42, 130, '#86efac', null);
-  drawCircle(ctx, w * 0.50, h * 0.38, 160, '#4ade80', null);
-  drawCircle(ctx, w * 0.85, h * 0.42, 140, '#22c55e', null);
-
-  // Soft Lawn Ground
-  const lawnY = h * 0.60;
-  const lawnGrad = ctx.createLinearGradient(0, lawnY, 0, h);
-  lawnGrad.addColorStop(0, '#84cc16');
-  lawnGrad.addColorStop(0.3, '#65a30d');
-  lawnGrad.addColorStop(1, '#4d7c0f');
-  ctx.fillStyle = lawnGrad;
-  ctx.fillRect(0, lawnY, w, h - lawnY);
-
-  // Classic Park Bench
-  const benchY = h * 0.54;
-  const benchW = w * 0.90;
-  const benchX = (w - benchW) / 2;
-
-  // Bench Backrest Slats
-  for (let s = 0; s < 3; s++) {
-    drawRoundRect(ctx, benchX, benchY + s * 42, benchW, 30, 4, '#a16207', '#451a03', 2.8);
-  }
-
-  // Bench Cast Iron Posts
-  drawRoundRect(ctx, benchX + 40, benchY - 10, 20, 180, 5, '#1e293b', '#0f172a', 3);
-  drawRoundRect(ctx, benchX + benchW - 60, benchY - 10, 20, 180, 5, '#1e293b', '#0f172a', 3);
-
-  // Bench Seat Slats
-  for (let s = 0; s < 2; s++) {
-    drawRoundRect(ctx, benchX - 10, benchY + 140 + s * 34, benchW + 20, 26, 4, '#ca8a04', '#451a03', 2.8);
-  }
-}
-
-// ----------------------------------------------------------------------------
-// Character: Dipu ("দিপু" - 2D Animated Guy on Phone)
-// ----------------------------------------------------------------------------
-function drawDipu(ctx, px, py, scale, t, pose, shirtColor) {
+function drawSpeechBubble(ctx, x, y, text, speakerName, color = '#ffffff', arrowDir = 'down', tailX = 0) {
   ctx.save();
-  ctx.translate(px, py);
-  ctx.scale(scale, scale);
+  ctx.font = 'bold 36px "Noto Sans Bengali", sans-serif';
+  const metrics = ctx.measureText(text);
+  const paddingX = 36;
+  const bw = Math.max(metrics.width + paddingX * 2, 290);
+  const bh = 100;
+  const bx = x - bw / 2;
+  const by = y - bh / 2;
 
-  const bob = Math.sin(t * 5.0) * 3;
+  // Soft drop shadow
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
+  ctx.shadowBlur = 18;
+  ctx.shadowOffsetY = 8;
 
-  // ---------------- POSE 1: SITTING ON BENCH ON PHONE ----------------
-  if (pose === 'sitting_bench' || pose === 'angry_standing') {
-    // Floor Shadow
-    drawEllipse(ctx, 0, 126 + bob, 52, 14, 'rgba(0, 0, 0, 0.28)', null);
+  // Bubble body
+  drawRoundRect(ctx, bx, by, bw, bh, 24, color, '#222222', 4);
+  ctx.shadowColor = 'transparent';
 
-    // Grey Joggers / Trackpants (Legs bent sitting on bench)
-    ctx.fillStyle = '#475569';
-    // Left Leg (Crossed or bent)
-    ctx.beginPath();
-    ctx.moveTo(-22, 10 + bob);
-    ctx.quadraticCurveTo(-45, 45 + bob, -50, 80 + bob);
-    ctx.lineTo(-30, 80 + bob);
-    ctx.quadraticCurveTo(-26, 45 + bob, -8, 10 + bob);
-    ctx.closePath();
-    ctx.fill();
-    ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 2.2; ctx.stroke();
-
-    // Left lower leg down to floor
-    drawRoundRect(ctx, -52, 78 + bob, 22, 44, 4, '#475569', '#1e293b', 2);
-
-    // Right Leg (Draped down)
-    ctx.beginPath();
-    ctx.moveTo(8, 10 + bob);
-    ctx.quadraticCurveTo(24, 45 + bob, 26, 80 + bob);
-    ctx.lineTo(46, 80 + bob);
-    ctx.quadraticCurveTo(42, 45 + bob, 24, 10 + bob);
-    ctx.closePath();
-    ctx.fill();
-    ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 2.2; ctx.stroke();
-
-    drawRoundRect(ctx, 24, 78 + bob, 22, 44, 4, '#475569', '#1e293b', 2);
-
-    // Dark Slide Slippers
-    drawRoundRect(ctx, -56, 120 + bob, 28, 10, 4, '#1e293b', '#0f172a', 2);
-    drawRoundRect(ctx, 22, 120 + bob, 28, 10, 4, '#1e293b', '#0f172a', 2);
-
-    // T-Shirt Body
-    ctx.fillStyle = shirtColor || '#facc15';
-    ctx.beginPath();
-    ctx.moveTo(-32, 14 + bob);
-    ctx.quadraticCurveTo(-36, -35 + bob, -34, -72 + bob);
-    ctx.lineTo(-44, -86 + bob); // shoulder slope
-    ctx.quadraticCurveTo(-18, -96 + bob, 0, -94 + bob);
-    ctx.quadraticCurveTo(18, -96 + bob, 44, -86 + bob);
-    ctx.lineTo(34, -72 + bob);
-    ctx.quadraticCurveTo(36, -35 + bob, 32, 14 + bob);
-    ctx.closePath();
-    ctx.fill();
-    ctx.strokeStyle = '#b45309'; ctx.lineWidth = 2.4; ctx.stroke();
-
-    // Crewneck Collar
-    ctx.fillStyle = '#fef08a';
-    ctx.beginPath();
-    ctx.arc(0, -94 + bob, 14, 0.2, Math.PI - 0.2);
-    ctx.lineWidth = 3.5;
-    ctx.strokeStyle = '#b45309';
-    ctx.stroke();
-
-    // Sleeves
-    drawRoundRect(ctx, -54, -86 + bob, 20, 32, 5, shirtColor || '#facc15', '#b45309', 2);
-    drawRoundRect(ctx, 34, -86 + bob, 20, 32, 5, shirtColor || '#facc15', '#b45309', 2);
-
-    // Arms: Right hand holding smartphone to ear!
-    ctx.fillStyle = '#c68b59';
-    ctx.strokeStyle = '#a66838';
-    ctx.lineWidth = 12; ctx.lineCap = 'round';
-
-    // Left arm resting on knee / lap
-    ctx.beginPath(); ctx.moveTo(-46, -56 + bob); ctx.lineTo(-32, 10 + bob); ctx.stroke();
-    drawCircle(ctx, -30, 14 + bob, 9, '#c68b59', '#a66838', 2);
-
-    // Right arm bent up with smartphone at ear!
-    if (pose === 'angry_standing') {
-      // Shouting into phone: phone held slightly in front of mouth!
-      ctx.beginPath(); ctx.moveTo(46, -56 + bob); ctx.lineTo(32, -60 + bob); ctx.lineTo(16, -110 + bob); ctx.stroke();
-      drawCircle(ctx, 16, -112 + bob, 9.5, '#c68b59', '#a66838', 2);
-      // Smartphone held in hand
-      drawRoundRect(ctx, 14, -132 + bob, 16, 32, 4, '#0f172a', '#38bdf8', 2);
-    } else {
-      // Normal phone at ear
-      ctx.beginPath(); ctx.moveTo(46, -56 + bob); ctx.lineTo(44, -88 + bob); ctx.lineTo(24, -126 + bob); ctx.stroke();
-      drawCircle(ctx, 24, -128 + bob, 9.5, '#c68b59', '#a66838', 2);
-      // Smartphone held to ear
-      drawRoundRect(ctx, 20, -145 + bob, 15, 30, 4, '#0f172a', '#38bdf8', 2);
-    }
-
-    // Neck
-    ctx.fillStyle = '#c68b59';
-    ctx.fillRect(-9, -110 + bob, 18, 18);
-    ctx.strokeStyle = '#a66838'; ctx.lineWidth = 1.8;
-    ctx.strokeRect(-9, -110 + bob, 18, 18);
-
-    // Head
-    drawDipuHead(ctx, bob, pose);
-
-  } else if (pose === 'lying_grass') {
-    // ---------------- POSE 2: LYING ON GREEN GRASS ----------------
-    // Body rotated casually, head raised, knee up
-    ctx.save();
-    ctx.rotate(-0.10); // relaxed slope
-
-    // Grey Joggers Legs (Crossed casually in grass)
-    ctx.fillStyle = '#475569';
-    // Back leg
-    drawRoundRect(ctx, -20, 20 + bob, 120, 28, 8, '#475569', '#1e293b', 2.2);
-    drawRoundRect(ctx, 80, 20 + bob, 32, 70, 8, '#475569', '#1e293b', 2.2);
-    // Bare feet
-    drawRoundRect(ctx, 92, 85 + bob, 26, 12, 4, '#c68b59', '#a66838', 1.8);
-
-    // Front bent knee leg
-    ctx.beginPath();
-    ctx.moveTo(-10, 22 + bob);
-    ctx.quadraticCurveTo(45, -20 + bob, 70, 20 + bob);
-    ctx.lineTo(84, 30 + bob);
-    ctx.quadraticCurveTo(45, -8 + bob, -10, 44 + bob);
-    ctx.closePath();
-    ctx.fill();
-    ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 2.2; ctx.stroke();
-    // Bare foot on grass
-    drawRoundRect(ctx, 64, 40 + bob, 24, 12, 4, '#c68b59', '#a66838', 1.8);
-
-    // Maroon T-Shirt Torso lying down
-    ctx.fillStyle = shirtColor || '#991b1b';
-    drawRoundRect(ctx, -68, -25 + bob, 78, 54, 12, shirtColor || '#991b1b', '#7f1d1d', 2.5);
-
-    // Left arm resting on stomach
-    ctx.fillStyle = '#c68b59';
-    ctx.strokeStyle = '#a66838'; ctx.lineWidth = 11; ctx.lineCap = 'round';
-    ctx.beginPath(); ctx.moveTo(-60, -10 + bob); ctx.lineTo(-20, 5 + bob); ctx.stroke();
-    drawCircle(ctx, -16, 6 + bob, 9, '#c68b59', '#a66838', 2);
-
-    // Right arm holding phone to ear
-    ctx.beginPath(); ctx.moveTo(-62, -22 + bob); ctx.lineTo(-76, -55 + bob); ctx.lineTo(-84, -70 + bob); ctx.stroke();
-    drawCircle(ctx, -84, -72 + bob, 9, '#c68b59', '#a66838', 2);
-    // Smartphone
-    drawRoundRect(ctx, -94, -84 + bob, 15, 30, 4, '#0f172a', '#38bdf8', 2);
-
-    // Neck
-    ctx.fillStyle = '#c68b59';
-    ctx.fillRect(-82, -45 + bob, 18, 18);
-
-    // Head
-    ctx.save();
-    ctx.translate(-92, -58);
-    drawDipuHead(ctx, bob, 'lying_confused');
-    ctx.restore();
-
-    ctx.restore();
-  }
-
-  ctx.restore();
-}
-
-// Helper to draw Dipu's Head & Expressive Face
-function drawDipuHead(ctx, bob, pose) {
-  const headY = (pose === 'lying_confused') ? 0 : -148 + bob;
-
-  // Face Base Oval
-  ctx.fillStyle = '#c68b59';
+  // Bubble tail pointer
+  const tx = tailX || x;
   ctx.beginPath();
-  ctx.moveTo(-18, headY + 8);
-  ctx.lineTo(-17, headY + 30);
-  ctx.quadraticCurveTo(-14, headY + 50, 0, headY + 52);
-  ctx.quadraticCurveTo(14, headY + 50, 17, headY + 30);
-  ctx.lineTo(18, headY + 8);
-  ctx.quadraticCurveTo(0, headY - 8, -18, headY + 8);
-  ctx.closePath();
+  ctx.fillStyle = color;
+  ctx.strokeStyle = '#222222';
+  ctx.lineWidth = 4;
+  if (arrowDir === 'down') {
+    ctx.moveTo(tx - 18, by + bh - 2);
+    ctx.lineTo(tx, by + bh + 26);
+    ctx.lineTo(tx + 18, by + bh - 2);
+  } else {
+    ctx.moveTo(tx - 18, by + 2);
+    ctx.lineTo(tx, by - 26);
+    ctx.lineTo(tx + 18, by + 2);
+  }
   ctx.fill();
-  ctx.strokeStyle = '#a66838'; ctx.lineWidth = 2; ctx.stroke();
-
-  // Ears
-  drawEllipse(ctx, -19, headY + 22, 3.5, 7, '#c68b59', '#a66838', 1.6);
-  drawEllipse(ctx, 19, headY + 22, 3.5, 7, '#c68b59', '#a66838', 1.6);
-
-  // Big Fluffy Tousled Anime Hair
-  ctx.fillStyle = '#111827';
-  ctx.beginPath();
-  ctx.moveTo(-20, headY + 16);
-  ctx.lineTo(-24, headY + 4);
-  ctx.lineTo(-20, headY - 10);
-  ctx.lineTo(-12, headY - 20);
-  ctx.lineTo(-18, headY - 28);
-  ctx.lineTo(-6, headY - 24);
-  ctx.lineTo(-4, headY - 36); // left spike
-  ctx.lineTo(4, headY - 26);
-  ctx.lineTo(10, headY - 38); // center spike
-  ctx.lineTo(16, headY - 24);
-  ctx.lineTo(24, headY - 30); // right spike
-  ctx.lineTo(22, headY - 10);
-  ctx.lineTo(26, headY - 2);
-  ctx.lineTo(22, headY + 8);
-  ctx.lineTo(22, headY + 18);
-  // Bangs over forehead
-  ctx.lineTo(16, headY + 8);
-  ctx.quadraticCurveTo(6, headY + 2, 0, headY + 12);
-  ctx.quadraticCurveTo(-6, headY + 2, -14, headY + 12);
-  ctx.lineTo(-18, headY + 8);
-  ctx.closePath();
-  ctx.fill();
-
-  // Eyebrows
-  ctx.strokeStyle = '#111827'; ctx.lineWidth = 2.8; ctx.lineCap = 'round';
-  if (pose === 'angry_standing') {
-    // Furiously slanted down
-    ctx.beginPath(); ctx.moveTo(-14, headY + 10); ctx.lineTo(-4, headY + 15); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(14, headY + 10); ctx.lineTo(4, headY + 15); ctx.stroke();
-  } else if (pose === 'lying_confused') {
-    // Baffled / questioning eyebrows (one cocked high)
-    ctx.beginPath(); ctx.moveTo(-14, headY + 11); ctx.lineTo(-4, headY + 14); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(14, headY + 7); ctx.lineTo(4, headY + 12); ctx.stroke();
-  } else if (pose === 'crying_shock') {
-    // Comical sad/crying arch
-    ctx.beginPath(); ctx.moveTo(-14, headY + 9); ctx.lineTo(-4, headY + 13); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(14, headY + 9); ctx.lineTo(4, headY + 13); ctx.stroke();
-  } else {
-    // Inquisitive / friendly
-    ctx.beginPath(); ctx.moveTo(-14, headY + 13); ctx.lineTo(-4, headY + 13); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(14, headY + 13); ctx.lineTo(4, headY + 13); ctx.stroke();
-  }
-
-  // Eyes
-  if (pose === 'crying_shock') {
-    // Comical anime shock tears streaming down!
-    drawEllipse(ctx, -8, headY + 22, 6.5, 7.5, '#ffffff', '#111827', 2);
-    drawEllipse(ctx, 8, headY + 22, 6.5, 7.5, '#ffffff', '#111827', 2);
-    drawCircle(ctx, -8, headY + 22, 2.5, '#0f172a', null);
-    drawCircle(ctx, 8, headY + 22, 2.5, '#0f172a', null);
-
-    // Blue water tear waterfalls!
-    ctx.fillStyle = 'rgba(56, 189, 248, 0.75)';
-    drawRoundRect(ctx, -10, headY + 26, 5, 26, 2.5, 'rgba(56, 189, 248, 0.75)', null);
-    drawRoundRect(ctx, 6, headY + 26, 5, 26, 2.5, 'rgba(56, 189, 248, 0.75)', null);
-
-  } else if (pose === 'angry_standing') {
-    // Glaring angry eyes
-    drawEllipse(ctx, -8, headY + 22, 6, 6, '#ffffff', '#111827', 1.8);
-    drawEllipse(ctx, 8, headY + 22, 6, 6, '#ffffff', '#111827', 1.8);
-    drawCircle(ctx, -8, headY + 22, 2.6, '#451a03', null);
-    drawCircle(ctx, 8, headY + 22, 2.6, '#451a03', null);
-  } else {
-    // Cartoon eyes
-    drawEllipse(ctx, -8, headY + 21, 6.5, 7, '#ffffff', '#111827', 1.8);
-    drawEllipse(ctx, 8, headY + 21, 6.5, 7, '#ffffff', '#111827', 1.8);
-    drawCircle(ctx, -8.5, headY + 21, 4, '#542d13', null);
-    drawCircle(ctx, 7.5, headY + 21, 4, '#542d13', null);
-    drawCircle(ctx, -8.8, headY + 21, 2.2, '#111827', null);
-    drawCircle(ctx, 7.2, headY + 21, 2.2, '#111827', null);
-    drawCircle(ctx, -10, headY + 19.5, 1.2, '#ffffff', null);
-    drawCircle(ctx, 6, headY + 19.5, 1.2, '#ffffff', null);
-  }
-
-  // Nose
-  drawCircle(ctx, 0, headY + 28, 1.6, '#a66838', null);
-
-  // Mouth
-  if (pose === 'angry_standing') {
-    // Wide yelling mouth ("আরে শালা তোর না, আমার লাগবো!")
-    drawEllipse(ctx, 0, headY + 38, 7.5, 9, '#b91c1c', '#111827', 1.8);
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(-5, headY + 30, 10, 2.5);
-    ctx.fillStyle = '#f87171';
-    drawCircle(ctx, 0, headY + 42, 3.5, '#f87171', null);
-  } else if (pose === 'lying_confused') {
-    // Dumbfounded open O-mouth ("তুই জানলি কেমনে?!")
-    drawEllipse(ctx, 0, headY + 36, 5, 6, '#b91c1c', '#111827', 1.6);
-  } else if (pose === 'crying_shock') {
-    // Screaming in funny despair
-    drawEllipse(ctx, 0, headY + 38, 7, 8.5, '#b91c1c', '#111827', 1.8);
-  } else {
-    // Speaking / smiling
-    ctx.strokeStyle = '#b91c1c'; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.arc(0, headY + 34, 4.5, 0.2, Math.PI - 0.2); ctx.stroke();
-  }
-}
-
-// ----------------------------------------------------------------------------
-// Official Channel Watermark & Outro Screen
-// ----------------------------------------------------------------------------
-function drawChannelWatermark(ctx, w, h, isPort, t) {
-  const badgeX = isPort ? w - 210 : w - 240;
-  const badgeY = isPort ? 28 : 28;
-  const badgeW = isPort ? 186 : 210;
-  const badgeH = 58;
-
-  drawRoundRect(ctx, badgeX, badgeY, badgeW, badgeH, 16, '#000000cc', '#ffd54f', 2.5);
-
-  if (logoLoaded && logoImg.width > 0) {
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(badgeX + 30, badgeY + 29, 22, 0, Math.PI * 2);
-    ctx.clip();
-    ctx.drawImage(logoImg, badgeX + 8, badgeY + 7, 44, 44);
-    ctx.restore();
-    drawCircle(ctx, badgeX + 30, badgeY + 29, 22, null, '#ffd54f', 2);
-  }
-
-  ctx.fillStyle = '#ffffff';
-  ctx.font = `bold ${isPort ? 20 : 22}px "Noto Sans Bengali", sans-serif`;
-  ctx.textAlign = 'left';
-  ctx.fillText('DipuToons', badgeX + 58, badgeY + 28);
-  ctx.font = '12px "Noto Sans Bengali", sans-serif';
-  ctx.fillStyle = '#ffe082';
-  ctx.fillText('ছোট্ট কার্টুন, বড় হাসি!', badgeX + 58, badgeY + 47);
-}
-
-// Grand Outro Card (34.5s - 38.04s)
-function drawOutroCard(ctx, w, h, isPort, t) {
-  const p = Math.max(0, Math.min(1, (t - 34.5) / 0.8));
-  ctx.save();
-  ctx.fillStyle = `rgba(15, 23, 42, ${0.94 * p})`;
-  ctx.fillRect(0, 0, w, h);
-
-  const cx = w / 2;
-  const cy = h / 2;
-
-  const logoSize = isPort ? w * 0.68 : h * 0.54;
-  const ly = cy - (isPort ? h * 0.08 : h * 0.06);
-
-  if (logoLoaded && logoImg.width > 0) {
-    ctx.save();
-    ctx.shadowColor = '#fbc02d';
-    ctx.shadowBlur = 30;
-    drawCircle(ctx, cx, ly, logoSize / 2 + 8, null, '#fbc02d', 6);
-    ctx.restore();
-
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(cx, ly, logoSize / 2, 0, Math.PI * 2);
-    ctx.clip();
-    ctx.drawImage(logoImg, cx - logoSize / 2, ly - logoSize / 2, logoSize, logoSize);
-    ctx.restore();
-    drawCircle(ctx, cx, ly, logoSize / 2, null, '#ffffff', 4);
-  }
-
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#ffeb3b';
-  ctx.font = `bold ${isPort ? 56 : 64}px "Noto Sans Bengali", sans-serif`;
-  ctx.fillText('DipuToons', cx, ly + logoSize / 2 + (isPort ? 66 : 60));
-
-  ctx.fillStyle = '#ffffff';
-  ctx.font = `bold ${isPort ? 32 : 36}px "Noto Sans Bengali", sans-serif`;
-  ctx.fillText('ছোট্ট কার্টুন, বড় হাসি! 😂', cx, ly + logoSize / 2 + (isPort ? 118 : 108));
-
-  const btnW = isPort ? 340 : 380;
-  const btnH = 62;
-  const btnY = ly + logoSize / 2 + (isPort ? 155 : 140);
-  drawRoundRect(ctx, cx - btnW / 2, btnY, btnW, btnH, 31, '#d32f2f', '#ffffff', 3.5);
-  ctx.fillStyle = '#ffffff';
-  ctx.font = `bold ${isPort ? 24 : 26}px "Noto Sans Bengali", sans-serif`;
-  ctx.fillText('🔔 সাবস্ক্রাইব করুন', cx, btnY + 41);
-
-  ctx.restore();
-}
-
-// ----------------------------------------------------------------------------
-// Comic Speech Balloon & Subtitle System
-// ----------------------------------------------------------------------------
-function drawSpeechBalloon(ctx, w, h, speaker, text, isFriendOnPhone) {
-  ctx.save();
-  const fontSize = 28;
-  ctx.font = `bold ${fontSize}px "Noto Sans Bengali", sans-serif`;
-  const tm = ctx.measureText(text);
-  const bw = Math.min(w - 60, Math.max(260, tm.width + 64));
-  const bh = 82;
-
-  // In phone comedy, Friend on phone appears on right, Dipu on left
-  const bx = isFriendOnPhone ? w - bw - 32 : 32;
-  const by = Math.floor(h * 0.16);
-
-  // Drop shadow
-  drawRoundRect(ctx, bx + 5, by + 5, bw, bh, 18, 'rgba(0,0,0,0.24)', null);
-  // Bubble body (cyan for phone friend, white for Dipu)
-  const bubbleFill = isFriendOnPhone ? '#f0fdf4' : '#ffffff';
-  drawRoundRect(ctx, bx, by, bw, bh, 18, bubbleFill, '#0f172a', 3.5);
+  ctx.stroke();
 
   // Speaker Badge
-  const badgeBg = isFriendOnPhone ? '#16a34a' : '#0284c7';
-  const badgeW = 200;
-  const badgeH = 34;
-  drawRoundRect(ctx, bx + 16, by - 18, badgeW, badgeH, 8, badgeBg, '#ffffff', 2);
-  ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 17px "Noto Sans Bengali", sans-serif';
-  ctx.textAlign = 'left';
-  ctx.fillText(speaker, bx + 24, by + 5);
+  if (speakerName) {
+    const badgeW = 120;
+    const badgeH = 34;
+    const badgeX = bx + 24;
+    const badgeY = by - 16;
+    drawRoundRect(ctx, badgeX, badgeY, badgeW, badgeH, 12, '#ffcc00', '#222222', 3);
+    ctx.fillStyle = '#111111';
+    ctx.font = 'bold 20px "Noto Sans Bengali", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(speakerName, badgeX + badgeW / 2, badgeY + badgeH / 2);
+  }
 
   // Dialogue Text
-  ctx.fillStyle = '#0f172a';
-  ctx.font = `bold ${fontSize}px "Noto Sans Bengali", sans-serif`;
-  ctx.fillText(text, bx + 24, by + 52);
+  ctx.fillStyle = '#111111';
+  ctx.font = 'bold 38px "Noto Sans Bengali", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, x, y + 4);
 
   ctx.restore();
 }
 
-function drawBottomSubtitleBar(ctx, w, h, speaker, text) {
-  const barH = 130;
-  const barY = h - barH - 24;
-  const barW = w - 48;
-  const barX = (w - barW) / 2;
+// ----------------------------------------------------------------------------
+// 3D Interior Environment (Modern Pixar Style Living Room)
+// ----------------------------------------------------------------------------
+function drawLivingRoom3D(ctx, W, H, t) {
+  ctx.save();
 
-  drawRoundRect(ctx, barX, barY, barW, barH, 20, 'rgba(15, 23, 42, 0.92)', '#ffd54f', 3);
+  // 1. Back Wall Gradient with Soft Studio Lighting
+  const wallGrad = ctx.createLinearGradient(0, 0, W, H * 0.72);
+  wallGrad.addColorStop(0, '#f9f3e9');
+  wallGrad.addColorStop(0.4, '#ede3d1');
+  wallGrad.addColorStop(1, '#d8cbba');
+  ctx.fillStyle = wallGrad;
+  ctx.fillRect(0, 0, W, H);
 
-  const isFriend = speaker.includes('ফোনে');
-  const badgeCol = isFriend ? '#16a34a' : '#0284c7';
-  const badgeW = 210;
-  drawRoundRect(ctx, barX + 18, barY + 14, badgeW, 46, 12, badgeCol, '#ffffff', 2);
+  // 2. Sunlight Volumetric Rays from Arch Window
+  ctx.save();
+  const rayGrad = ctx.createLinearGradient(0, 100, W * 0.8, H * 0.9);
+  rayGrad.addColorStop(0, 'rgba(255, 250, 230, 0.45)');
+  rayGrad.addColorStop(0.5, 'rgba(255, 245, 210, 0.18)');
+  rayGrad.addColorStop(1, 'rgba(255, 240, 200, 0)');
+  ctx.fillStyle = rayGrad;
+  ctx.beginPath();
+  ctx.moveTo(100, 120);
+  ctx.lineTo(W * 0.9, H * 0.85);
+  ctx.lineTo(W * 0.3, H * 0.95);
+  ctx.lineTo(20, 380);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
 
-  ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 20px "Noto Sans Bengali", sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText(speaker, barX + 18 + badgeW / 2, barY + 44);
+  // 3. Elegant Modern Arched Window (Upper Left)
+  const winX = 80, winY = 160, winW = 280, winH = 480;
+  ctx.save();
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+  ctx.shadowBlur = 20;
+  drawRoundRect(ctx, winX - 12, winY - 12, winW + 24, winH + 24, [140, 140, 16, 16], '#ffffff', '#c5b8a5', 5);
+  ctx.restore();
 
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#ffeb3b';
-  ctx.font = 'bold 26px "Noto Sans Bengali", sans-serif';
-  ctx.fillText(text, barX + barW / 2, barY + 102);
+  // Outside landscape view (lush green trees and blue sky)
+  ctx.save();
+  ctx.beginPath();
+  ctx.roundRect(winX, winY, winW, winH, [130, 130, 10, 10]);
+  ctx.clip();
+  const skyGrad = ctx.createLinearGradient(winX, winY, winX, winY + winH);
+  skyGrad.addColorStop(0, '#7ac9f8');
+  skyGrad.addColorStop(0.6, '#bfe6fc');
+  skyGrad.addColorStop(1, '#e3f4ff');
+  ctx.fillStyle = skyGrad;
+  ctx.fillRect(winX, winY, winW, winH);
+
+  // Soft clouds
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+  ctx.beginPath();
+  ctx.arc(winX + 70, winY + 90, 40, 0, Math.PI * 2);
+  ctx.arc(winX + 110, winY + 80, 50, 0, Math.PI * 2);
+  ctx.arc(winX + 160, winY + 95, 45, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Green outdoor foliage
+  ctx.fillStyle = '#489f3a';
+  ctx.beginPath();
+  ctx.arc(winX + 50, winY + 400, 120, 0, Math.PI * 2);
+  ctx.arc(winX + 180, winY + 420, 130, 0, Math.PI * 2);
+  ctx.arc(winX + 260, winY + 440, 110, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = '#2f7924';
+  ctx.beginPath();
+  ctx.arc(winX + 110, winY + 460, 140, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Window mullions / panes
+  ctx.strokeStyle = '#ffffff';
+  ctx.lineWidth = 8;
+  ctx.beginPath();
+  ctx.moveTo(winX + winW / 2, winY);
+  ctx.lineTo(winX + winW / 2, winY + winH);
+  ctx.moveTo(winX, winY + 220);
+  ctx.lineTo(winX + winW, winY + 220);
+  ctx.moveTo(winX, winY + 350);
+  ctx.lineTo(winX + winW, winY + 350);
+  ctx.stroke();
+  ctx.restore();
+
+  // 4. Wall Painting Frame (Upper Right)
+  const artX = W - 360, artY = 200, artW = 260, artH = 340;
+  ctx.save();
+  ctx.shadowColor = 'rgba(0,0,0,0.25)';
+  ctx.shadowBlur = 16;
+  ctx.shadowOffsetY = 10;
+  drawRoundRect(ctx, artX, artY, artW, artH, 16, '#2c2218', '#c99e52', 8);
+  ctx.restore();
+
+  // Painting Art Interior
+  ctx.save();
+  ctx.beginPath();
+  ctx.roundRect(artX + 14, artY + 14, artW - 28, artH - 28, 8);
+  ctx.clip();
+  const artGrad = ctx.createLinearGradient(artX, artY, artX, artY + artH);
+  artGrad.addColorStop(0, '#f2784b');
+  artGrad.addColorStop(0.5, '#f5af65');
+  artGrad.addColorStop(1, '#e3d29a');
+  ctx.fillStyle = artGrad;
+  ctx.fillRect(artX, artY, artW, artH);
+  // Mountains
+  ctx.fillStyle = '#4f3b2f';
+  ctx.beginPath();
+  ctx.moveTo(artX, artY + 280);
+  ctx.lineTo(artX + 80, artY + 170);
+  ctx.lineTo(artX + 160, artY + 260);
+  ctx.lineTo(artX + 220, artY + 190);
+  ctx.lineTo(artX + artW, artY + 280);
+  ctx.lineTo(artX + artW, artY + artH);
+  ctx.lineTo(artX, artY + artH);
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+
+  // 5. Wooden Wainscoting & Baseboard
+  const floorY = H * 0.72;
+  const baseboardH = 45;
+  ctx.fillStyle = '#785b41';
+  ctx.fillRect(0, floorY - baseboardH, W, baseboardH);
+  ctx.fillStyle = '#a88866';
+  ctx.fillRect(0, floorY - baseboardH, W, 8);
+  ctx.fillStyle = '#4e3825';
+  ctx.fillRect(0, floorY - 6, W, 6);
+
+  // 6. Polished Parquet Wooden Floor with 3D Depth
+  const floorGrad = ctx.createLinearGradient(0, floorY, 0, H);
+  floorGrad.addColorStop(0, '#4a3321');
+  floorGrad.addColorStop(0.4, '#6a4c33');
+  floorGrad.addColorStop(1, '#382415');
+  ctx.fillStyle = floorGrad;
+  ctx.fillRect(0, floorY, W, H - floorY);
+
+  // Floor plank lines with perspective
+  ctx.strokeStyle = 'rgba(30, 18, 9, 0.4)';
+  ctx.lineWidth = 3;
+  for (let i = -400; i < W + 600; i += 180) {
+    ctx.beginPath();
+    ctx.moveTo(i, floorY);
+    ctx.lineTo(i + (i - W / 2) * 0.8, H);
+    ctx.stroke();
+  }
+
+  // Soft Ambient Occlusion shadow at wall-floor seam
+  const aoGrad = ctx.createLinearGradient(0, floorY, 0, floorY + 110);
+  aoGrad.addColorStop(0, 'rgba(0, 0, 0, 0.65)');
+  aoGrad.addColorStop(0.3, 'rgba(0, 0, 0, 0.25)');
+  aoGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+  ctx.fillStyle = aoGrad;
+  ctx.fillRect(0, floorY, W, 110);
+
+  // 7. Indoor Modern Plant (Right edge)
+  const plantX = W - 90, plantY = floorY + 120;
+  ctx.save();
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.35)';
+  ctx.shadowBlur = 24;
+  ctx.shadowOffsetY = 12;
+  ctx.beginPath();
+  ctx.moveTo(plantX - 60, plantY - 140);
+  ctx.lineTo(plantX + 60, plantY - 140);
+  ctx.lineTo(plantX + 45, plantY);
+  ctx.lineTo(plantX - 45, plantY);
+  ctx.closePath();
+  const potGrad = ctx.createLinearGradient(plantX - 60, plantY - 140, plantX + 60, plantY);
+  potGrad.addColorStop(0, '#ffffff');
+  potGrad.addColorStop(0.7, '#e8e8e8');
+  potGrad.addColorStop(1, '#b0b0b0');
+  ctx.fillStyle = potGrad;
+  ctx.fill();
+  ctx.restore();
+
+  // Green leaves
+  ctx.fillStyle = '#2d6a26';
+  for (let a = -1; a <= 1; a += 0.8) {
+    ctx.save();
+    ctx.translate(plantX + a * 20, plantY - 150);
+    ctx.rotate(a * 0.4 + Math.sin(t * 1.5 + a) * 0.05);
+    ctx.beginPath();
+    ctx.ellipse(0, -90, 45, 90, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  ctx.restore();
 }
 
 // ----------------------------------------------------------------------------
-// MAIN FRAME RENDERER (t: 0 -> 38.04s)
+// 3D Characters Rendering & Rigging
 // ----------------------------------------------------------------------------
-function frame(ctx, w, h, t) {
-  ctx.clearRect(0, 0, w, h);
-  const isPort = h > w;
+function drawCharacters3D(ctx, W, H, t) {
+  // Ground baseline on polished floor
+  const groundY = 1680;
 
-  let speaker = '';
-  let speechText = '';
-  let isFriendOnPhone = false;
-  let currentSetting = 'tea_stall';
-  let dipuPose = 'sitting_bench';
-  let shirtColor = '#facc15'; // yellow
+  // Camera Zoom Logic:
+  // Scene 5 (8.0s - 10.0s) has dramatic comedic punch zoom!
+  let zoom = 1.0;
+  let camPanY = 0;
+  let camPanX = 0;
 
-  // ==================== 1. SCENE TIMING & SCRIPT ====================
-  // CALL 1: (0.0 - 4.5s)
-  if (t < 1.0) {
-    speaker = '📞 দিপু:';
-    speechText = 'হ্যালো?';
-    currentSetting = 'tea_stall';
-    dipuPose = 'sitting_bench';
-  } else if (t < 2.2) {
-    speaker = '📱 বন্ধু (ফোনে):';
-    speechText = 'হ্যাঁ ভাই একটা কাজ আছিলো।';
-    isFriendOnPhone = true;
-    currentSetting = 'tea_stall';
-    dipuPose = 'sitting_bench';
-  } else if (t < 4.5) {
-    speaker = '📞 দিপু:';
-    speechText = 'ঠিক আছে আগে কাজ কর, পরে কল দিস! 😂';
-    currentSetting = 'tea_stall';
-    dipuPose = 'sitting_bench';
-  }
-  // CALL 2: (4.5 - 11.5s) - Lying in Grass
-  else if (t < 6.0) {
-    speaker = '📞 দিপু:';
-    speechText = 'হ্যালো ভাই?';
-    currentSetting = 'grass_field';
-    dipuPose = 'lying_grass';
-    shirtColor = '#991b1b'; // maroon
-  } else if (t < 7.0) {
-    speaker = '📱 বন্ধু (ফোনে):';
-    speechText = 'হ্যাঁ ভাই বল।';
-    isFriendOnPhone = true;
-    currentSetting = 'grass_field';
-    dipuPose = 'lying_grass';
-    shirtColor = '#991b1b';
-  } else if (t < 8.8) {
-    speaker = '📞 দিপু:';
-    speechText = 'ভাই ৫০০ টাকা লাগবো।';
-    currentSetting = 'grass_field';
-    dipuPose = 'lying_grass';
-    shirtColor = '#991b1b';
-  } else if (t < 11.5) {
-    speaker = '📱 বন্ধু (ফোনে):';
-    speechText = 'হ্যাঁ লাগবো তো, তুই জানলি কেমনে?! 😂';
-    isFriendOnPhone = true;
-    currentSetting = 'grass_field';
-    dipuPose = 'lying_grass';
-    shirtColor = '#991b1b';
-  }
-  // CALL 3: (11.5 - 25.0s) - Angry argument at Tea stall
-  else if (t < 13.0) {
-    speaker = '📞 দিপু:';
-    speechText = 'হ্যালো ভাই?';
-    currentSetting = 'tea_stall';
-    dipuPose = 'sitting_bench';
-    shirtColor = '#facc15';
-  } else if (t < 14.0) {
-    speaker = '📱 বন্ধু (ফোনে):';
-    speechText = 'হ্যাঁ ভাই বল।';
-    isFriendOnPhone = true;
-    currentSetting = 'tea_stall';
-    dipuPose = 'sitting_bench';
-    shirtColor = '#facc15';
-  } else if (t < 15.2) {
-    speaker = '📞 দিপু:';
-    speechText = 'ভাই ৫০০ টাকা লাগবো।';
-    currentSetting = 'tea_stall';
-    dipuPose = 'sitting_bench';
-    shirtColor = '#facc15';
-  } else if (t < 16.0) {
-    speaker = '📱 বন্ধু (ফোনে):';
-    speechText = 'হ্যাঁ লাগবো তো!';
-    isFriendOnPhone = true;
-    currentSetting = 'tea_stall';
-    dipuPose = 'sitting_bench';
-    shirtColor = '#facc15';
-  } else if (t < 19.0) {
-    speaker = '📞 দিপু:';
-    speechText = 'আরে শালা তোর না, আমার লাগবো! আমার, আমার! 😡';
-    currentSetting = 'tea_stall';
-    dipuPose = 'angry_standing';
-    shirtColor = '#facc15';
-  } else if (t < 23.5) {
-    speaker = '📱 বন্ধু (ফোনে):';
-    speechText = 'তাহলে আরেকজনের কাছ থেকে ১০০০ ধার কর, ৫০০ আমারে দে আর ৫০০ তুই নে! 🤣';
-    isFriendOnPhone = true;
-    currentSetting = 'tea_stall';
-    dipuPose = 'angry_standing';
-    shirtColor = '#facc15';
-  } else if (t < 25.0) {
-    speaker = '📞 দিপু:';
-    speechText = 'শালা...!! 🤦‍♂️';
-    currentSetting = 'tea_stall';
-    dipuPose = 'angry_standing';
-    shirtColor = '#facc15';
-  }
-  // CALL 4: (25.0 - 34.5s) - Park Bench reverse twist
-  else if (t < 28.0) {
-    speaker = '📞 দিপু:';
-    speechText = 'হ্যালো ভাই?';
-    currentSetting = 'park';
-    dipuPose = 'sitting_bench';
-    shirtColor = '#334155'; // dark grey
-  } else if (t < 31.5) {
-    speaker = '📱 অন্য বন্ধু (ফোনে):';
-    speechText = 'হ্যালো বন্ধু, একটা কাজ আছে ৫০০ টেকা পাঠা তো তাড়াতাড়ি!';
-    isFriendOnPhone = true;
-    currentSetting = 'park';
-    dipuPose = 'crying_shock';
-    shirtColor = '#334155';
-  } else if (t < 34.5) {
-    speaker = '📞 দিপু:';
-    speechText = 'ওরে খোদা...! 😭😂 (কান্নার রোল)';
-    currentSetting = 'park';
-    dipuPose = 'crying_shock';
-    shirtColor = '#334155';
+  if (t >= 8.0 && t <= 10.0) {
+    const p = clampVal((t - 8.0) / 0.4, 0, 1);
+    zoom = 1.0 + easeInOut(p) * 0.18;
+    camPanY = -easeInOut(p) * 90;
+    camPanX = -easeInOut(p) * 40;
   }
 
-  // ==================== 2. DRAW ENVIRONMENT ====================
-  if (currentSetting === 'tea_stall') {
-    drawTeaStallBackground(ctx, w, h, t);
-    // Draw Dipu sitting on tea stall bench
-    const px = w * 0.40;
-    const py = h * 0.68;
-    drawDipu(ctx, px, py, 2.5, t, dipuPose, shirtColor);
+  ctx.save();
+  ctx.translate(W / 2 + camPanX, H / 2 + camPanY);
+  ctx.scale(zoom, zoom);
+  ctx.translate(-W / 2, -H / 2);
 
-  } else if (currentSetting === 'grass_field') {
-    drawGrassFieldBackground(ctx, w, h, t);
-    // Draw Dipu lying down in grass
-    const px = w * 0.50;
-    const py = h * 0.58;
-    drawDipu(ctx, px, py, 2.3, t, dipuPose, shirtColor);
+  // --------------------------------------------------------------------------
+  // 1. Father (3D Character) - Screen Left
+  // --------------------------------------------------------------------------
+  const fatherBaseX = 360;
+  const fatherBaseY = groundY;
+  const fatherH = 920;
+  const fatherW = (fatherH * 220) / 572; // proportional ratio ~353px
 
-  } else {
-    drawParkBackground(ctx, w, h, t);
-    // Draw Dipu sitting on park bench
-    const px = w * 0.40;
-    const py = h * 0.66;
-    drawDipu(ctx, px, py, 2.5, t, dipuPose, shirtColor);
+  const isFatherSpeaking = (t >= 2.0 && t < 4.0) || (t >= 6.0 && t < 8.0) || (t >= 10.0);
+  const fatherSway = Math.sin(t * 2.2) * 5;
+  const fatherBreath = Math.sin(t * 2.8) * 0.008;
+  const fatherNod = isFatherSpeaking ? Math.sin(t * 8.5) * 0.035 : 0;
+
+  // Floor Contact Shadow (tightly hugging sandals)
+  ctx.save();
+  ctx.beginPath();
+  ctx.ellipse(fatherBaseX, fatherBaseY - 14, fatherW * 0.40, 16, 0, 0, Math.PI * 2);
+  const fShadow = ctx.createRadialGradient(fatherBaseX, fatherBaseY - 14, 8, fatherBaseX, fatherBaseY - 14, fatherW * 0.40);
+  fShadow.addColorStop(0, 'rgba(12, 6, 0, 0.65)');
+  fShadow.addColorStop(0.5, 'rgba(12, 6, 0, 0.25)');
+  fShadow.addColorStop(1, 'rgba(12, 6, 0, 0)');
+  ctx.fillStyle = fShadow;
+  ctx.fill();
+  ctx.restore();
+
+  // Draw Father Sprite
+  ctx.save();
+  ctx.translate(fatherBaseX, fatherBaseY);
+  ctx.rotate(fatherNod);
+  ctx.scale(1 + fatherBreath, 1 - fatherBreath);
+
+  if (fatherLoaded && fatherImg.width > 0) {
+    ctx.drawImage(fatherImg, -fatherW / 2, -fatherH + fatherSway, fatherW, fatherH);
+  }
+  ctx.restore();
+
+  // --------------------------------------------------------------------------
+  // 2. Kid (3D Character) - Screen Right
+  // --------------------------------------------------------------------------
+  const kidBaseX = 740;
+  const kidBaseY = groundY;
+  const kidH = 680;
+  const kidW = (kidH * 170) / 572; // proportional ratio ~202px
+
+  const isKidSpeaking = (t >= 0.0 && t < 2.0) || (t >= 4.0 && t < 6.0) || (t >= 8.0 && t < 10.0);
+  const isShocked = (t >= 8.0 && t < 10.0);
+  const kidBounce = isShocked ? Math.sin(t * 22.0) * 8 : Math.sin(t * 3.5) * 6;
+  const kidTilt = isShocked ? 0.10 + Math.sin(t * 18.0) * 0.04 : (isKidSpeaking ? -0.05 + Math.sin(t * 7.0) * 0.03 : 0);
+
+  // Floor Contact Shadow (tightly hugging sandals)
+  ctx.save();
+  ctx.beginPath();
+  ctx.ellipse(kidBaseX, kidBaseY - 14, kidW * 0.38, 14, 0, 0, Math.PI * 2);
+  const kShadow = ctx.createRadialGradient(kidBaseX, kidBaseY - 14, 6, kidBaseX, kidBaseY - 14, kidW * 0.38);
+  kShadow.addColorStop(0, 'rgba(12, 6, 0, 0.65)');
+  kShadow.addColorStop(0.5, 'rgba(12, 6, 0, 0.25)');
+  kShadow.addColorStop(1, 'rgba(12, 6, 0, 0)');
+  ctx.fillStyle = kShadow;
+  ctx.fill();
+  ctx.restore();
+
+  // Draw Kid Sprite
+  ctx.save();
+  ctx.translate(kidBaseX, kidBaseY);
+  ctx.rotate(kidTilt);
+
+  if (kidLoaded && kidImg.width > 0) {
+    ctx.drawImage(kidImg, -kidW / 2, -kidH + kidBounce, kidW, kidH);
   }
 
-  // ==================== 3. UI, BALLOON & SUBTITLES ====================
-  if (speaker && speechText && t < 34.5) {
-    drawSpeechBalloon(ctx, w, h, speaker, speechText, isFriendOnPhone);
-    drawBottomSubtitleBar(ctx, w, h, speaker, speechText);
+  // Comical Shock FX over Kid in Scene 5 ("নিজেরাই নিজেরাই বিয়া করছো??!!")
+  if (isShocked) {
+    ctx.save();
+    const headY = -kidH + kidBounce + 120;
+
+    // Shock sweat drops
+    ctx.fillStyle = '#38bdf8';
+    ctx.beginPath();
+    ctx.arc(kidW / 2 + 18, headY + 30, 10, 0, Math.PI * 2);
+    ctx.arc(kidW / 2 + 30, headY + 50, 7, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Comic shock exclamation marks floating
+    ctx.font = 'bold 72px sans-serif';
+    ctx.fillStyle = '#facc15';
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 7;
+    ctx.textAlign = 'center';
+    ctx.strokeText('?!', 0, headY - 45);
+    ctx.fillText('?!', 0, headY - 45);
+
+    // Shock vibration lines
+    ctx.strokeStyle = '#facc15';
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.moveTo(-kidW / 2 - 20, headY - 20);
+    ctx.lineTo(-kidW / 2 - 45, headY - 40);
+    ctx.moveTo(kidW / 2 + 20, headY - 20);
+    ctx.lineTo(kidW / 2 + 45, headY - 40);
+    ctx.stroke();
+
+    ctx.restore();
   }
 
-  // Watermark
-  if (t < 34.5) {
-    drawChannelWatermark(ctx, w, h, isPort, t);
+  ctx.restore();
+  ctx.restore();
+}
+
+// ----------------------------------------------------------------------------
+// Dialogue & Speech Bubbles System
+// ----------------------------------------------------------------------------
+function drawDialogueBeat(ctx, W, H, t) {
+  // Scene 1 (0.0s - 2.0s): Kid asks dad
+  if (t >= 0.05 && t < 2.0) {
+    drawSpeechBubble(ctx, 700, 840, 'বাবা, তুমি কাকে বিয়া করছো?', 'ছেলে 👦', '#ffffff', 'down', 740);
+  }
+  // Scene 2 (2.0s - 4.0s): Dad answers
+  else if (t >= 2.0 && t < 4.0) {
+    drawSpeechBubble(ctx, 400, 680, 'তোর মাকে!', 'বাবা 👨', '#fef08a', 'down', 360);
+  }
+  // Scene 3 (4.0s - 6.0s): Kid questions about mom
+  else if (t >= 4.0 && t < 6.0) {
+    drawSpeechBubble(ctx, 700, 840, 'মা কাকে বিয়া করছিলো?', 'ছেলে 👦', '#ffffff', 'down', 740);
+  }
+  // Scene 4 (6.0s - 8.0s): Dad proudly answers
+  else if (t >= 6.0 && t < 8.0) {
+    drawSpeechBubble(ctx, 400, 680, 'আমাকে!', 'বাবা 👨', '#fef08a', 'down', 360);
+  }
+  // Scene 5 (8.0s - 10.0s): The hilarious shock twist!
+  else if (t >= 8.0 && t < 10.0) {
+    drawSpeechBubble(ctx, 540, 660, 'নিজেরাই নিজেরাই বিয়া করছো??!!', 'ছেলে 😱', '#ffe4e6', 'down', 720);
+  }
+}
+
+// ----------------------------------------------------------------------------
+// DipuToons Header Watermark
+// ----------------------------------------------------------------------------
+function drawHeaderBrand(ctx, W, H, t) {
+  ctx.save();
+  const cardW = 340;
+  const cardH = 76;
+  const cardX = W / 2 - cardW / 2;
+  const cardY = 48;
+
+  // Modern pill badge
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
+  ctx.shadowBlur = 14;
+  drawRoundRect(ctx, cardX, cardY, cardW, cardH, 38, '#1e1b18', '#facc15', 3);
+  ctx.shadowColor = 'transparent';
+
+  // Circular clipped mini logo
+  if (logoLoaded && logoImg.width > 0) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(cardX + 44, cardY + cardH / 2, 28, 0, Math.PI * 2);
+    ctx.clip();
+    ctx.drawImage(logoImg, cardX + 16, cardY + cardH / 2 - 28, 56, 56);
+    ctx.restore();
   }
 
-  // Grand Outro Screen (34.5s - 38.04s)
-  if (t >= 34.5) {
-    drawOutroCard(ctx, w, h, isPort, t);
+  // DipuToons Text
+  ctx.fillStyle = '#facc15';
+  ctx.font = 'bold 32px sans-serif';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('DipuToons', cardX + 86, cardY + cardH / 2 - 10);
+
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 18px "Noto Sans Bengali", sans-serif';
+  ctx.fillText('ছোট্ট কার্টুন, বড় হাসি!', cardX + 86, cardY + cardH / 2 + 18);
+
+  ctx.restore();
+}
+
+// ----------------------------------------------------------------------------
+// Official DipuToons 3D Animated Outro Card (10.0s - 11.17s)
+// ----------------------------------------------------------------------------
+function drawOutroCard(ctx, W, H, t) {
+  if (t < 10.0) return;
+
+  const progress = clampVal((t - 10.0) / 0.35, 0, 1);
+  const alpha = easeInOut(progress);
+
+  ctx.save();
+  ctx.fillStyle = `rgba(15, 12, 10, ${alpha * 0.94})`;
+  ctx.fillRect(0, 0, W, H);
+
+  const cx = W / 2;
+  const cy = H / 2 - 60;
+  const scale = 0.85 + alpha * 0.15;
+
+  ctx.translate(cx, cy);
+  ctx.scale(scale, scale);
+
+  // 1. Center Circular Logo Badge with Gold Glow
+  const logoRadius = 260;
+  if (logoLoaded && logoImg.width > 0) {
+    ctx.save();
+    ctx.shadowColor = 'rgba(250, 204, 21, 0.75)';
+    ctx.shadowBlur = 36;
+    ctx.beginPath();
+    ctx.arc(0, -70, logoRadius, 0, Math.PI * 2);
+    ctx.fillStyle = '#ffffff';
+    ctx.fill();
+    ctx.clip();
+    ctx.drawImage(logoImg, -logoRadius, -70 - logoRadius, logoRadius * 2, logoRadius * 2);
+    ctx.restore();
+
+    // Gold circular border ring
+    ctx.strokeStyle = '#facc15';
+    ctx.lineWidth = 10;
+    ctx.beginPath();
+    ctx.arc(0, -70, logoRadius, 0, Math.PI * 2);
+    ctx.stroke();
   }
+
+  // 2. Animated YouTube Subscribe Button
+  const btnW = 440;
+  const btnH = 92;
+  const btnY = logoRadius + 20;
+  const btnPulse = 1.0 + Math.sin(t * 8.0) * 0.03;
+
+  ctx.save();
+  ctx.translate(0, btnY);
+  ctx.scale(btnPulse, btnPulse);
+  ctx.shadowColor = 'rgba(239, 68, 68, 0.85)';
+  ctx.shadowBlur = 24;
+  drawRoundRect(ctx, -btnW / 2, -btnH / 2, btnW, btnH, 46, '#ef4444', '#ffffff', 4);
+
+  // Play icon
+  ctx.fillStyle = '#ffffff';
+  ctx.beginPath();
+  ctx.moveTo(-btnW / 2 + 50, -18);
+  ctx.lineTo(-btnW / 2 + 82, 0);
+  ctx.lineTo(-btnW / 2 + 50, 18);
+  ctx.closePath();
+  ctx.fill();
+
+  // Button Text
+  ctx.font = 'bold 36px "Noto Sans Bengali", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('সাবস্ক্রাইব করুন', 25, 0);
+  ctx.restore();
+
+  // 3. Bell Notification Icon & Slogan
+  ctx.fillStyle = '#facc15';
+  ctx.font = 'bold 34px "Noto Sans Bengali", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('🔔 লাইক ও শেয়ার করুন!', 0, btnY + 110);
+
+  ctx.restore();
+}
+
+// ----------------------------------------------------------------------------
+// Master Frame Render Function
+// ----------------------------------------------------------------------------
+function frame(ctx, W, H, t) {
+  ctx.clearRect(0, 0, W, H);
+
+  // 1. Draw 3D Living Room Environment
+  drawLivingRoom3D(ctx, W, H, t);
+
+  // 2. Draw 3D Rigged Characters (Father & Kid)
+  drawCharacters3D(ctx, W, H, t);
+
+  // 3. Draw Dialogue Speech Bubbles
+  drawDialogueBeat(ctx, W, H, t);
+
+  // 4. Draw DipuToons Header Badge
+  drawHeaderBrand(ctx, W, H, t);
+
+  // 5. Draw 3D Animated Outro Card
+  drawOutroCard(ctx, W, H, t);
 }

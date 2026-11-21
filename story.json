@@ -1,12 +1,12 @@
 {
   "brand": "DipuToons",
-  "export_folder": "taka_dharer_chokkor",
-  "file_prefix": "taka_dharer_chokkor",
-  "title": "টাকা ধারের চরম চক্কর (Borrowing Money Phone Call Comedy)",
+  "export_folder": "nijerai_nijeray_biye_3d",
+  "file_prefix": "nijerai_nijeray_biye_3d",
+  "title": "নিজেরাই নিজেরাই বিয়া করছো?! (Father Son 3D Cartoon Comedy)",
   "language": "bn",
-  "kind": "comic cartoon 2d animation",
-  "source_note": "বন্ধু: একটা কাজ আছিলো। - আগে কাজ কর, পরে কল দিস! ৫০০ টাকা লাগবো - তুই জানলি কেমনে? তোর না আমার লাগবো! - ১০০০ ধার কর ৫০০ আমারে দে! উল্টো অন্য বন্ধু ফোন দিয়ে বলে ৫০০ টেকা পাঠা!",
-  "duration": 38.04,
+  "kind": "comic cartoon 3d animation",
+  "source_note": "ছেলে: বাবা তুমি কাকে বিয়া করছো? বাবা: তোর মাকে! ছেলে: মা কাকে বিয়া করছিলো? বাবা: আমাকে! ছেলে: নিজেরাই নিজেরাই বিয়া করছো??!!",
+  "duration": 11.17,
   "voice": "assets/voice.wav",
   "captions": true,
   "music": false,
@@ -16,43 +16,51 @@
   "scenes": [
     {
       "start": 0.0,
-      "end": 4.5,
-      "title": "আগে কাজ কর, পরে কল দিস!",
-      "narration": "বন্ধু: হ্যালো? হ্যাঁ ভাই একটা কাজ আছিলো। অন্যজন: ঠিক আছে আগে কাজ কর, পরে কল দিস!",
-      "setting": "tea_stall_bench",
-      "action": "phone_call_1_cut_short"
+      "end": 2.0,
+      "title": "বাবা তুমি কাকে বিয়া করছো?",
+      "narration": "ছেলে: বাবা, তুমি কাকে বিয়া করছো?",
+      "setting": "living_room_3d",
+      "action": "kid_asks_father"
     },
     {
-      "start": 4.5,
-      "end": 11.5,
-      "title": "৫০০ টাকা লাগবো - তুই জানলি কেমনে?",
-      "narration": "বন্ধু: হ্যালো ভাই? ভাই ৫০০ টাকা লাগবো। অন্যজন: হ্যাঁ লাগবো তো, তুই জানলি কেমনে?!",
-      "setting": "green_grass_field",
-      "action": "phone_call_2_confused"
+      "start": 2.0,
+      "end": 4.0,
+      "title": "তোর মাকে!",
+      "narration": "বাবা: তোর মাকে!",
+      "setting": "living_room_3d",
+      "action": "father_replies_mom"
     },
     {
-      "start": 11.5,
-      "end": 25.0,
-      "title": "তোর না, আমার লাগবো! - ১০০০ ধার কর!",
-      "narration": "বন্ধু: আরে শালা তোর না, আমার লাগবো! অন্যজন: তাহলে ১০০০ ধার কর, ৫০০ আমারে দে আর ৫০০ তুই নে!",
-      "setting": "tea_stall_bench",
-      "action": "phone_call_3_argument_and_solution"
+      "start": 4.0,
+      "end": 6.0,
+      "title": "মা কাকে বিয়া করছিলো?",
+      "narration": "ছেলে: মা কাকে বিয়া করছিলো?",
+      "setting": "living_room_3d",
+      "action": "kid_asks_about_mother"
     },
     {
-      "start": 25.0,
-      "end": 34.5,
-      "title": "৫০০ টেকা পাঠা তো তাড়াতাড়ি!",
-      "narration": "বন্ধু: হ্যালো ভাই? অন্য বন্ধু: হ্যালো বন্ধু, একটা কাজ আছে ৫০০ টেকা পাঠা তো তাড়াতাড়ি!",
-      "setting": "park_bench",
-      "action": "phone_call_4_reverse_twist"
+      "start": 6.0,
+      "end": 8.0,
+      "title": "আমাকে!",
+      "narration": "বাবা: আমাকে!",
+      "setting": "living_room_3d",
+      "action": "father_replies_me"
     },
     {
-      "start": 34.5,
-      "end": 38.04,
-      "title": "হাসির রোল ও DipuToons আউটরো",
-      "narration": "হাসির রোল ও DipuToons অফিসিয়াল চ্যানেল কার্ড!",
-      "setting": "outro_screen",
-      "action": "laughing_outro_diputoons"
+      "start": 8.0,
+      "end": 10.0,
+      "title": "নিজেরাই নিজেরাই বিয়া করছো??!!",
+      "narration": "ছেলে: নিজেরাই নিজেরাই বিয়া করছো??!!",
+      "setting": "living_room_3d",
+      "action": "kid_shocked_twist"
+    },
+    {
+      "start": 10.0,
+      "end": 11.17,
+      "title": "DipuToons আউটরো",
+      "narration": "বাবা: হুম! (DipuToons: ছোট্ট কার্টুন, বড় হাসি!)",
+      "setting": "diputoons_outro_3d",
+      "action": "outro_card"
     }
   ]
 }

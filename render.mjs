@@ -17,7 +17,7 @@ const formats = config.formats || ['portrait', 'landscape'];
 for(const format of formats){
  const page=await browser.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto(pathToFileURL(path.join(root,'preview',format+'.html')).href);await page.waitForFunction(()=>window.READY===true);
- if(test){for(let i=0;i<config.scenes.length;i++){await page.evaluate(t=>window.seek(t),config.scenes[i].start+2);await page.locator('canvas').screenshot({path:path.join(out,`${format}-${i+1}.png`)});}
+ if(test){for(let i=0;i<config.scenes.length;i++){const mid=(config.scenes[i].start+config.scenes[i].end)/2;await page.evaluate(t=>window.seek(t),mid);await page.locator('canvas').screenshot({path:path.join(out,`${format}-${i+1}.png`)});}
  // Exercise the live foley path too.
  await page.locator('#play').click();await page.waitForTimeout(300);await page.locator('#play').click();
  if(errors.length)throw Error(errors.join('\n'));console.log(format+': all scene frames and playback passed');await page.close();continue;}
