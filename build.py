@@ -27,6 +27,8 @@ for key, fname in [
     ('dipu_open_3d', 'assets/dipu_open_3d.png'),
     ('dipu_pray_3d', 'assets/dipu_pray_3d.png'),
     ('girlfriend_3d', 'assets/girlfriend_3d.png'),
+    ('girlfriend_closed_3d', 'assets/girlfriend_closed_3d.png'),
+    ('girlfriend_open_3d', 'assets/girlfriend_open_3d.png'),
     ('friend1_3d', 'assets/friend1_3d.png'),
     ('friend2_3d', 'assets/friend2_3d.png')
 ]:

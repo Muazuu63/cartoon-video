@@ -39,6 +39,14 @@ const girlfriendImg = new Image();
 let girlfriendLoaded = false;
 girlfriendImg.onload = () => { girlfriendLoaded = true; };
 
+const girlfriendOpenImg = new Image();
+let girlfriendOpenLoaded = false;
+girlfriendOpenImg.onload = () => { girlfriendOpenLoaded = true; };
+
+const girlfriendClosedImg = new Image();
+let girlfriendClosedLoaded = false;
+girlfriendClosedImg.onload = () => { girlfriendClosedLoaded = true; };
+
 const friend1Img = new Image();
 let friend1Loaded = false;
 friend1Img.onload = () => { friend1Loaded = true; };
@@ -57,6 +65,8 @@ window.PRELOAD_ASSETS = () => {
     [dipuOpenImg, CONFIG.dipu_open_3d],
     [dipuPrayImg, CONFIG.dipu_pray_3d],
     [girlfriendImg, CONFIG.girlfriend_3d],
+    [girlfriendOpenImg, CONFIG.girlfriend_open_3d],
+    [girlfriendClosedImg, CONFIG.girlfriend_closed_3d],
     [friend1Img, CONFIG.friend1_3d],
     [friend2Img, CONFIG.friend2_3d]
   ];
@@ -249,46 +259,6 @@ function drawCityStreet3D(ctx, W, H, t) {
   ctx.restore();
 }
 
-// ----------------------------------------------------------------------------
-// Speaking Mouth Lip-Sync Animation System
-// ----------------------------------------------------------------------------
-function drawSpeakingMouth(ctx, charType, openAmount, mx, my, mw, mh, angle = 0) {
-  if (openAmount <= 0.04) return;
-  ctx.save();
-  ctx.translate(mx, my);
-  ctx.rotate(angle);
-
-  const hOpen = mh * openAmount;
-
-  // 1. Dark oral cavity
-  ctx.fillStyle = '#220d12';
-  ctx.beginPath();
-  ctx.ellipse(0, 0, mw, hOpen, 0, 0, Math.PI * 2);
-  ctx.fill();
-
-  // 2. White pearly top teeth
-  const teethH = Math.max(3, hOpen * 0.38);
-  ctx.fillStyle = '#ffffff';
-  ctx.beginPath();
-  ctx.ellipse(0, -hOpen * 0.42, mw * 0.75, teethH, 0, 0, Math.PI);
-  ctx.fill();
-
-  // 3. Warm pink tongue on bottom
-  const tongueH = Math.max(3, hOpen * 0.42);
-  ctx.fillStyle = '#e25c6e';
-  ctx.beginPath();
-  ctx.ellipse(0, hOpen * 0.42, mw * 0.65, tongueH, 0, Math.PI, Math.PI * 2);
-  ctx.fill();
-
-  // 4. Subtle lip contour outline
-  ctx.strokeStyle = charType === 'beggar' ? '#a55b55' : '#b86a62';
-  ctx.lineWidth = 3.5;
-  ctx.beginPath();
-  ctx.ellipse(0, 0, mw + 1.5, hOpen + 2, 0, 0, Math.PI * 2);
-  ctx.stroke();
-
-  ctx.restore();
-}
 function drawMarigoldPetals(ctx, W, H, t) {
   if (t < 21.5 || t >= 31.25) return;
 
@@ -438,9 +408,9 @@ function drawCharacters3D(ctx, W, H, t) {
   let beggarH = 860;
 
   const isBeggarSpeaking = (t >= 0.0 && t < 2.5) || (t >= 5.0 && t < 9.5);
-  const isBeggarMouthOpen = isBeggarSpeaking && (Math.sin(t * 14.0) > -0.15);
+  const isBeggarMouthOpen = isBeggarSpeaking && (Math.sin(t * 14.0) > 0.0);
   const beggarSprite = (isBeggarMouthOpen && beggarOpenLoaded) ? beggarOpenImg : (beggarClosedLoaded ? beggarClosedImg : beggarClosedImg);
-  const beggarNod = isBeggarSpeaking ? Math.sin(t * 4.0) * 0.02 : 0;
+  const beggarNod = isBeggarSpeaking ? Math.sin(t * 14.0) * 0.015 : 0;
 
   let beggarW = beggarSprite && beggarSprite.height > 0 ? (beggarH * beggarSprite.width) / beggarSprite.height : 260;
 
@@ -490,15 +460,6 @@ function drawCharacters3D(ctx, W, H, t) {
   ctx.rotate(beggarNod);
   if (beggarSprite && beggarSprite.width > 0) {
     ctx.drawImage(beggarSprite, -beggarW / 2, -beggarH, beggarW, beggarH);
-  }
-
-  // Dynamic Lip-Sync Mouth for Beggar
-  if (isBeggarSpeaking) {
-    const mouthOpen = 0.35 + 0.65 * Math.abs(Math.sin(t * 14.0));
-    const bMouthY = -beggarH * 0.773;
-    const bMouthW = beggarW * 0.115;
-    const bMouthH = beggarH * 0.021;
-    drawSpeakingMouth(ctx, 'beggar', mouthOpen, 0, bMouthY, bMouthW, bMouthH, 0);
   }
 
   // In Climax (21.5s - 31.25s): Marigold Flower Garland around Beggar's neck!
@@ -583,7 +544,7 @@ function drawCharacters3D(ctx, W, H, t) {
   let dipuH = 860;
 
   const isDipuSpeaking = (t >= 2.5 && t < 5.0) || (t >= 9.5 && t < 13.5);
-  const isDipuMouthOpen = isDipuSpeaking && (Math.sin(t * 14.0) > -0.15);
+  const isDipuMouthOpen = isDipuSpeaking && (Math.sin(t * 14.0) > 0.0);
   let dipuSprite = (isDipuMouthOpen && dipuOpenLoaded) ? dipuOpenImg : (dipuClosedLoaded ? dipuClosedImg : dipuClosedImg);
 
   if (isPrayingClimax && dipuPrayLoaded) {
@@ -591,7 +552,7 @@ function drawCharacters3D(ctx, W, H, t) {
   }
 
   let dipuW = dipuSprite && dipuSprite.height > 0 ? (dipuH * dipuSprite.width) / dipuSprite.height : 320;
-  const dipuNod = isDipuSpeaking ? Math.sin(t * 4.5) * 0.02 : 0;
+  const dipuNod = isDipuSpeaking ? Math.sin(t * 14.0) * 0.015 : 0;
   const dipuTilt = isPrayingClimax ? -0.06 : (isGirlfriendScene ? -0.05 : 0);
 
   // Dipu Floor Shadow
@@ -608,16 +569,6 @@ function drawCharacters3D(ctx, W, H, t) {
   ctx.rotate(dipuTilt + dipuNod);
   if (dipuSprite && dipuSprite.width > 0) {
     ctx.drawImage(dipuSprite, -dipuW / 2, -dipuH, dipuW, dipuH);
-  }
-
-  // Dynamic Lip-Sync Mouth for Dipu
-  if (isDipuSpeaking) {
-    const mouthOpen = 0.35 + 0.65 * Math.abs(Math.sin(t * 14.0));
-    const dMouthX = dipuW * 0.017;
-    const dMouthY = -dipuH * 0.812;
-    const dMouthW = dipuW * 0.13;
-    const dMouthH = dipuH * 0.022;
-    drawSpeakingMouth(ctx, 'dipu', mouthOpen, dMouthX, dMouthY, dMouthW, dMouthH, -0.2);
   }
 
   // Coin Dropping Animation (10.0s to 12.0s)
@@ -660,7 +611,10 @@ function drawCharacters3D(ctx, W, H, t) {
     const gfY = groundY;
     const gfH = 860;
     const gfW = (gfH * girlfriendImg.width) / girlfriendImg.height;
-    const gfShout = Math.sin(t * 12.0) * 0.02;
+    const isGfShouting = (t >= 13.5 && t < 20.2);
+    const isGfMouthOpen = isGfShouting && (Math.sin(t * 15.0) > 0.0);
+    const gfSprite = (isGfMouthOpen && girlfriendOpenLoaded) ? girlfriendOpenImg : (girlfriendClosedLoaded ? girlfriendClosedImg : girlfriendImg);
+    const gfShout = isGfShouting ? Math.sin(t * 15.0) * 0.025 : 0;
 
     // Girlfriend Floor Shadow
     ctx.save();
@@ -674,37 +628,8 @@ function drawCharacters3D(ctx, W, H, t) {
     ctx.save();
     ctx.translate(gfX, gfY);
     ctx.rotate(gfShout);
-    ctx.drawImage(girlfriendImg, -gfW / 2, -gfH, gfW, gfH);
-
-    // Dynamic Shouting Mouth Flap for Girlfriend
-    const isGfShouting = (t >= 13.5 && t < 20.2);
-    if (isGfShouting) {
-      const gfMouthPhase = Math.sin(t * 15.0);
-      if (gfMouthPhase > -0.2) {
-        const gfMouthX = -gfW * 0.063;
-        const gfMouthY = -gfH * 0.823;
-        const gfMouthW = gfW * 0.16;
-        ctx.save();
-        ctx.translate(gfMouthX, gfMouthY);
-        ctx.rotate(-0.25);
-        // Lower lip raised to clench/narrow mouth
-        ctx.fillStyle = '#c76863';
-        ctx.beginPath();
-        ctx.ellipse(0, 4, gfMouthW * 0.9, 14, 0, 0, Math.PI);
-        ctx.fill();
-        // Teeth
-        ctx.fillStyle = '#ffffff';
-        ctx.beginPath();
-        ctx.ellipse(0, 0, gfMouthW * 0.75, 6, 0, 0, Math.PI);
-        ctx.fill();
-        ctx.strokeStyle = '#4a151b';
-        ctx.lineWidth = 2.5;
-        ctx.beginPath();
-        ctx.moveTo(-gfMouthW * 0.85, 0);
-        ctx.lineTo(gfMouthW * 0.85, 0);
-        ctx.stroke();
-        ctx.restore();
-      }
+    if (gfSprite && gfSprite.width > 0) {
+      ctx.drawImage(gfSprite, -gfW / 2, -gfH, gfW, gfH);
     }
 
     // Broken Heart Emoji floating
