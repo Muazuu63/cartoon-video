@@ -6,3 +6,7 @@ exports/*_silent.mp4
 Thumbs.db
 
 exports/
+
+temp_frames/
+preview_all_*.jpg
+test_snaps/

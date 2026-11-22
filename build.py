@@ -25,7 +25,10 @@ for key, fname in [
     ('beggar_open_3d', 'assets/beggar_open_3d.png'),
     ('dipu_closed_3d', 'assets/dipu_closed_3d.png'),
     ('dipu_open_3d', 'assets/dipu_open_3d.png'),
-    ('dipu_pray_3d', 'assets/dipu_pray_3d.png')
+    ('dipu_pray_3d', 'assets/dipu_pray_3d.png'),
+    ('girlfriend_3d', 'assets/girlfriend_3d.png'),
+    ('friend1_3d', 'assets/friend1_3d.png'),
+    ('friend2_3d', 'assets/friend2_3d.png')
 ]:
     f = P / fname
     b64 = base64.b64encode(f.read_bytes()).decode() if f.exists() else ''

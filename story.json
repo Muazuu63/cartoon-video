@@ -3,9 +3,9 @@
   "export_folder": "bhikhari_vs_bhagwan_3d",
   "file_prefix": "bhikhari_vs_bhagwan_3d",
   "title": "ভিখারি নাকি ভগবান?! (Beggar vs Bhagwan 3D Comedy)",
-  "language": "hi",
+  "language": "bn",
   "kind": "comic cartoon 3d animation",
-  "source_note": "ভিখারি: কিছু পয়সা দাও, খুব শীঘ্রই সুখবর পাবে! ছেলেটি পয়সা দিতেই গার্লফ্রেন্ডের ব্রেকআপের মেসেজ: 'চিরদিনের জন্য চলে যাচ্ছি!' ছেলেটি খুশিতে আত্মহারা হয়ে ভিখারির দিকে হাত জোড় করে তাকিয়ে থাকে: ভিখারি ❌ ভগবান!",
+  "source_note": "৩ বন্ধু বাইরে দাঁড়িয়ে ছিল, ভিখারি এসে বলল: কিছু সাহায্য করুন, বিরাট সুখবর পাবেন! টাকা দিতেই প্রেমিকা সশরীরে এসে চিৎকার করে বলল: 'চলে যাচ্ছি তোমায় ছেড়ে চিরদিনের জন্য, ডিভোর্স পেপার পাঠাব!' ৩ বন্ধুই চরম আনন্দে ভিখারির পায়ে পড়ে আরতি শুরু করল: ভিখারি ❌ ভগবান!",
   "duration": 32.50,
   "voice": "assets/voice.wav",
   "captions": true,
@@ -17,16 +17,16 @@
     {
       "start": 0.0,
       "end": 2.5,
-      "title": "ভিখারির আগমন",
-      "narration": "ভিখারি: ভাইয়া, কিছু টাকা দিন...",
+      "title": "ভিখারির আগমন ও ভিক্ষা চাওয়া",
+      "narration": "ভিখারি: ভাইয়া, কিছু টাকা দিন না...",
       "setting": "city_apartment_gate_3d",
       "action": "beggar_asks_money"
     },
     {
       "start": 2.5,
       "end": 5.0,
-      "title": "দীপুর বিরক্তি",
-      "narration": "দীপু: আরে ভাই যা তো, সকাল সকাল মাথা খারাপ করিস না!",
+      "title": "দীপুর বিরক্তি প্রকাশ",
+      "narration": "দীপু: আরে যা তো, সকাল সকাল মাথা খারাপ করিস না!",
       "setting": "city_apartment_gate_3d",
       "action": "dipu_dismisses"
     },
@@ -34,7 +34,7 @@
       "start": 5.0,
       "end": 9.5,
       "title": "সুখবরের ভবিষ্যদ্বাণী",
-      "narration": "ভিখারি: গরিবকে সাহায্য করুন ভাইয়া, খুব শীঘ্রই একটি সুখবর পাবেন!",
+      "narration": "ভিখারি: গরিবকে সাহায্য করুন ভাইয়া, খুব শীঘ্রই একটা বিরাট সুখবর পাবেন!",
       "setting": "city_apartment_gate_3d",
       "action": "beggar_predicts_good_news"
     },
@@ -48,24 +48,24 @@
     },
     {
       "start": 13.5,
-      "end": 22.0,
-      "title": "গার্লফ্রেন্ডের ব্রেকআপ মেসেজ",
-      "narration": "ফোন: চলে যাচ্ছি আমি তোমায় ছেড়ে চিরদিনের জন্য! পেপার্স পাঠালে সাইন করে দিও!",
+      "end": 21.5,
+      "title": "প্রেমিকার সশরীরে আগমন ও ব্রেকআপ ঘোষণা",
+      "narration": "প্রেমিকা: চলে যাচ্ছি আমি তোমায় ছেড়ে চিরদিনের জন্য! পেপার্স পাঠালে সাইন করে দিবি!",
       "setting": "city_apartment_gate_3d",
-      "action": "girlfriend_breakup_audio"
+      "action": "girlfriend_screams_breakup"
     },
     {
-      "start": 22.0,
+      "start": 21.5,
       "end": 31.25,
-      "title": "ভিখারি ❌ ভগবান!",
-      "narration": "দীপু চরম খুশিতে হাত জোড় করে ভিখারির দিকে তাকিয়ে থাকে—এ তো সাক্ষাৎ ভগবান!",
+      "title": "ভিখারি ❌ ভগবান (আরতি ও পূজা ক্লাইম্যাক্স)",
+      "narration": "৩ বন্ধু মিলে চরম খুশিতে হাত জোড় করে ভিখারির আরতি ও পুষ্পবৃষ্টি শুরু করে—এ যে সাক্ষাৎ ভগবান!",
       "setting": "city_apartment_gate_3d",
-      "action": "dipu_ecstatic_namaste"
+      "action": "friends_worship_beggar_climax"
     },
     {
       "start": 31.25,
       "end": 32.50,
-      "title": "DipuToons আউটরো",
+      "title": "DipuToons নিবেদিত আউটরো",
       "narration": "DipuToons: ছোট্ট কার্টুন, বড় হাসি!",
       "setting": "diputoons_outro_3d",
       "action": "dedicated_outro_card"
