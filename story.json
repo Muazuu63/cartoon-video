@@ -1,12 +1,12 @@
 {
   "brand": "DipuToons",
-  "export_folder": "bhikhari_vs_bhagwan_3d",
-  "file_prefix": "bhikhari_vs_bhagwan_3d",
-  "title": "ভিখারি নাকি ভগবান?! (Beggar vs Bhagwan 3D Comedy)",
+  "export_folder": "kora_pahara_2d",
+  "file_prefix": "kora_pahara_2d",
+  "title": "কড়া পাহারা! (Strict Guard Dog Comedy)",
   "language": "bn",
-  "kind": "comic cartoon 3d animation",
-  "source_note": "৩ বন্ধু বাইরে দাঁড়িয়ে ছিল, ভিখারি এসে বলল: কিছু সাহায্য করুন, বিরাট সুখবর পাবেন! টাকা দিতেই প্রেমিকা সশরীরে এসে চিৎকার করে বলল: 'চলে যাচ্ছি তোমায় ছেড়ে চিরদিনের জন্য, ডিভোর্স পেপার পাঠাব!' ৩ বন্ধুই চরম আনন্দে ভিখারির পায়ে পড়ে আরতি শুরু করল: ভিখারি ❌ ভগবান!",
-  "duration": 32.50,
+  "kind": "comic 2d cartoon animation",
+  "source_note": "কুকুর ও রাজমিস্ত্রির মজাদার কথোপকথন: কুকুর বলে 'ভাইয়া খুব ভালো কাজ করছেন, মাম্মি নজর রাখতে বলেছে যাতে কিছু চুরি না করে নিয়ে যান!'",
+  "duration": 12.0,
   "voice": "assets/voice.wav",
   "captions": true,
   "music": false,
@@ -16,58 +16,42 @@
   "scenes": [
     {
       "start": 0.0,
-      "end": 2.5,
-      "title": "ভিখারির আগমন ও ভিক্ষা চাওয়া",
-      "narration": "ভিখারি: ভাইয়া, কিছু টাকা দিন না...",
-      "setting": "city_apartment_gate_3d",
-      "action": "beggar_asks_money"
+      "end": 3.0,
+      "title": "কুকুরের মিষ্টি প্রশংসা",
+      "narration": "কুকুর: ভাইয়া, আপনারা খুব সুন্দর কাজ করছেন!",
+      "setting": "desi_street_2d",
+      "action": "dog_speaks_praises_worker"
     },
     {
-      "start": 2.5,
-      "end": 5.0,
-      "title": "দীপুর বিরক্তি প্রকাশ",
-      "narration": "দীপু: আরে যা তো, সকাল সকাল মাথা খারাপ করিস না!",
-      "setting": "city_apartment_gate_3d",
-      "action": "dipu_dismisses"
+      "start": 3.0,
+      "end": 6.0,
+      "title": "মিস্ত্রির আত্মতৃপ্তি ও অহংকার",
+      "narration": "মিস্ত্রি: হ্যাঁ ভাই, তা তো জানি, আমরা তো সেরা কাজই করি!",
+      "setting": "desi_street_2d",
+      "action": "worker_replies_proudly"
     },
     {
-      "start": 5.0,
-      "end": 9.5,
-      "title": "সুখবরের ভবিষ্যদ্বাণী",
-      "narration": "ভিখারি: গরিবকে সাহায্য করুন ভাইয়া, খুব শীঘ্রই একটা বিরাট সুখবর পাবেন!",
-      "setting": "city_apartment_gate_3d",
-      "action": "beggar_predicts_good_news"
+      "start": 6.0,
+      "end": 8.5,
+      "title": "মাম্মির গোপন নির্দেশ",
+      "narration": "কুকুর: আসলে মাম্মি বলেছে আপনাদের ওপর কড়া নজর রাখতে...",
+      "setting": "desi_street_2d",
+      "action": "dog_reveals_mom_order"
     },
     {
-      "start": 9.5,
-      "end": 13.5,
-      "title": "টাকা দেওয়া",
-      "narration": "দীপু: সত্যি?! এই নে!",
-      "setting": "city_apartment_gate_3d",
-      "action": "dipu_gives_coin"
+      "start": 8.5,
+      "end": 10.5,
+      "title": "চরম সত্যি ও রাজমিস্ত্রির চোখ কপালে!",
+      "narration": "কুকুর: ...যাতে কিছু চুরি না করে নিয়ে যান! 😆",
+      "setting": "desi_street_2d",
+      "action": "dog_punchline_worker_shocked"
     },
     {
-      "start": 13.5,
-      "end": 21.5,
-      "title": "প্রেমিকার সশরীরে আগমন ও ব্রেকআপ ঘোষণা",
-      "narration": "প্রেমিকা: চলে যাচ্ছি আমি তোমায় ছেড়ে চিরদিনের জন্য! পেপার্স পাঠালে সাইন করে দিবি!",
-      "setting": "city_apartment_gate_3d",
-      "action": "girlfriend_screams_breakup"
-    },
-    {
-      "start": 21.5,
-      "end": 31.25,
-      "title": "ভিখারি ❌ ভগবান (আরতি ও পূজা ক্লাইম্যাক্স)",
-      "narration": "৩ বন্ধু মিলে চরম খুশিতে হাত জোড় করে ভিখারির আরতি ও পুষ্পবৃষ্টি শুরু করে—এ যে সাক্ষাৎ ভগবান!",
-      "setting": "city_apartment_gate_3d",
-      "action": "friends_worship_beggar_climax"
-    },
-    {
-      "start": 31.25,
-      "end": 32.50,
+      "start": 10.5,
+      "end": 12.0,
       "title": "DipuToons নিবেদিত আউটরো",
       "narration": "DipuToons: ছোট্ট কার্টুন, বড় হাসি!",
-      "setting": "diputoons_outro_3d",
+      "setting": "diputoons_outro_2d",
       "action": "dedicated_outro_card"
     }
   ]
